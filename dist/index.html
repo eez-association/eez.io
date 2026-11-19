@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>EEZ · Activate Ethereum</title>
-<meta name="description" content="Zones stay cheap and fast, and can call Ethereum and use the answer in the same transaction.">
+<meta name="description" content="Chains stay cheap and fast, and can call Ethereum and use the answer in the same transaction.">
 <link rel="icon" type="image/svg+xml" href="assets/eez-mark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -550,9 +550,6 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
 .aud{background:linear-gradient(rgba(255,255,255,.016),rgba(0,0,0,0));border-color:#1c1c1c;border-radius:18px}
 .aud .iso{height:96px;align-self:center;margin:8px 0 12px}
 .aud h3{color:#fff;letter-spacing:-.01em}
-.aud .pill{background:none;border:0;border-bottom:1px solid #333;border-radius:0;padding:0 0 4px;gap:8px;color:#fff}
-.aud .pill span{font-size:12px;letter-spacing:.08em}
-.aud .pill i{width:auto;height:auto;background:none}
 .tierhd h3{font:400 12.5px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase}
 .tierhd.adopt h3{color:#3BE57E}.tierhd.infra h3{color:#6E9BEE}
 .grp{background:none;border-color:rgba(255,255,255,.08)}
@@ -589,9 +586,9 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
         <button class="eh-trigger" type="button" aria-expanded="false">Use cases <i aria-hidden="true">▾</i></button>
         <div class="eh-drop">
           <a href="/use-cases/institutions"><b>Institutions</b><small>Banks, funds and fintechs</small></a>
-          <a href="/use-cases/chains"><b>Chains</b><small>Rollup teams and new chains</small></a>
+          <a href="/use-cases/chains"><b>Chains</b><small>Public, private and new chains</small></a>
           <a href="/use-cases/apps"><b>Apps</b><small>Apps that call across chains</small></a>
-          <a href="/use-cases/infra"><b>Infra</b><small>Infra providers and wallets</small></a>
+          <a href="/use-cases/infra"><b>Infra</b><small>Nodes, provers and wallets</small></a>
           <a class="eh-all" href="/use-cases/all"><b>All use cases</b><small>Every use case, sorted by job</small></a>
         </div>
       </div>
@@ -600,7 +597,7 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
         <div class="eh-drop">
           <a href="https://docs.eez.io" target="_blank" rel="noopener"><b>Docs ↗</b><small>Protocol spec, guides and reference</small></a>
           <a href="https://build.eez.io" target="_blank" rel="noopener"><b>Quickstarts ↗</b><small>Step-by-step walkthroughs</small></a>
-          <a href="https://eez.dev/dashboard/" target="_blank" rel="noopener"><b>Dashboard ↗</b><small>See calls settle on the testnet</small></a>
+          <a href="https://eez.dev/dashboard/" target="_blank" rel="noopener"><b>Dashboard ↗</b><small>See calls settle on the devnet</small></a>
           <a href="https://github.com/eez-association" target="_blank" rel="noopener"><b>GitHub ↗</b><small>eez-association on GitHub</small></a>
         </div>
       </div>
@@ -640,7 +637,7 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
 <section class="sec" id="how">
   <p class="eb">[ Synchronous composability ]</p>
   <h2><b>Ethereum,</b> one call away.</h2>
-  <p class="lede">Synchronous composability: a zone can call Ethereum and use the answer in the same transaction. Ethereum’s liquidity, at a zone’s speed and cost.</p>
+  <p class="lede">Synchronous composability: a chain can call Ethereum and use the answer in the same transaction. Ethereum’s liquidity, at a chain’s speed and cost.</p>
   <div class="zone zv"><div class="vcard" tabindex="0"><div class="hiwclip" id="hiw" role="img" aria-label="Smart contract A on an L2 calls smart contract B on L1; the return comes back and both settle in one transaction." style="--accent:#3BE57E"><svg viewBox="0 0 880 419" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><defs><pattern id="hiw-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0 H0 V40" fill="none" stroke="rgba(255,255,255,.028)" stroke-width="1"></path></pattern><linearGradient id="hiw-retgrad" x1="500" y1="315" x2="300" y2="157" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3BE57E"></stop><stop offset=".55" stop-color="#6589BC"></stop><stop offset="1" stop-color="#6E5BD6"></stop></linearGradient><mask id="hiw-retmask"><path class="hw-retmaskline" d="M500,315 H300 V166"></path></mask></defs><rect x="24" y="40" width="832" height="150" rx="12" fill="url(#hiw-grid)" stroke="#242424" stroke-width="1"></rect><rect x="24" y="230" width="832" height="150" rx="12" fill="url(#hiw-grid)" stroke="#242424" stroke-width="1"></rect><text class="hw-zlbl" x="42" y="66">L2</text><text class="hw-zlbl" x="42" y="256">L1</text><path class="hw-calltrack" d="M380,124 H640 V273"></path><text class="hw-lbl" x="512" y="112">CALL</text><path class="hw-call" d="M380,124 H640 V273"></path><path class="hw-callhead" d="M640,284 l-6,-11 l12,0 z"></path><path class="hw-rettrack" d="M500,315 H300 V166"></path><text class="hw-lbl" x="352" y="300">RETURN</text><path class="hw-ret" d="M500,315 H300 V166" mask="url(#hiw-retmask)"></path><path class="hw-rethead" d="M300,155 l-6,11 l12,0 z"></path><rect class="hw-box" x="170" y="95" width="210" height="58" rx="11"></rect><text class="hw-btxt" x="194" y="129">Smart Contract A</text><rect class="hw-box" x="500" y="286" width="210" height="58" rx="11"></rect><text class="hw-btxt" x="524" y="320">Smart Contract B</text><g class="hw-badge hw-bA"><circle cx="356" cy="111" r="9" fill="#3BE57E"></circle><path d="M352,111 l3,3 l6,-6" stroke="#0A0A0A" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="hw-badge hw-bB"><circle cx="686" cy="302" r="9" fill="#3BE57E"></circle><path d="M682,302 l3,3 l6,-6" stroke="#0A0A0A" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="hw-otxg"><rect class="hw-otxchip" x="344" y="196" width="192" height="28" rx="14"></rect><text class="hw-otx" x="440" y="214" text-anchor="middle">[ ONE TRANSACTION ]</text></g></svg></div></div><p class="cap"><span class="hv">Hover to play</span><span class="tp">Tap to play</span></p></div>
   <div class="build" id="use-cases"><h2><b>What</b> you can build.</h2>
   <main class="ring" id="ring" aria-roledescription="carousel" aria-label="Use cases">
@@ -669,14 +666,14 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
     </figcaption>
   </figure>
   <figure>
-    <article class="card" id="uc7" data-demo="https://rollupx.eez.dev/dashboard/#/counter-demo" data-demo-label="Try a cross-chain call" tabindex="0" aria-label="Public and private chains. Point at the card and a public rollup, a private chain and a bank zone each call Ethereum and settle in the same block.">
+    <article class="card" id="uc7" data-demo="https://rollupx.eez.dev/dashboard/#/counter-demo" data-demo-label="Try a cross-chain call" tabindex="0" aria-label="Public and private chains. Point at the card and a public rollup, a private chain and a bank chain each call Ethereum and settle in the same block.">
       <header class="head">
         <h2>Public and private chains</h2>
         <span class="idx">02</span>
       </header>
       <div class="stage">
         <i class="crop tl"></i><i class="crop tr"></i><i class="crop bl"></i><i class="crop br"></i>
-        <svg id="art7" viewBox="-160 -118 320 290" role="img" aria-label="Ethereum at the centre, with a public rollup, a walled private chain and a walled bank zone around it. Each sends a call to Ethereum, the answers come back, and all four settle together."></svg>
+        <svg id="art7" viewBox="-160 -118 320 290" role="img" aria-label="Ethereum at the centre, with a public rollup, a walled private chain and a walled bank chain around it. Each sends a call to Ethereum, the answers come back, and all four settle together."></svg>
       </div>
       <footer class="foot" aria-live="polite">
         <span><small>Settled</small><b id="l7done">0 of 4</b></span>
@@ -684,7 +681,7 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
       </footer>
     </article>
     <figcaption class="cap">
-      <p>Public rollups, private chains and bank zones keep their own rules, and settle with Ethereum in the same block.</p>
+      <p>Public rollups, private chains and bank chains keep their own rules, and settle with Ethereum in the same block.</p>
     </figcaption>
   </figure>
   <figure>
@@ -754,7 +751,7 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
   <button id="rp" aria-label="Previous use case">←</button><span class="dots" id="rdots"></span><button id="rn" aria-label="Next use case">→</button>
 </nav>
   </div>
-  <div class="cta-row"><a class="pill" href="https://eez.dev/" target="_blank" rel="noopener"><span>Try on the testnet</span><i aria-hidden="true">→</i></a></div>
+  <div class="cta-row"><a class="pill" href="https://eez.dev/" target="_blank" rel="noopener"><span>Try on the devnet</span><i aria-hidden="true">→</i></a></div>
 <a class="more" href="/use-cases/all">All use cases →</a>
 </section>
 
@@ -763,9 +760,9 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
   <h2><b>Start</b> where you are.</h2>
   <div class="auds auds4">
   <div class="aud"><img src="/_shell/inst.svg?v=1" alt="" class="iso"><h3>Institutions</h3><p>Read and call mainnet contracts from your own chain, in the same transaction.</p><a class="pill" href="/use-cases/institutions"><span>For institutions</span><i aria-hidden="true">→</i></a></div>
-  <div class="aud"><img src="assets/ops.svg?v=3" alt="" class="iso"><h3>Chains</h3><p>Keep your own rules, provers and proof threshold, and call Ethereum without a bridge.</p><a class="pill" href="/use-cases/chains"><span>For rollup teams</span><i aria-hidden="true">→</i></a></div>
-  <div class="aud"><img src="assets/app.svg?v=3" alt="" class="iso"><h3>Apps</h3><p>Use Ethereum’s liquidity from a cheap, fast zone without a bridge.</p><a class="pill" href="/use-cases/apps"><span>For app developers</span><i aria-hidden="true">→</i></a></div>
-  <div class="aud"><img src="assets/infra.svg?v=3" alt="" class="iso"><h3>Infra</h3><p>Run a follower node, a prover or a block builder, or add EEZ chains to your wallet.</p><a class="pill" href="/use-cases/infra"><span>For infra &amp; wallets</span><i aria-hidden="true">→</i></a></div>
+  <div class="aud"><img src="assets/ops.svg?v=3" alt="" class="iso"><h3>Chains</h3><p>Keep your own rules, provers and proof threshold, and call Ethereum without a bridge.</p><a class="pill" href="/use-cases/chains"><span>For chains</span><i aria-hidden="true">→</i></a></div>
+  <div class="aud"><img src="assets/app.svg?v=3" alt="" class="iso"><h3>Apps</h3><p>Use Ethereum’s liquidity from a cheap, fast chain without a bridge.</p><a class="pill" href="/use-cases/apps"><span>For apps</span><i aria-hidden="true">→</i></a></div>
+  <div class="aud"><img src="assets/infra.svg?v=3" alt="" class="iso"><h3>Infra</h3><p>Run a follower node, a prover or a block builder, or add EEZ chains to your wallet.</p><a class="pill" href="/use-cases/infra"><span>For infra</span><i aria-hidden="true">→</i></a></div>
 </div>
 <style>.auds.auds4{grid-template-columns:repeat(4,minmax(0,1fr))}@media (max-width:980px){.auds.auds4{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:600px){.auds.auds4{grid-template-columns:1fr}}</style>
 </section>
@@ -783,7 +780,7 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
 <section class="sec" id="progress">
   <p class="eb">[ Progress ]</p>
   <h2><span>Where</span> EEZ stands.</h2>
-  <div class="eeztl" id="eeztl"><div class="tl"><div class="spine"></div><div class="sweep"><i></i></div><div class="row"><div class="node"><div class="dot done"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.5 2.5L10 3" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><span class="pill live"><span class="sdot"></span>Live</span><h3>Ethereum Testnet</h3><p>Zones call Ethereum and each other, live on the devnet.</p></div><div class="node now"><div class="dot live"></div><span class="livebtn"><span class="livedot"></span>In progress</span><h3>Security audit</h3><p>Independent review of the core protocol.</p></div><div class="node fut"><div class="dot plan"></div><span class="pill">Planned</span><h3>ZK proofs and real‑time proving</h3><p>Zones are proven with ZK proofs, generated in real time.</p></div><div class="node fut"><div class="dot plan"></div><span class="pill">Planned</span><h3>First general‑purpose EEZ instance</h3><p>Gnosis Chain launches as the first EEZ instance.</p></div><div class="node fut horizon"><div class="dot horizon"></div><span class="pill">Horizon</span><h3>Many chains on Ethereum</h3><p>Many chains composing with Ethereum.</p></div></div></div></div>
+  <div class="eeztl" id="eeztl"><div class="tl"><div class="spine"></div><div class="sweep"><i></i></div><div class="row"><div class="node"><div class="dot done"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.5 2.5L10 3" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><span class="pill live"><span class="sdot"></span>Live</span><h3>Ethereum Devnet</h3><p>Chains call Ethereum and each other, live on the devnet.</p></div><div class="node now"><div class="dot live"></div><span class="livebtn"><span class="livedot"></span>In progress</span><h3>Security audit</h3><p>Independent review of the core protocol.</p></div><div class="node fut"><div class="dot plan"></div><span class="pill">Planned</span><h3>ZK proofs and real‑time proving</h3><p>Chains are proven with ZK proofs, generated in real time.</p></div><div class="node fut"><div class="dot plan"></div><span class="pill">Planned</span><h3>First general‑purpose EEZ chain</h3><p>Gnosis Chain launches as the first EEZ chain.</p></div><div class="node fut horizon"><div class="dot horizon"></div><span class="pill">Horizon</span><h3>Many chains on Ethereum</h3><p>Many chains composing with Ethereum.</p></div></div></div></div>
 </section>
 
 <section class="sec" id="news">
@@ -807,7 +804,7 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
   <div class="ef-in">
     <div class="ef-brand">
       <a class="eh-logo" href="/" aria-label="EEZ home"><img src="/_shell/logo.svg" alt="Ethereum Economic Zone" width="80" height="36"></a>
-      <p>EEZ activates Ethereum as an economic operating system for composable zones.</p>
+      <p>EEZ activates Ethereum as an economic operating system for composable chains.</p>
     </div>
     <div class="ef-cols">
       <div><p>[ Use cases ]</p>
@@ -1244,14 +1241,14 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
     paint();
   };
 
-  // Ethereum at the hub; a public rollup, a private chain and a bank zone each call it, and all four settle in one block
+  // Ethereum at the hub; a public rollup, a private chain and a bank chain each call it, and all four settle in one block
   const l7 = document.getElementById("l7done");
   scene({ art: "art7", card: "uc7", H: 22,
     nodes: [
       { x: 0, y: 0, r: 30, label: "Ethereum", glyph: "eth", lab: "above", ink: true },
       { x: -108, y: 10, r: 24, label: "Public rollup", glyph: "none", lab: "below" },
       { x: 10, y: -108, r: 24, label: "Private chain", glyph: "wall", wall: true, lab: "below" },
-      { x: 84, y: 84, r: 24, label: "Bank zone", glyph: "bank", wall: true, lab: "below" },
+      { x: 84, y: 84, r: 24, label: "Bank chain", glyph: "bank", wall: true, lab: "below" },
     ],
     links: [[0, 1], [0, 2], [0, 3]],
     legs: [["call", 1, 0, 0, 0.45], ["call", 2, 0, 0, 0.45], ["call", 3, 0, 0, 0.45],
@@ -1289,7 +1286,7 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
   const figs = [...ring.querySelectorAll("figure")], n = figs.length;
   const body = {
     uc2: "Swap on your L2 against pools on Ethereum. The trade fills on mainnet and settles back on your L2 in the same Ethereum block, with no bridge and no wrapped assets.",
-    uc7: "Public rollups, private chains and permissioned zones like a bank each keep their own participants and rules. Each one calls Ethereum directly, for example to lock tokenized Treasuries as collateral, and all of them settle in the same Ethereum block.",
+    uc7: "Public rollups, private chains and permissioned chains like a bank each keep their own participants and rules. Each one calls Ethereum directly, for example to lock tokenized Treasuries as collateral, and all of them settle in the same Ethereum block.",
     uc5: "Rotate a signer or set a spending limit on your Safe once. Every copy of the Safe follows in the same block, and a spend over the limit on any chain is rejected.",
     uc9: "Your contract reads any Ethereum contract from the same L1 block, inside its own transaction. Prices, names, registries and allowlists stay on Ethereum, and every chain reads the same value. No feed to run, no heartbeat to wait for.",
     uc8: "A rollup can run cryptography Ethereum doesn’t have yet. Sign with a post-quantum key, verify it on the rollup, and control a Safe on Ethereum in the same block."

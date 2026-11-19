@@ -20,7 +20,7 @@
   // three tiles per ring, 60° apart from the neighbouring ring’s tiles, and every ring turns at the
   // same speed, so tiles on different rings never run into each other
   const RINGS = [
-    { r: 0.52, n: 3, a0: 90, labels: ["RollupX", "EEZ-X Testnet", "Your rollup"] },
+    { r: 0.52, n: 3, a0: 90, labels: ["RollupX", "EEZ-X Devnet", "Your rollup"] },
     { r: 0.72, n: 2, a0: 0, labels: ["App chain", "Non-EVM chain"] },
     { r: 0.92, n: 2, a0: 60, labels: ["Bank network", "Consortium"] },
   ];

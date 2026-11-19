@@ -202,9 +202,6 @@ REST_CSS = """
 .aud{background:linear-gradient(rgba(255,255,255,.016),rgba(0,0,0,0));border-color:#1c1c1c;border-radius:18px}
 .aud .iso{height:96px;align-self:center;margin:8px 0 12px}
 .aud h3{color:#fff;letter-spacing:-.01em}
-.aud .pill{background:none;border:0;border-bottom:1px solid #333;border-radius:0;padding:0 0 4px;gap:8px;color:#fff}
-.aud .pill span{font-size:12px;letter-spacing:.08em}
-.aud .pill i{width:auto;height:auto;background:none}
 .tierhd h3{font:400 12.5px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase}
 .tierhd.adopt h3{color:#3BE57E}.tierhd.infra h3{color:#6E9BEE}
 .grp{background:none;border-color:rgba(255,255,255,.08)}

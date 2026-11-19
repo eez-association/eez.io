@@ -6,9 +6,9 @@
 
   var DOCS = 'https://docs.eez.io';
   var TIER = {
-    ok: { label: 'Works today', cls: 'tier-ok' },
+    ok: { label: 'Live', cls: 'tier-ok' },
     mid: { label: 'Works with changes', cls: '' },
-    pilot: { label: 'Pilot on testnet now', cls: '' },
+    pilot: { label: 'Devnet only', cls: '' },
     no: { label: 'Not yet', cls: 'tier-no' },
     read: { label: 'Read first', cls: '' }
   };
@@ -24,17 +24,17 @@
 
     if (role === 'institution') {
       var touch = val('touch');
-      r.applies.push('Start on your own EEZ network on Chiado: your allowlist, your keys, no value at risk.');
+      r.applies.push('Start on your own EEZ chain on Chiado: your allowlist, your keys, no value at risk.');
       r.applies.push('Everything is public, including counterparties and sizes.');
       r.applies.push('Verification today is a single ECDSA attestation at threshold 1.');
       if (touch === 'value') {
         r.tier = 'pilot';
-        r.headline = 'Pilot value moves on testnet now. Mainnet waits for a production proof system and an audit.';
-        r.applies.push('On testnet, value moves through a test bridge. No mainnet date yet.');
+        r.headline = 'Pilot value moves on devnet now. Mainnet waits for a production proof system and an audit.';
+        r.applies.push('On devnet, value moves through a test bridge. No mainnet date yet.');
       } else {
         r.headline = touch === 'read'
           ? 'Reads can be piloted now, with constraints your risk function will ask about.'
-          : 'Start with reads; pilot value moves on testnet when you are ready.';
+          : 'Start with reads; pilot value moves on devnet when you are ready.';
       }
       r.next = ['See the constraints', '/use-cases/institutions'];
     }
@@ -51,8 +51,8 @@
       }
       if (stage === 'devnet') {
         r.tier = 'ok';
-        r.headline = 'Run your own EEZ network, or build against the EEZ-X Testnet.';
-        r.next = ['Open the testnet', 'https://eez.dev'];
+        r.headline = 'Run your own EEZ chain, or build against the EEZ-X Devnet.';
+        r.next = ['Open the devnet', 'https://eez.dev'];
       } else {
         r.headline = stage === 'live'
           ? 'A live chain joins by hard fork, or a path agreed on the scoping call.'
@@ -73,7 +73,7 @@
       if (where === 'other') {
         r.tier = 'no';
         r.headline = 'A call only lands on chains in the same EEZ registry.';
-        r.applies.push('Your chain has to register first. That work starts with its rollup team.');
+        r.applies.push('Your chain has to register first. That work starts with its team.');
         r.next = ['Send your chain team here', '/use-cases/chains'];
       } else {
         if (where === 'l1') r.applies.push('Your L1 contract stays as it is. A contract on the EEZ chain calls it through a proxy.');
@@ -91,7 +91,7 @@
     if (role === 'infra') {
       var ir = val('infrarole');
       var INFRA = {
-        indexer: ['ok', 'Add the chain ID and RPC.', ['Standard block, log and receipt methods.', 'EEZ-X Testnet 699169 · RollupX 696991.']],
+        indexer: ['ok', 'Add the chain ID and RPC.', ['Standard block, log and receipt methods.', 'EEZ-X Devnet 699169 · RollupX 696991.']],
         wallet: ['mid', 'Plain transfers work. Cross-chain calls need changes.', ['Route the call to the composer front, not a plain RPC.', 'Estimate through the same front; the estimate covers only the source transaction.', 'L1 → L2 fees include settlement.']],
         aa: ['mid', 'Plain user operations work. Cross-chain ones need changes.', ['A cross-chain user operation must be estimated and sent through the composer front.']],
         builder: ['mid', 'Inclusion is scoped per builder.', ['The composer posts batches to L1 and decides which entries land.']],
