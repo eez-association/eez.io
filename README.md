@@ -2,8 +2,6 @@
 
 eez.io home plus the integrate use-case pages, under one shared header and footer.
 
-Live: https://0xarmagan.github.io/eez.io/
-
 - `/`: eez.io home (stands in for Framer)
 - `/use-cases/*`, `/get-in-touch`: pages from `eez-integrate-site`
 
