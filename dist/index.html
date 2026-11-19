@@ -1,0 +1,1343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>EEZ · Activate Ethereum</title>
+<meta name="description" content="Zones stay cheap and fast, and can call Ethereum and use the answer in the same transaction.">
+<link rel="icon" type="image/svg+xml" href="assets/eez-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+
+/* Layout: a row of use-case cards on the brand canvas, each with its caption beneath; wraps to one column. Dark-only by design (EEZ canvas). */
+:root{
+  color-scheme:dark;
+  --page:#0A0A0A;         /* EEZ canvas */
+  --card:#151515;         /* raised a step past #121212 so the edge reads */
+  --edge:#262626;
+  --ink:#F2F2EC;          /* EEZ warm off-white */
+  --ink-dim:#8C8C86;
+  --paper:#F2F2EC;        /* inverted ground */
+  --paper-ink:#0A0A0A;
+  --paper-dim:#6B6B66;
+  --green:#3BE57E;        /* the one accent */
+  --green-side:#2BB862;
+  --green-deep:#1E8A49;
+  --sans:"Geist","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);
+  display:grid;place-items:center;gap:64px;padding-block:48px;padding-inline:16px}
+main{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),340px));justify-content:center;gap:40px 20px;width:100%;max-width:1100px}
+figure{margin:0;display:grid;gap:22px;justify-items:center;align-content:start;min-width:0}
+
+.card{
+  --bg:var(--card);--fg:var(--ink);--dim:var(--ink-dim);--rule:var(--edge);
+  position:relative;width:100%;max-width:340px;aspect-ratio:340/440;
+  background:var(--bg);color:var(--fg);border:1px solid var(--rule);border-radius:14px;
+  padding:20px 20px 18px;display:grid;grid-template-rows:auto 1fr auto;gap:10px;
+  cursor:crosshair;outline:none;
+  transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--lift,0px));
+  transition:background-color .22s ease,color .22s ease,border-color .22s ease,transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s ease;
+  touch-action:pan-y;
+}
+.card.on{
+  --bg:var(--paper);--fg:var(--paper-ink);--dim:var(--paper-dim);--rule:var(--paper);
+  --lift:-4px;box-shadow:0 18px 40px -18px rgba(0,0,0,.8);
+}
+.card:focus-visible{box-shadow:0 0 0 2px var(--page),0 0 0 4px var(--green)}
+
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.head h2{margin:0;font-size:19px;font-weight:500;letter-spacing:-.01em;line-height:1.15}
+.idx{font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.06em;transition:color .22s}
+
+.stage{position:relative;min-height:0}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+/* crop marks */
+.crop{position:absolute;width:9px;height:9px;border-color:var(--dim);border-style:solid;border-width:0;transition:border-color .22s}
+.crop.tl{top:0;left:0;border-top-width:1px;border-left-width:1px}
+.crop.tr{top:0;right:0;border-top-width:1px;border-right-width:1px}
+.crop.bl{bottom:0;left:0;border-bottom-width:1px;border-left-width:1px}
+.crop.br{bottom:0;right:0;border-bottom-width:1px;border-right-width:1px}
+
+/* drawing classes: every stroke/fill comes from the card's live tokens */
+svg *{transition:stroke .22s ease,fill .22s ease}
+.ln{fill:none;stroke:var(--fg);stroke-width:1;stroke-linejoin:round}
+.face{fill:var(--bg);stroke:var(--fg);stroke-width:1;stroke-linejoin:round}
+.ghost{fill:none;stroke:var(--dim);stroke-width:.75;stroke-dasharray:2 3}
+.dots{fill:none;stroke:var(--dim);stroke-width:1;stroke-dasharray:.5 5;stroke-linecap:round}
+.g-top{fill:var(--green);stroke:var(--fg);stroke-width:.75}
+.g-a{fill:var(--green-side);stroke:var(--fg);stroke-width:.75}
+.g-b{fill:var(--green-deep);stroke:var(--fg);stroke-width:.75}
+.flow{fill:none;stroke:var(--green);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1 1;stroke-dashoffset:1;transition:none}
+.hit{cursor:pointer}
+.wall{stroke-width:1.25}
+.eth{fill:var(--green);stroke:var(--fg);stroke-width:.9;stroke-linejoin:round}
+.chip{opacity:0}
+.flow.thin{stroke-width:1.5}
+.lock{fill:var(--bg);stroke:var(--fg);stroke-width:1}
+.badge{opacity:0;transition:opacity .2s ease}
+.badge.in{opacity:1}
+.tick{fill:none;stroke:var(--paper-ink);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.tag{opacity:0}
+.tag-pill{fill:var(--green);stroke:none}
+.tag-text{font-family:var(--mono);font-size:9.5px;font-weight:500;fill:var(--paper-ink)}
+.wallet-top{fill:var(--bg);stroke:var(--green);stroke-width:1.25}
+.lane{fill:none;stroke-width:1.25;stroke-dasharray:4 4;opacity:0;transition:opacity .3s ease}
+.lane-a{stroke:var(--green)}
+.lane-b{stroke:var(--dim)}
+.card.on .lane{opacity:1;animation:march .7s linear infinite}
+@keyframes march{to{stroke-dashoffset:-8}}
+.readout{fill:var(--bg);stroke:var(--dim);stroke-width:1}
+.readout.full{stroke:var(--green);stroke-width:1.5}
+.readout-text{font-family:var(--mono);font-size:12px;font-weight:500;fill:var(--fg);font-variant-numeric:tabular-nums}
+.spoke{fill:none;stroke:var(--fg);stroke-width:1;stroke-dasharray:3 3}
+.seal{fill:var(--green);stroke:var(--fg);stroke-width:1}
+.lbl{font-family:var(--mono);font-size:10px;fill:var(--dim);letter-spacing:.06em}
+.lbl-dim{font-family:var(--mono);font-size:10.5px;fill:var(--dim)}
+.lbl-ink{font-family:var(--mono);font-size:11px;fill:var(--fg);font-weight:500}
+
+.foot{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px;font-family:var(--mono);font-size:11px;
+  font-variant-numeric:tabular-nums;border-top:1px solid var(--rule);padding-top:10px;transition:border-color .22s}
+.foot span{display:grid;gap:2px}
+.foot small{color:var(--dim);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;transition:color .22s}
+.foot b{font-weight:500}
+.foot .blk{text-align:right}
+@media (max-width:560px){.foot{grid-auto-flow:row;grid-template-columns:1fr 1fr;row-gap:10px}.foot .blk{grid-column:1/-1;display:flex;justify-content:space-between;align-items:baseline;text-align:left}.foot .blk b,.foot .blk small{white-space:nowrap}}
+
+.cap{display:grid;gap:6px;text-align:center;max-width:34ch;align-content:start}
+.cap p{margin:0;color:var(--ink-dim);font-size:14px;line-height:1.5}
+.cap .hint{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:#5E5E5A}
+
+/* Ethereum, one call away: zone app calls Ethereum and gets the answer in the same transaction */
+.call{width:min(100%,1060px);display:grid;gap:14px;justify-items:center;text-align:center}
+.call .zone{text-align:left}
+.build > .eyebrow{text-align:center}
+.call .eyebrow{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim)}
+.call h2{margin:0;font-size:clamp(26px,3.6vw,34px);font-weight:400;letter-spacing:-.02em;line-height:1.1;text-wrap:balance}
+.call h2 b{font-weight:500}
+.call .lede{margin:0 0 10px;max-width:60ch;color:var(--ink-dim);font-size:15px;line-height:1.6}
+.zone{width:100%;max-width:720px;background:var(--card);border:1px solid var(--edge);border-radius:14px;padding:24px 22px;display:grid;gap:14px;min-width:0}
+.zone .eyebrow{color:var(--green)}
+.zone svg{width:100%;height:auto;display:block;overflow:visible}
+.zone p.note{margin:0;font-size:14px;line-height:1.5;color:var(--ink-dim)}
+.zbox{fill:var(--page);stroke:var(--edge);stroke-width:1}
+.zt{font-family:var(--sans);font-size:15px;font-weight:500;fill:var(--ink)}
+.zm{font-family:var(--mono);font-size:10px;letter-spacing:.08em;fill:var(--ink-dim)}
+.ztrack{stroke:var(--edge);stroke-width:1}
+.zhot{stroke:var(--green);stroke-width:2}
+
+/* Flat carousel: cards in one row, centre card in focus; click it to open */
+.build{width:min(100%,1160px);display:grid;gap:14px}
+.build > .eyebrow{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim)}
+main.ring{display:block;position:relative;width:100%;max-width:none;height:500px;overflow:hidden;touch-action:pan-y;cursor:grab;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+main.ring.drag{cursor:grabbing}
+main.ring.open{-webkit-mask-image:none;mask-image:none;cursor:default}
+main.ring figure{position:absolute;left:50%;top:40px;width:var(--cw,300px);margin-left:calc(var(--cw,300px) / -2);display:block;
+  transition:transform .8s cubic-bezier(.22,.8,.2,1),opacity .6s ease;transform-origin:50% 50%;will-change:transform}
+main.ring.drag figure{transition:none}
+main.ring figure .card{max-width:none}
+main.ring .cap{display:none}
+main.ring figure:not(.center) .card{pointer-events:none}
+main.ring figure:not(.center){cursor:pointer}
+.detail{position:absolute;inset:0;border-radius:18px;background:#101010;border:1px solid var(--edge);opacity:0;pointer-events:none;z-index:20;
+  transform-origin:0 0;transition:transform .7s cubic-bezier(.22,.8,.2,1),opacity .35s ease}
+main.ring.open .detail{opacity:1;pointer-events:auto}
+main.ring.open figure.center{z-index:30!important}
+.detail .txt{position:absolute;right:clamp(24px,5vw,64px);top:50%;transform:translateY(calc(-50% + 14px));width:min(42%,400px);display:grid;gap:14px;opacity:0;transition:opacity .4s ease .25s,transform .5s ease .25s}
+main.ring.open .detail .txt{opacity:1;transform:translateY(-50%)}
+.detail .txt small{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--green)}
+.detail .txt h3{margin:0;font-size:clamp(26px,3.2vw,36px);font-weight:500;letter-spacing:-.02em;line-height:1.1;text-wrap:balance}
+.detail .txt .lead{margin:0;font-size:17px;line-height:1.5;color:var(--ink)}
+.detail .txt .body{margin:0;font-size:17px;line-height:1.55;color:var(--ink);text-wrap:pretty}
+.detail .go{justify-self:start;margin-top:8px;display:inline-flex;align-items:center;gap:12px;padding:6px 6px 6px 18px;border:1px solid var(--edge);border-radius:100px;color:var(--ink);text-decoration:none;font:500 11.5px/1 var(--mono);letter-spacing:.02em;text-transform:uppercase;transition:border-color .2s}
+.detail .go i{width:28px;height:28px;border-radius:14px;background:#1f1f1f;display:grid;place-items:center;font:400 14px/1 var(--sans);font-style:normal;transition:transform .2s}
+.detail .go:hover{border-color:var(--green)} .detail .go:hover i{transform:translateX(2px)}
+.detail .go:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.detail .x{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:1px solid var(--edge);background:transparent;color:var(--ink);font:16px/1 var(--mono);cursor:pointer}
+.detail .x:focus-visible,.ringnav button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.ringnav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:-6px}
+.ringnav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--edge);background:transparent;color:var(--ink);font:15px/1 var(--mono);cursor:pointer}
+.ringnav .dots{display:flex;gap:8px}
+.ringnav .dots i{width:6px;height:6px;border-radius:50%;background:var(--edge);transition:background .3s,width .3s}
+.ringnav .dots i.on{background:var(--green);width:18px;border-radius:3px}
+.ringcap{margin:0;text-align:center;color:var(--ink-dim);font-size:14px;line-height:1.5;min-height:1.5em}
+.ringcap span{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:#5E5E5A;margin-left:8px}
+@media (max-width:720px){
+  main.ring{height:calc(var(--cw,250px) * 1.32 + 64px)}
+  main.ring.tall{height:520px}
+  .detail .txt{left:20px;right:20px;width:auto;top:auto;bottom:20px;transform:none}
+  main.ring.open .detail .txt{transform:none}
+}
+
+/* Alliance marquee: one row of member logos scrolling left; slows under the pointer */
+.alliance{width:min(100%,1136px);display:grid;gap:18px}
+.alliance .eyebrow{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim)}
+.mq{position:relative;overflow:hidden;width:100%;height:96px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+.mq-track{display:flex;width:max-content;height:100%;will-change:transform}
+.mq-set{display:flex;align-items:center;gap:88px;padding-right:88px}
+.mq .logo{display:flex;align-items:center;gap:10px;opacity:.72;transition:opacity .3s ease;flex:none}
+.mq .logo:hover{opacity:1}
+.mq .logo img{display:block;width:auto;max-width:250px}
+.mq .logo b{font:500 20px/1 "Suisse Intl","Helvetica Neue",Arial,sans-serif;color:#F2F2EC}
+
+@media (prefers-reduced-motion:reduce){
+  .card{transition:background-color .01s,color .01s,border-color .01s;transform:none!important}
+  svg *{transition:none}
+  .card.on .lane{animation:none}
+}
+
+/* use-case cards on the EEZ UC Motion reference system: ink outlines at one weight, gradient rails that march
+   while a card plays, mint seal and ticks, labels with a halo where a rail crosses them */
+main.ring .card{--rail:url(#rail-d)}
+main.ring .card.on{--rail:url(#rail-l)}
+main.ring .ln,main.ring .face,main.ring .lock,main.ring .g-top,main.ring .g-a,main.ring .g-b,main.ring .eth,main.ring .wallet-top{stroke:var(--fg);stroke-width:1}
+main.ring .spoke{stroke:var(--rail);stroke-width:1.5;stroke-dasharray:4 4}
+main.ring .card.on .spoke{animation:march .7s linear infinite}
+main.ring .lane{stroke-width:1.5;stroke-dasharray:4 4}
+main.ring .lane-a,main.ring .lane-b{stroke:var(--rail)}
+main.ring .flow,main.ring .flow.thin{stroke:var(--green);stroke-width:2}
+main.ring .seal{fill:#A8F3CE;stroke:var(--fg);stroke-width:1}
+main.ring .tick{stroke:var(--paper-ink);stroke-width:1.5}
+main.ring .tag-pill{fill:#A8F3CE}
+main.ring .tag-text{font-size:10px}
+main.ring .readout{stroke:var(--dim);stroke-width:1.25}
+main.ring .readout.full{stroke:var(--rail);stroke-width:1.5}
+main.ring .lbl{font-size:10.5px;letter-spacing:.04em}
+main.ring .lbl-dim{letter-spacing:.04em}
+main.ring .lbl,main.ring .lbl-dim,main.ring .lbl-ink{paint-order:stroke;stroke:var(--bg);stroke-width:4px;stroke-linejoin:round}
+@media (prefers-reduced-motion:reduce){main.ring .card.on .spoke{animation:none}}
+
+/* ===== Site shell: the Figma homepage (eez.io mock-up). Dark-only by design. ===== */
+:root{--ln:#2e2e2e;--ln2:#1a1a1a;--panel:#161616;--muted:#8f8f8f;--ebc:#9aa3b3;--sub:#dcdcdc;--ledec:#c9cfda;--white:#ffffff}
+html{scroll-behavior:smooth}
+body{display:block;place-items:normal;justify-items:normal;margin:0;padding:0;background:var(--page);color:var(--white);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.eb{margin:0;font:400 12.5px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ebc)}
+.eb.g{color:var(--green)} .eb.w{color:var(--white)}
+.sec{width:min(1136px,100% - 32px);margin-inline:auto;padding-top:96px;scroll-margin-top:72px}
+.sec > h2{margin:18px 0 0;font:300 clamp(28px,3.4vw,36px)/1.12 var(--sans);letter-spacing:-.01em;color:var(--sub);text-wrap:balance}
+.sec > h2 b{font-weight:800;color:var(--white)}
+.sec > .lede,.hero .lede{margin:16px 0 0;max-width:640px;font-size:18px;line-height:1.55;color:var(--ledec)}
+.cta-row{margin-top:40px}
+
+/* pills */
+.pill{display:inline-flex;align-items:center;gap:14px;padding:6px 6px 6px 20px;border-radius:100px;border:1px solid var(--ln);color:var(--white);text-decoration:none;
+  font:500 11.5px/1 var(--mono);letter-spacing:.02em;text-transform:uppercase;transition:border-color .2s,background .2s}
+.pill i{width:30px;height:30px;border-radius:15px;background:#1f1f1f;display:grid;place-items:center;font:400 14px/1 var(--sans);font-style:normal;transition:transform .2s}
+.pill:hover{border-color:var(--green)} .pill:hover i{transform:translateX(2px)}
+.pill.solid{background:var(--white);color:#000;border-color:var(--white)} .pill.solid i{background:var(--page);color:var(--white)}
+.pill:focus-visible,nav a:focus-visible,.vid:focus-visible,.post:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+
+/* devcon bar + header */
+.devcon{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:6px 16px;padding:10px 16px;background:#0d0d0d;border-bottom:1px solid var(--ln2);font-size:14px;color:var(--sub);text-align:center}
+.devcon .eb{font-size:12px;letter-spacing:.06em;text-decoration:none}
+header.top{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--ln2)}
+header.top .in{width:min(1136px,100% - 32px);margin:auto;display:flex;align-items:center;gap:28px;padding:14px 0}
+.lockup{display:block;flex:none;line-height:0} .lockup svg{width:80px;height:36px}
+header nav{margin-left:auto;display:flex;gap:22px;overflow-x:auto;scrollbar-width:none}
+header nav a{font:400 12px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none;white-space:nowrap}
+header nav a:hover{color:var(--white)}
+
+/* hero */
+.hero{padding-top:112px}
+.hero-row{display:flex;align-items:center;justify-content:space-between;gap:48px}
+.hero-copy{max-width:768px;min-width:0}
+.hero h1{margin:0;font:300 clamp(44px,6.4vw,72px)/1.04 var(--sans);letter-spacing:-.01em;color:var(--sub)}
+.hero h1 b{font-weight:800;color:var(--white)}
+.hero .lede{margin-top:24px;max-width:720px;font-size:20px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.hero-visual{flex:none;width:320px;height:320px;display:grid;place-items:center}
+.hero-visual svg{width:190px;height:300px;animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px)}}
+.hero-mq{padding-top:80px;display:grid;gap:18px}
+
+/* one call away */
+#how .zone{position:relative;margin-top:40px;width:100%;max-width:720px;background:var(--panel);border:1px solid var(--ln);border-radius:16px;padding:28px 26px;display:grid;gap:16px;overflow:hidden}
+#how .zone .rail{position:absolute;top:0;left:26px;right:26px;height:2px;background:linear-gradient(90deg,#8ae5ac,#6283bd 55%,#4439cb)}
+#how .zone .eb{font-size:12.5px}
+#how .zone.zv{background:none;border:0;padding:0;max-width:880px;overflow:visible}
+#how .zone.zv video{display:block;width:100%;height:auto;aspect-ratio:1344/640;border-radius:12px;background:#0a0a0a}
+#how .zone.zv .vcard{border-radius:12px;cursor:crosshair;outline:none;touch-action:pan-y;transform:perspective(1400px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--lift,0px));transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s ease}
+#how .zone.zv .vcard.on{--lift:-4px;box-shadow:0 18px 40px -18px rgba(0,0,0,.8)}
+#how .zone.zv .vcard:focus-visible{box-shadow:0 0 0 2px #0a0a0a,0 0 0 4px #3be57e}
+#how .zone.zv .cap .tp{display:none}
+@media (hover:none){#how .zone.zv .cap .hv{display:none}#how .zone.zv .cap .tp{display:inline}}
+#how .zone.zv .cap{margin:0;justify-self:center;text-align:center;font:400 12.5px/1.4 "Geist Mono",monospace;color:var(--muted)}
+#how .zone .note{margin:0;font-size:15px;line-height:1.5;color:var(--ledec)}
+#how .build{width:100%;margin-top:72px;scroll-margin-top:72px}
+
+/* build */
+.auds{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.aud{background:var(--panel);border:1px solid var(--ln);border-radius:16px;padding:28px 26px 26px;display:flex;flex-direction:column;align-items:flex-start;gap:14px;min-width:0}
+.aud .iso{height:72px;width:auto}
+.aud h3{margin:0;font:600 20px/1.35 var(--sans)}
+.aud p{margin:0;flex:1;font-size:15px;line-height:1.55;color:var(--muted)}
+
+/* alliance map */
+.emap{margin-top:40px;display:grid;gap:12px}
+.tier{margin-top:56px}
+.tier .emap{margin-top:20px}
+.tierhd h3{margin:0;font:600 22px/1.2 var(--sans);color:var(--white)}
+.tierhd p{margin:6px 0 0;font-size:15px;line-height:1.5;color:var(--ink-dim)}
+.emap .row{display:flex;gap:12px}
+.grp{flex:var(--n) 1 calc(var(--n) * 121px + (var(--n) - 1) * 8px + 32px);background:var(--panel);border:1px solid var(--ln);border-radius:14px;padding:16px;display:grid;gap:12px;align-content:start;min-width:0}
+.grp.join{background:none;border:0;padding:16px 0 16px 8px;place-content:center start}
+.grp ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.tile{width:121px;height:64px;background:#0d0d0d;border:1px solid #262626;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:6px;transition:border-color .2s}
+.tile:hover{border-color:#3a3a3a}
+.tile img{width:min(var(--w,80px),100%);max-width:100%;height:auto}
+.tile .ic{width:20px;height:20px;flex:none}
+.tile span{font:500 13px/1 var(--sans);color:#f2f2ec}
+
+/* progress */
+.phases{margin-top:40px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.phase{position:relative;background:var(--panel);border:1px solid var(--ln);border-radius:16px;padding:22px 20px;display:flex;flex-direction:column;align-items:flex-start;min-height:199px;overflow:hidden}
+.phase .rail{position:absolute;top:0;left:20px;right:20px;height:2px;background:linear-gradient(90deg,#8ae5ac,#6283bd 55%,#4439cb)}
+.phb{font:400 11px/1.3 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--ebc);border:1px solid var(--ln);border-radius:100px;padding:3px 9px}
+.phb.on{color:var(--green);border-color:var(--green)}
+.phase b{margin-top:14px;font:600 17.5px/1.35 var(--sans)}
+.phase p{margin:6px 0 0;font-size:13.5px;line-height:1.55;color:var(--muted)}
+
+/* news and media */
+.vids{margin-top:40px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.vid{display:grid;gap:12px;align-content:start;color:inherit;text-decoration:none;min-width:0}
+.th{position:relative;display:block;aspect-ratio:16/9;border-radius:10px;overflow:hidden;border:1px solid var(--ln)}
+.th img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.vid:hover .th img{transform:scale(1.04)}
+.play{position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(10,10,10,.75);border:1.25px solid var(--green);transition:transform .2s}
+.play::after{content:"";position:absolute;left:17px;top:13px;border-left:13px solid var(--green);border-top:8px solid transparent;border-bottom:8px solid transparent}
+.vid:hover .play{transform:scale(1.08)}
+.th em{position:absolute;right:10px;bottom:10px;font:400 11px/1 var(--mono);font-style:normal;background:rgba(10,10,10,.85);padding:4px 7px;border-radius:6px;color:#f2f2ec}
+.vid small{font:400 11px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#7a7a76}
+.vid b{font:500 15px/1.4 var(--sans);color:#f2f2ec}
+.more{display:inline-block;margin-top:20px;font:400 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--green);text-decoration:none}
+.latest{margin-top:48px}
+.posts{margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.post{background:var(--panel);border:1px solid var(--ln);border-radius:16px;padding:18px 20px;display:grid;gap:10px;align-content:start;color:inherit;text-decoration:none;transition:border-color .2s;min-width:0}
+.post:hover{border-color:#3a3a3a}
+.post img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;display:block}
+.post small{font:400 11px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.post b{font:600 16px/1.35 var(--sans)}
+
+/* footer */
+.foot-site{margin-top:96px;border-top:1px solid var(--ln2)}
+.foot-site .in{width:min(1136px,100% - 32px);margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:56px 0 100px}
+.foot-site .in > div{display:grid;gap:12px;align-content:start}
+.foot-site a,.foot-site .dim{font:400 12px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.foot-site a:hover{color:var(--white)} .foot-site .dim{color:#4d4d4d}
+
+/* responsive */
+@media (max-width:1000px){
+  .phases{grid-template-columns:repeat(3,1fr)}
+  .vids{grid-template-columns:repeat(2,1fr)}
+  .emap .row{flex-wrap:wrap}
+}
+@media (max-width:820px){
+  .hero{padding-top:64px}
+  .hero-row{flex-direction:column-reverse;align-items:flex-start;gap:24px}
+  .hero-visual{width:120px;height:150px} .hero-visual svg{width:95px;height:150px}
+  .auds,.posts{grid-template-columns:1fr}
+  .phases{grid-template-columns:repeat(2,1fr)}
+  .foot-site .in{grid-template-columns:repeat(2,1fr)}
+  header nav{gap:16px}
+}
+@media (max-width:560px){
+  .vids,.phases{grid-template-columns:1fr}
+  .lockup svg{width:64px;height:29px}
+  .sec{padding-top:72px}
+}
+@media (prefers-reduced-motion:reduce){ .hero-visual svg{animation:none} #how .zone.zv .vcard{transform:none!important;transition:none} html{scroll-behavior:auto} }
+
+/* alliance tiles: a staggered bump when the map scrolls into view, and a lift on hover */
+.tile{transition:border-color .2s,transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,background .25s}
+.tile img,.tile .ic{transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.tile:hover{transform:translateY(-4px);border-color:rgba(59,229,126,.55);background:#101010;box-shadow:0 10px 24px -14px rgba(59,229,126,.45)}
+.tile:hover img{transform:scale(1.06)}
+.emap.bump .tile{animation:bump .6s cubic-bezier(.3,1.5,.5,1) backwards;animation-delay:calc(var(--i) * 45ms)}
+@keyframes bump{0%{transform:translateY(0) scale(1)}35%{transform:translateY(-7px) scale(1.04);border-color:rgba(59,229,126,.5)}100%{transform:translateY(0) scale(1)}}
+@media (prefers-reduced-motion:reduce){.tile,.tile img{transition:none}.tile:hover{transform:none}.emap.bump .tile{animation:none}}
+
+/* one call away: concept block and use cases share one centred axis */
+#how{text-align:center}
+#how > .eb,#how > h2,#how > .lede{margin-inline:auto}
+#how > .lede{max-width:640px}
+#how .zone{margin-inline:auto;text-align:left}
+#how .build > .eb{text-align:center}
+#how .cta-row{display:flex;justify-content:center}
+#how main.ring{text-align:left}
+
+/* ===== Polish pass 2026-10-09: accessibility, mobile structure, browser surfaces ===== */
+::selection{background:var(--green);color:#000}
+header.top{background:rgba(10,10,10,.95)}
+.foot-site .dim{color:#6b6b66}
+
+/* use-case dialog: out of the tab order and the accessibility tree while closed */
+main.ring .detail{visibility:hidden;transition:transform .7s cubic-bezier(.22,.8,.2,1),opacity .35s ease,visibility 0s linear .35s}
+main.ring.open .detail{visibility:visible;transition-delay:0s}
+
+/* readable small text: card data labels and the carousel hints */
+.foot small,.idx{font-size:11px}
+.cap .hint,.ringcap span{color:var(--ink-dim)}
+
+@media (max-width:820px){
+  /* nav drops to its own scrollable row instead of clipping beside the lockup */
+  header.top .in{flex-wrap:wrap;row-gap:10px;padding:12px 0 10px}
+  header nav{order:3;width:100%;margin-left:0;padding-bottom:2px;
+    -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .sec,#how .build{scroll-margin-top:104px}
+}
+@media (max-width:560px){
+  /* zone diagram: same drawing, labels scaled up in SVG units so they stay legible at phone width */
+  #how .zone{padding:24px 14px}
+  #how .zone .zm{font-size:19px}
+  #how .zone .zt{font-size:28px}
+  /* alliance map: one group per row, tiles fill the row in two columns */
+  .grp{flex-basis:100%}
+  .grp ul{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .tile{width:auto;min-width:0;height:56px;padding:0 8px}
+  .tile img{width:min(calc(var(--w,80px) * .85),100%)}
+  .tile span{font-size:11.5px}
+  .phase{min-height:0}
+}
+a:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:2px}
+.foot .blk b{white-space:nowrap}
+#how .build > h2{margin:0 auto;font:300 clamp(28px,3.4vw,36px)/1.12 var(--sans);letter-spacing:-.01em;color:var(--sub);text-wrap:balance;text-align:center}
+#how .build > h2 b{font-weight:800;color:var(--white)}
+.ringcap span,.cap .hint{font-size:12px;letter-spacing:.02em}
+@media (max-width:820px){ header nav a{padding:14px 0} header.top .in{padding-bottom:0;row-gap:0} }
+@media(max-width:560px){.grp.join{padding:8px 0 0}}
+/* motion button: gradient circle grows to fill on hover */
+.mbtn{position:relative;isolation:isolate;display:inline-flex;align-items:center;height:46px;padding:4px 22px 4px 4px;border-radius:100px;background:#0d0d0d;border:1px solid var(--ln);text-decoration:none}
+.mbtn .c{position:absolute;z-index:-1;left:4px;top:4px;bottom:4px;width:36px;border-radius:100px;background:linear-gradient(90deg,#8ae5ac,#6283bd);transition:width .5s cubic-bezier(.65,0,.35,1)}
+.mbtn svg{width:36px;height:18px;color:#0a0a0a;transition:transform .5s cubic-bezier(.65,0,.35,1)}
+.mbtn .t{margin-left:12px;font:500 11.5px/1 var(--mono);letter-spacing:.02em;text-transform:uppercase;color:var(--white);white-space:nowrap;transition:color .5s}
+.mbtn:hover .c,.mbtn:focus-visible .c{width:calc(100% - 8px)}
+.mbtn:hover svg,.mbtn:focus-visible svg{transform:translateX(6px)}
+.mbtn:hover .t,.mbtn:focus-visible .t{color:#0a0a0a}
+.mbtn:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.mbtn .c,.mbtn svg,.mbtn .t{transition:none}}
+/* tiles fill their category box, no dead space on the right */
+@media (min-width:561px){.grp ul{flex-wrap:nowrap}.grp .tile{flex:1 1 121px;width:auto;min-width:0}}
+@media (max-width:560px){.grp[style*="--n:1"] ul{grid-template-columns:1fr}.grp[style*="--n:2"] ul,.grp[style*="--n:4"] ul{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.grp.one ul{grid-template-columns:1fr}}
+@media (max-width:1100px){.emap .row{flex-wrap:wrap}}
+/* use-case illustrations: EEZ gradient instead of the green accent (defs in EEZ_DEFS) */
+main.ring .g-top,main.ring .eth,main.ring .seal,main.ring .tag-pill{fill:url(#eez-t)}
+main.ring .g-a{fill:url(#eez-a)}
+main.ring .g-b{fill:url(#eez-b)}
+main.ring .flow,main.ring .flow.thin,main.ring .lane-a,main.ring .readout.full,main.ring .wallet-top{stroke:#6589BC}
+.ringnav .dots i.on{background:linear-gradient(90deg,#8ce8ab,#3f2acd)}
+.tile{padding:0 6px}
+.tile span{font-size:12px;white-space:nowrap}
+</style>
+<link rel="stylesheet" href="/_shell/shell.css?v=3">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="eez-t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8CE8AB"/><stop offset="1" stop-color="#79B9B4"/></linearGradient><linearGradient id="eez-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#79B9B4"/><stop offset="1" stop-color="#3F2ACD"/></linearGradient><linearGradient id="eez-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6AA29E"/><stop offset="1" stop-color="#3725B4"/></linearGradient></defs></svg>
+<div class="devcon"><span class="eb g">[ Devcon ]</span><span>Watch the EEZ talks from Devcon:</span><a href="https://www.youtube.com/watch?v=uvY3yww_1oY" target="_blank" rel="noopener" class="eb w">[ One Ethereum ] →</a><a href="https://www.youtube.com/watch?v=Mdneqyvvk7g" target="_blank" rel="noopener" class="eb w">[ Real-time ZK proofs ] →</a></div>
+<header class="eh" id="eh">
+  <div class="eh-in">
+    <a class="eh-logo" href="/" aria-label="EEZ home"><img src="/_shell/logo.svg" alt="Ethereum Economic Zone" width="80" height="36"></a>
+    <button class="eh-toggle" type="button" aria-expanded="false" aria-controls="eh-nav" aria-label="Menu"><span></span></button>
+    <nav class="eh-nav" id="eh-nav" aria-label="Main">
+      <div class="eh-menu" data-key="use-cases">
+        <button class="eh-trigger" type="button" aria-expanded="false">Use cases <i aria-hidden="true">▾</i></button>
+        <div class="eh-drop">
+          <a href="/use-cases/institutions"><b>Institutions</b><small>Banks, funds and fintechs</small></a>
+          <a href="/use-cases/chains"><b>Chains</b><small>Rollup teams and new chains</small></a>
+          <a href="/use-cases/apps"><b>Apps</b><small>Apps that call across chains</small></a>
+          <a href="/use-cases/infra"><b>Infra</b><small>Infra providers and wallets</small></a>
+          <a class="eh-all" href="/use-cases/all"><b>All use cases</b><small>Every use case, sorted by job</small></a>
+        </div>
+      </div>
+      <div class="eh-menu" data-key="developers">
+        <button class="eh-trigger" type="button" aria-expanded="false">Developers <i aria-hidden="true">▾</i></button>
+        <div class="eh-drop">
+          <a href="https://docs.eez.io" target="_blank" rel="noopener"><b>Docs ↗</b><small>Protocol spec, guides and reference</small></a>
+          <a href="https://build.eez.io" target="_blank" rel="noopener"><b>Quickstarts ↗</b><small>Step-by-step walkthroughs</small></a>
+          <a href="https://eez.dev/dashboard/" target="_blank" rel="noopener"><b>Dashboard ↗</b><small>See calls settle on the testnet</small></a>
+          <a href="https://github.com/eez-association" target="_blank" rel="noopener"><b>GitHub ↗</b><small>eez-association on GitHub</small></a>
+        </div>
+      </div>
+      <a class="eh-cta" href="/get-in-touch"><span>Get in touch</span><i aria-hidden="true">→</i></a>
+    </nav>
+  </div>
+</header>
+
+
+<section class="hero sec">
+  <div class="hero-row">
+    <div class="hero-copy">
+      <h1><span>Activate</span> <b>Ethereum</b></h1>
+      <p class="lede">The depth and breadth of Ethereum available across any connected app or network, atomically.</p>
+      <div class="ctas"><a class="pill solid" href="/use-cases/all"><span>Use cases</span><i aria-hidden="true">→</i></a><a class="pill" href="https://build.eez.io/" target="_blank" rel="noopener"><span>Start building</span><i aria-hidden="true">→</i></a></div>
+    </div>
+    <div class="hero-visual"><svg aria-hidden="true" width="189.953" height="300" viewBox="0 0 189.953 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="EEZ mark" clip-path="url(#markclip)">
+<path id="Vector" d="M92.0586 0.15911C93.0399 -0.106881 94.082 -0.0369948 95.019 0.357647C95.956 0.752288 96.7341 1.44901 97.2294 2.33691L181.904 154.158C182.23 154.742 182.423 155.39 182.47 156.056C182.518 156.723 182.417 157.392 182.177 158.016C181.937 158.639 181.562 159.202 181.08 159.665C180.597 160.128 180.019 160.479 179.386 160.693C152.161 169.903 132.205 176.652 117.692 183.226C103.163 189.807 94.8638 195.889 90.2467 203.33C87.6301 207.547 86.0432 212.453 85.3696 218.605C91.9521 215.833 104.716 210.724 129.459 201.277L129.775 201.156L130.089 201.036L130.402 200.917L130.714 200.798L131.025 200.679L131.642 200.443L131.949 200.326L132.254 200.209L132.559 200.094L132.862 199.977L133.164 199.862L133.465 199.747L133.764 199.633L134.063 199.52L134.36 199.406L134.656 199.293L134.951 199.18L135.245 199.068L135.537 198.956L135.828 198.845C136.021 198.771 136.213 198.697 136.407 198.625L136.695 198.514L136.982 198.405L137.267 198.296L137.551 198.188L137.834 198.079L138.397 197.865L138.676 197.757L138.955 197.652L139.232 197.546L139.508 197.44L139.782 197.336L140.056 197.23L140.329 197.127L140.6 197.023L140.871 196.92L141.139 196.817L141.408 196.714L141.675 196.613L141.941 196.511L142.206 196.41L142.469 196.31L142.731 196.209L142.993 196.11L143.253 196.011L143.511 195.911L143.769 195.813L144.026 195.715L144.282 195.618L144.536 195.52L144.79 195.423L145.042 195.327L145.293 195.231L145.544 195.136L145.793 195.041L146.04 194.946L146.288 194.852L146.534 194.757L146.778 194.664L147.022 194.571L147.264 194.479L147.505 194.387L147.746 194.295L147.986 194.204L148.224 194.113L148.461 194.021L148.697 193.932L148.932 193.842L149.165 193.752L149.399 193.663L149.631 193.575L149.861 193.487L150.091 193.4L150.32 193.312L150.547 193.225L150.773 193.138C150.924 193.082 151.074 193.024 151.224 192.967L151.447 192.882L151.67 192.796L151.891 192.712L152.112 192.628L152.331 192.545L152.549 192.461L152.766 192.378L152.982 192.295L153.198 192.213L153.625 192.05L153.838 191.968L154.048 191.889L154.258 191.808L154.468 191.729L154.676 191.649L154.883 191.57L155.089 191.491L155.295 191.413C155.43 191.36 155.566 191.308 155.702 191.257L155.904 191.18L156.105 191.103L156.305 191.027L156.504 190.951L156.702 190.875L156.9 190.8L157.096 190.724L157.291 190.651L157.486 190.576L157.679 190.502L157.871 190.429L158.064 190.356L158.253 190.283L158.443 190.211L158.82 190.067L159.006 189.995L159.192 189.925L159.377 189.854L159.561 189.784L159.743 189.714L159.925 189.644L160.107 189.575L160.287 189.507L160.466 189.438L160.644 189.37L160.821 189.303L160.998 189.235L161.173 189.168L161.347 189.102L161.521 189.035L161.694 188.969L161.866 188.903L162.037 188.839L162.207 188.774L162.376 188.708L162.544 188.645L162.711 188.581L162.878 188.518L163.043 188.454L163.208 188.391L163.372 188.329L163.534 188.266L163.857 188.143L164.018 188.082L164.336 187.961L164.493 187.901C164.597 187.86 164.701 187.82 164.806 187.781L164.961 187.722L165.114 187.663L165.268 187.604L165.421 187.546L165.572 187.489L165.723 187.431L165.872 187.374L166.021 187.317L166.169 187.261L166.316 187.204L166.463 187.149L166.609 187.093L166.753 187.037L166.897 186.982L167.04 186.928L167.183 186.873L167.324 186.819L167.464 186.766L167.604 186.712L167.743 186.66L167.882 186.606L168.019 186.554L168.292 186.45L168.426 186.399L168.56 186.348L168.826 186.246L168.957 186.196L169.089 186.146L169.219 186.097L169.348 186.047L169.476 185.998L169.604 185.95L169.857 185.852L169.983 185.804L170.107 185.757L170.231 185.71L170.354 185.662L170.598 185.57L170.839 185.478L170.958 185.432L171.076 185.387L171.194 185.342L171.311 185.297L171.428 185.252L171.657 185.164L171.772 185.121L171.998 185.035L172.11 184.992L172.22 184.95C172.294 184.923 172.367 184.895 172.44 184.867C172.512 184.838 172.585 184.811 172.657 184.783L172.764 184.743L172.871 184.701L172.977 184.661L173.083 184.621L173.188 184.581L173.394 184.501L173.497 184.463L173.598 184.424L173.699 184.385L173.8 184.347L173.9 184.309L173.999 184.271L174.097 184.234L174.195 184.196L174.388 184.122L174.484 184.086L174.578 184.05L174.672 184.014L174.765 183.978L174.859 183.943L174.951 183.908C175.011 183.883 175.072 183.86 175.133 183.838L175.223 183.803L175.313 183.769L175.402 183.735L175.489 183.702L175.577 183.669L175.664 183.635L175.75 183.602L175.836 183.569L175.921 183.537L176.005 183.505L176.089 183.472L176.173 183.441L176.255 183.41L176.336 183.379L176.418 183.348L176.499 183.317L176.579 183.286L176.736 183.226L176.815 183.196L176.892 183.166L176.969 183.137L177.045 183.108L177.121 183.079L177.196 183.05L177.27 183.022L177.344 182.994L177.417 182.966L177.562 182.911L177.704 182.856L177.845 182.802C177.868 182.794 177.89 182.785 177.913 182.776L177.983 182.75L178.05 182.724L178.117 182.699L178.185 182.673L178.251 182.647L178.316 182.623L178.382 182.597L178.447 182.572L178.511 182.549L178.574 182.524L178.637 182.5L178.699 182.476L178.822 182.429L178.883 182.406L178.944 182.383L179.003 182.36L179.121 182.315L179.179 182.293L179.237 182.272L179.35 182.228L179.406 182.207L179.462 182.185L179.516 182.164L179.571 182.143L179.678 182.102L179.732 182.082L179.783 182.062L179.835 182.042L179.887 182.023L179.938 182.003L180.038 181.965L180.088 181.946L180.137 181.927L180.185 181.909C180.201 181.903 180.217 181.897 180.233 181.891L180.28 181.872L180.327 181.855L180.374 181.836L180.42 181.819L180.466 181.802L180.511 181.785L180.6 181.75L180.644 181.734L180.73 181.701L180.772 181.685L180.814 181.669L180.855 181.653L180.896 181.637L180.938 181.622L180.977 181.606L181.057 181.576L181.095 181.562L181.134 181.546L181.209 181.518C181.222 181.513 181.234 181.509 181.246 181.504L181.283 181.489L181.32 181.476L181.391 181.449L181.426 181.435C181.449 181.426 181.472 181.417 181.495 181.409L181.562 181.383L181.628 181.358L181.692 181.334L181.724 181.322C181.734 181.318 181.744 181.313 181.754 181.309L181.785 181.298L181.815 181.286L181.846 181.276C181.855 181.271 181.865 181.267 181.875 181.264L181.961 181.231L181.989 181.22L182.071 181.189L182.097 181.179L182.124 181.168L182.15 181.159L182.175 181.149L182.2 181.139L182.225 181.131C182.233 181.127 182.242 181.124 182.25 181.121C182.258 181.118 182.266 181.115 182.274 181.111L182.298 181.103L182.344 181.084C182.352 181.082 182.359 181.079 182.367 181.075L182.389 181.068L182.411 181.059L182.433 181.05L182.455 181.042L182.476 181.035L182.497 181.026L182.518 181.018L182.537 181.011L182.577 180.995C182.583 180.993 182.59 180.991 182.596 180.988L182.615 180.981L182.634 180.974L182.671 180.96L182.689 180.953L182.706 180.946L182.722 180.94L182.74 180.933L182.789 180.915L182.805 180.908L182.821 180.903L182.836 180.897C182.841 180.895 182.846 180.893 182.851 180.892L182.865 180.885L182.894 180.874L182.908 180.87C182.912 180.868 182.917 180.866 182.921 180.864L182.935 180.859C182.939 180.857 182.944 180.855 182.948 180.854L182.974 180.844L182.999 180.835L183.01 180.831L183.022 180.826L183.034 180.821L183.044 180.817L183.077 180.805L183.088 180.801L183.097 180.797L183.107 180.793L183.127 180.786L183.162 180.772C183.165 180.771 183.167 180.77 183.17 180.769L183.179 180.766C183.182 180.765 183.184 180.764 183.187 180.763L183.202 180.757L183.21 180.754C183.212 180.753 183.215 180.752 183.217 180.751L183.224 180.749L183.231 180.746L183.238 180.744L183.244 180.741L183.25 180.739L183.257 180.736L183.262 180.734L183.268 180.732C183.27 180.731 183.272 180.73 183.274 180.73L183.279 180.727C183.281 180.726 183.283 180.726 183.285 180.725L183.29 180.724L183.305 180.718L183.308 180.716L183.313 180.714L183.326 180.71L183.33 180.708L183.34 180.704L183.343 180.703C183.345 180.703 183.346 180.702 183.347 180.702C183.348 180.701 183.349 180.701 183.35 180.7C183.351 180.7 183.352 180.7 183.353 180.699L183.356 180.698L183.359 180.697L183.362 180.696L183.364 180.695L183.366 180.695L183.37 180.693L183.372 180.692L183.378 180.69L183.381 180.688H183.383L183.388 180.686L183.39 180.686L183.392 180.685L183.393 180.684H183.394L183.395 180.683L183.396 180.683H183.397L183.399 180.682L183.4 180.681C184.347 180.319 185.388 180.283 186.358 180.579C187.328 180.875 188.171 181.487 188.754 182.316C189.338 183.146 189.627 184.147 189.577 185.16C189.528 186.173 189.141 187.14 188.479 187.909L93.7626 298.013C93.291 298.56 92.6959 298.988 92.0265 299.26C91.357 299.533 90.6324 299.642 89.9124 299.579C89.1924 299.516 88.4977 299.283 87.8857 298.899C87.2736 298.514 86.7617 297.99 86.3923 297.369C70.6724 270.915 49.2568 236.284 31.7572 208.247C22.2432 193.005 12.6902 177.787 3.09812 162.594L1.32335 159.787L0.863537 159.061L0.746481 158.877L0.717042 158.83L0.710033 158.819L0.708631 158.816C0.708631 158.816 0.707929 158.815 4.55676 156.377L0.70793 158.815C0.116969 157.882 -0.114917 156.766 0.0554138 155.675C0.225744 154.583 0.786692 153.591 1.6339 152.882C2.4811 152.174 3.55688 151.797 4.66108 151.822C5.76528 151.848 6.82272 152.273 7.63667 153.02L76.4825 216.185C77.3607 209.584 79.2505 203.769 82.5035 198.526C88.5757 188.74 98.9222 181.724 113.932 174.925C127.488 168.785 145.48 162.558 168.722 154.682L94.6374 93.4731C94.4502 95.4357 94.254 97.3942 94.0458 99.3428C91.6612 121.629 87.7759 143.324 81.2663 156.932C78.061 163.632 73.7166 169.455 67.5876 171.552C61.0198 173.799 54.3133 171.219 47.939 165.538L7.32686 129.342L2.25069 124.818L1.61634 124.252L1.53643 124.182L1.52732 124.173L1.52592 124.171L1.52872 124.173C0.945718 123.654 0.505806 122.994 0.251169 122.256C-0.00346786 121.518 -0.0642902 120.727 0.0745337 119.959C0.213358 119.191 0.547172 118.472 1.04397 117.87C1.54077 117.268 2.18389 116.803 2.91167 116.521L86.3012 84.2236C87.7156 66.6028 88.35 49.0521 88.6156 34.91C88.7537 27.6219 88.8088 20.3324 88.7811 13.043C88.7706 10.4296 88.7456 7.81619 88.7061 5.20303L88.6983 4.78738C88.6979 4.75256 88.6972 4.71775 88.6962 4.68294L88.6955 4.65841V4.6521C88.6984 4.6514 88.8063 4.6486 93.2502 4.55607L88.6955 4.6507C88.6745 3.6341 88.9942 2.63969 89.6036 1.82576C90.213 1.01182 91.0772 0.42514 92.0586 0.15911ZM169.713 195.661L169.567 195.717L169.419 195.773L169.271 195.829L169.122 195.887C169.072 195.906 169.022 195.925 168.972 195.943L168.821 196.001L168.671 196.059L168.518 196.117L168.364 196.175L168.21 196.234L168.056 196.294C168.004 196.314 167.952 196.333 167.9 196.353L167.743 196.413L167.586 196.473L167.427 196.534L167.268 196.595L167.108 196.656L166.947 196.717L166.785 196.78L166.622 196.841L166.458 196.904L166.294 196.967L166.128 197.03L165.962 197.094L165.794 197.157L165.627 197.222L165.458 197.286L165.116 197.416L164.945 197.482L164.771 197.547L164.598 197.614L164.424 197.681L164.248 197.748L164.071 197.815L163.894 197.883L163.716 197.951L163.536 198.019L163.357 198.088L163.176 198.158L162.994 198.226L162.811 198.297L162.627 198.367L162.442 198.437L162.257 198.508L162.07 198.58L161.882 198.651L161.694 198.723L161.504 198.796L161.314 198.868L161.122 198.941L160.93 199.015L160.736 199.089L160.542 199.163L160.15 199.312L159.953 199.387L159.755 199.464L159.556 199.539L159.355 199.616L159.154 199.693L158.952 199.77C158.816 199.822 158.68 199.874 158.544 199.925L158.339 200.003L158.133 200.082L157.926 200.162L157.718 200.241L157.509 200.321L157.299 200.401L157.087 200.482L156.875 200.563L156.662 200.644L156.448 200.726L156.233 200.808L156.017 200.891L155.799 200.973L155.581 201.057L155.361 201.14L155.141 201.225L154.92 201.31L154.698 201.395L154.474 201.479L154.249 201.566L154.024 201.652L153.798 201.738L153.57 201.825L153.341 201.912L153.111 202L152.881 202.088L152.649 202.177L152.416 202.265L152.182 202.355C152.104 202.385 152.025 202.415 151.947 202.445L151.711 202.535L151.473 202.625L151.236 202.716C151.156 202.747 151.077 202.777 150.997 202.807L150.756 202.899L150.514 202.991L150.272 203.084L150.029 203.177L149.783 203.271L149.538 203.364L149.291 203.459L149.043 203.554L148.794 203.649L148.544 203.743L148.293 203.84L148.04 203.936L147.787 204.033C147.702 204.066 147.617 204.098 147.532 204.13L147.276 204.228L147.02 204.326L146.762 204.424L146.503 204.524L146.243 204.622L145.982 204.723L145.719 204.822L145.456 204.923L145.192 205.024L144.925 205.126L144.658 205.228L144.39 205.33L144.121 205.432L143.851 205.536L143.579 205.639L143.307 205.744L143.033 205.848L142.758 205.954L142.482 206.059L142.205 206.164L141.926 206.271L141.647 206.378L141.367 206.484L141.084 206.592L140.802 206.7L140.518 206.809L140.232 206.918L139.945 207.027L139.658 207.137L139.369 207.247L139.079 207.358L138.787 207.47L138.495 207.581L138.201 207.693L137.906 207.805L137.61 207.918L137.313 208.032L137.015 208.146C136.814 208.221 136.614 208.298 136.414 208.375L136.112 208.491L135.81 208.607L135.505 208.723L135.199 208.839L134.892 208.956L134.584 209.074L134.275 209.193L133.964 209.311L133.653 209.43L133.339 209.549L133.025 209.669L132.71 209.79C105.744 220.086 93.1563 225.172 87.328 227.673C86.5578 228.003 85.7908 228.339 85.0269 228.683C85.0787 230.625 85.1874 232.669 85.3521 234.824C86.3341 247.639 89.2065 263.72 93.0729 284.842L169.829 195.617L169.713 195.661ZM26.5339 182.724C30.4521 188.969 34.8308 195.962 39.4871 203.422C52.5799 224.399 67.8855 249.099 81.3694 271.324C78.8783 257.243 77.0285 245.471 76.2666 235.519C76.0712 233.021 75.948 230.518 75.8972 228.013L26.5339 182.724ZM13.1516 122.326L13.3899 122.539L54.0014 158.734C59.2297 163.394 62.5465 163.646 64.6374 162.931C67.1656 162.066 70.1131 159.132 73.0472 152.999C78.8166 140.939 82.6009 120.653 84.9848 98.3734C85.1282 97.0307 85.2662 95.6875 85.399 94.3437L13.1516 122.326ZM97.8834 22.2175C97.8591 26.5054 97.8067 30.7931 97.7264 35.0804C97.4713 48.6687 96.8776 65.4554 95.5759 82.5021C95.7764 82.6206 95.9698 82.7537 96.1528 82.9051L162.137 137.422L97.8834 22.2175Z" fill="url(#markgrad)"/>
+<path id="Vector_2" d="M89.6875 1.78962C90.0501 1.31439 90.5028 0.915304 91.0197 0.615187C91.5367 0.315071 92.1077 0.119814 92.7002 0.0405864C93.2927 -0.0386414 93.895 -0.000286288 94.4727 0.153458C95.0503 0.307202 95.592 0.573319 96.0667 0.936587C97.0258 1.67093 97.6544 2.75588 97.8143 3.95323C97.9742 5.15058 97.6525 6.36246 96.9197 7.3228L8.16738 123.575C7.80479 124.05 7.35203 124.449 6.83502 124.75C6.318 125.05 5.74687 125.245 5.1543 125.324C4.56174 125.404 3.95936 125.365 3.38165 125.211C2.80393 125.058 2.26221 124.791 1.78747 124.428C0.82839 123.694 0.200005 122.608 0.0403267 121.411C-0.119352 120.214 0.202731 119.002 0.935839 118.042L89.6875 1.78962Z" fill="#8CE8AB"/>
+</g>
+<defs>
+<linearGradient id="markgrad" x1="93.7668" y1="-10.6255" x2="93.7668" y2="298.112" gradientUnits="userSpaceOnUse">
+<stop offset="0.1" stop-color="#8CE8AB"/>
+<stop offset="1" stop-color="#3F2ACD"/>
+</linearGradient>
+<clipPath id="markclip">
+<rect width="189.953" height="300" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+</div>
+  </div>
+  <div class="hero-mq"><p class="eb">[ Built with the EEZ Alliance ]</p><div class="mq" id="mq" aria-label="EEZ Alliance members"><div class="mq-track" id="mqt"><div class="mq-set"><span class="logo"><img src="assets/logos/gnosis.png?v=5" alt="Gnosis" style="height:29px"></span><span class="logo"><img src="assets/logos/aave.png?v=5" alt="Aave" style="height:21px"></span><span class="logo"><img src="assets/logos/consensys.png?v=5" alt="Consensys" style="height:30px"></span><span class="logo"><img src="assets/logos/flashbots.png?v=5" alt="Flashbots" style="height:28px"></span><span class="logo"><img src="assets/logos/ethereum-foundation.png?v=5" alt="Ethereum Foundation" style="height:41px"></span><span class="logo"><img src="assets/logos/safe.png?v=5" alt="Safe" style="height:28px"></span><span class="logo"><img src="assets/logos/centrifuge.png?v=5" alt="Centrifuge" style="height:29px"></span><span class="logo"><img src="assets/logos/nethermind.png?v=5" alt="Nethermind" style="height:19px"></span><span class="logo"><img src="assets/logos/cowswap.png?v=5" alt="CoW Swap" style="height:23px"></span><span class="logo"><img src="assets/logos/titan.png?v=5" alt="Titan" style="height:29px"></span><span class="logo"><img src="assets/logos/linea.png?v=5" alt="Linea" style="height:31px"></span><span class="logo"><img src="assets/logos/zisk.png?v=5" alt="ZisK" style="height:31px"></span><span class="logo"><img src="assets/logos/spark.png?v=5" alt="Spark" style="height:29px"></span><span class="logo"><img src="assets/logos/monerium.png?v=5" alt="Monerium" style="height:28px"></span><span class="logo"><img src="assets/logos/kyber.png?v=5" alt="Kyber Network" style="height:28px"></span><span class="logo"><img src="assets/logos/blockscout.png?v=5" alt="Blockscout" style="height:28px"></span><span class="logo"><img src="assets/logos/erigon.png?v=5" alt="Erigon" style="height:33px"></span><span class="logo"><img src="assets/logos/besu.png?v=5" alt="Besu" style="height:30px"></span><span class="logo" title="Beaver Build"><img src="assets/logos/beaverbuild.png?v=5" alt="" style="height:36px"><b>beaverbuild</b></span><span class="logo" title="Colibri"><img src="assets/logos/colibri.png?v=5" alt="" style="height:30px"><b>Colibri</b></span><span class="logo"><img src="assets/logos/xstocks.png?v=5" alt="xStocks" style="height:28px"></span><span class="logo"><img src="assets/logos/gnosis-chain.png?v=5" alt="Gnosis Chain" style="height:26px"></span><span class="logo"><img src="assets/logos/eureka.png?v=5" alt="Eureka Labs" style="height:30px"></span><span class="logo"><img src="assets/logos/ssv.png?v=5" alt="ssv.network" style="height:28px"></span><span class="logo"><img src="assets/logos/hydration.png?v=5" alt="Hydration" style="height:30px"></span><span class="logo"><img src="assets/logos/cometh.png?v=5" alt="Cometh" style="height:40px"></span><span class="logo"><img src="assets/logos/remix.png?v=5" alt="Remix" style="height:36px"></span><span class="logo"><img src="assets/logos/octant.png?v=5" alt="Octant" style="height:28px"></span><span class="logo"><img src="assets/logos/fileverse.png?v=5" alt="Fileverse" style="height:21px"></span><span class="logo"><img src="assets/logos/bermuda-bay.png?v=5" alt="Bermuda Bay" style="height:20px"></span></div><div class="mq-set" aria-hidden="true"><span class="logo"><img src="assets/logos/gnosis.png?v=5" alt="Gnosis" style="height:29px"></span><span class="logo"><img src="assets/logos/aave.png?v=5" alt="Aave" style="height:21px"></span><span class="logo"><img src="assets/logos/consensys.png?v=5" alt="Consensys" style="height:30px"></span><span class="logo"><img src="assets/logos/flashbots.png?v=5" alt="Flashbots" style="height:28px"></span><span class="logo"><img src="assets/logos/ethereum-foundation.png?v=5" alt="Ethereum Foundation" style="height:41px"></span><span class="logo"><img src="assets/logos/safe.png?v=5" alt="Safe" style="height:28px"></span><span class="logo"><img src="assets/logos/centrifuge.png?v=5" alt="Centrifuge" style="height:29px"></span><span class="logo"><img src="assets/logos/nethermind.png?v=5" alt="Nethermind" style="height:19px"></span><span class="logo"><img src="assets/logos/cowswap.png?v=5" alt="CoW Swap" style="height:23px"></span><span class="logo"><img src="assets/logos/titan.png?v=5" alt="Titan" style="height:29px"></span><span class="logo"><img src="assets/logos/linea.png?v=5" alt="Linea" style="height:31px"></span><span class="logo"><img src="assets/logos/zisk.png?v=5" alt="ZisK" style="height:31px"></span><span class="logo"><img src="assets/logos/spark.png?v=5" alt="Spark" style="height:29px"></span><span class="logo"><img src="assets/logos/monerium.png?v=5" alt="Monerium" style="height:28px"></span><span class="logo"><img src="assets/logos/kyber.png?v=5" alt="Kyber Network" style="height:28px"></span><span class="logo"><img src="assets/logos/blockscout.png?v=5" alt="Blockscout" style="height:28px"></span><span class="logo"><img src="assets/logos/erigon.png?v=5" alt="Erigon" style="height:33px"></span><span class="logo"><img src="assets/logos/besu.png?v=5" alt="Besu" style="height:30px"></span><span class="logo" title="Beaver Build"><img src="assets/logos/beaverbuild.png?v=5" alt="" style="height:36px"><b>beaverbuild</b></span><span class="logo" title="Colibri"><img src="assets/logos/colibri.png?v=5" alt="" style="height:30px"><b>Colibri</b></span><span class="logo"><img src="assets/logos/xstocks.png?v=5" alt="xStocks" style="height:28px"></span><span class="logo"><img src="assets/logos/gnosis-chain.png?v=5" alt="Gnosis Chain" style="height:26px"></span><span class="logo"><img src="assets/logos/eureka.png?v=5" alt="Eureka Labs" style="height:30px"></span><span class="logo"><img src="assets/logos/ssv.png?v=5" alt="ssv.network" style="height:28px"></span><span class="logo"><img src="assets/logos/hydration.png?v=5" alt="Hydration" style="height:30px"></span><span class="logo"><img src="assets/logos/cometh.png?v=5" alt="Cometh" style="height:40px"></span><span class="logo"><img src="assets/logos/remix.png?v=5" alt="Remix" style="height:36px"></span><span class="logo"><img src="assets/logos/octant.png?v=5" alt="Octant" style="height:28px"></span><span class="logo"><img src="assets/logos/fileverse.png?v=5" alt="Fileverse" style="height:21px"></span><span class="logo"><img src="assets/logos/bermuda-bay.png?v=5" alt="Bermuda Bay" style="height:20px"></span></div></div></div></div>
+</section>
+
+<section class="sec" id="how">
+  <p class="eb">[ Synchronous composability ]</p>
+  <h2><b>Ethereum,</b> one call away.</h2>
+  <p class="lede">Synchronous composability: a zone can call Ethereum and use the answer in the same transaction. Ethereum's liquidity, at a zone's speed and cost.</p>
+  <div class="zone zv"><p class="eb g">[ One transaction ]</p><div class="vcard" tabindex="0"><video muted loop playsinline preload="auto" poster="assets/media/d39-one-transaction.jpg?v=3" aria-label="Smart contract A on an L2 calls smart contract B on L1; the return comes back and both settle in one transaction."><source src="assets/media/d39-one-transaction.mp4?v=3" type="video/mp4"><source src="assets/media/d39-one-transaction.webm?v=3" type="video/webm"></video></div><p class="cap"><span class="hv">Hover to play</span><span class="tp">Tap to play</span></p></div>
+  <div class="build" id="use-cases"><h2><b>What</b> you can build.</h2>
+  <main class="ring" id="ring" aria-roledescription="carousel" aria-label="Use cases">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+    <linearGradient id="rail-d" gradientUnits="userSpaceOnUse" x1="-150" y1="0" x2="150" y2="0"><stop offset="0" stop-color="#8AE5AC"/><stop offset=".55" stop-color="#6283BD"/><stop offset="1" stop-color="#4439CB"/></linearGradient>
+    <linearGradient id="rail-l" gradientUnits="userSpaceOnUse" x1="-150" y1="0" x2="150" y2="0"><stop offset="0" stop-color="#1E8A49"/><stop offset=".55" stop-color="#3B5A9A"/><stop offset="1" stop-color="#2E25A8"/></linearGradient>
+  </defs></svg>
+  <figure>
+    <article class="card" id="uc2" data-demo="https://rollupx.eez.dev/dashboard/#/cow-demo" data-demo-label="Try the swap demo" tabindex="0" aria-label="Swap on Ethereum liquidity. Touch the order, or press Enter, and the pool on Ethereum fills it.">
+      <header class="head">
+        <h2>Swap on Ethereum liquidity</h2>
+        <span class="idx">01</span>
+      </header>
+      <div class="stage">
+        <i class="crop tl"></i><i class="crop tr"></i><i class="crop bl"></i><i class="crop br"></i>
+        <svg id="art2" viewBox="-160 -175 320 300" role="img" aria-label="A deep pool on Ethereum at the back and an order on your L2 in front. Touching the order fills it from the Ethereum pool in one transaction."></svg>
+      </div>
+      <footer class="foot" aria-live="polite">
+        <span><small>Order filled</small><b id="l2depth">0</b></span>
+        <span class="blk"><small>Settles in</small><b>1 Ethereum block</b></span>
+      </footer>
+    </article>
+    <figcaption class="cap">
+      <p>Trade from your L2 against Ethereum's liquidity, in one transaction. No bridge, no wrapped assets.</p>
+      <span class="hint">Touch the order</span>
+    </figcaption>
+  </figure>
+  <figure>
+    <article class="card" id="uc7" data-demo="https://rollupx.eez.dev/dashboard/#/counter-demo" data-demo-label="Try a cross-chain call" tabindex="0" aria-label="Public and private chains. Point at the card and a public rollup, a private chain and a bank zone each call Ethereum and settle in the same block.">
+      <header class="head">
+        <h2>Public and private chains</h2>
+        <span class="idx">02</span>
+      </header>
+      <div class="stage">
+        <i class="crop tl"></i><i class="crop tr"></i><i class="crop bl"></i><i class="crop br"></i>
+        <svg id="art7" viewBox="-160 -118 320 290" role="img" aria-label="Ethereum at the centre, with a public rollup, a walled private chain and a walled bank zone around it. Each sends a call to Ethereum, the answers come back, and all four settle together."></svg>
+      </div>
+      <footer class="foot" aria-live="polite">
+        <span><small>Settled</small><b id="l7done">0 of 4</b></span>
+        <span class="blk"><small>Each chain</small><b>Its own rules</b></span>
+      </footer>
+    </article>
+    <figcaption class="cap">
+      <p>Public rollups, private chains and bank zones keep their own rules, and settle with Ethereum in the same block.</p>
+    </figcaption>
+  </figure>
+  <figure>
+    <article class="card" id="uc5" data-demo="https://rollupx.eez.dev/dashboard/#/treasury-demo" data-demo-label="Try the Safe demo" tabindex="0" aria-label="One account, every chain. Point at the card to rotate a signer on every copy of a Safe at once.">
+      <header class="head">
+        <h2>One account, every chain</h2>
+        <span class="idx">03</span>
+      </header>
+      <div class="stage">
+        <i class="crop tl"></i><i class="crop tr"></i><i class="crop bl"></i><i class="crop br"></i>
+        <svg id="art5" viewBox="-160 -168 320 300" role="img" aria-label="A lead Safe on the left, with a 2 of 3 threshold, fans out to copies on three L2s on the right. One signer change updates all three at the same moment."></svg>
+      </div>
+      <footer class="foot" aria-live="polite">
+        <span><small>Safes updated</small><b id="l5done">0 of 3</b></span>
+        <span class="blk"><small>Transactions</small><b>1</b></span>
+      </footer>
+    </article>
+    <figcaption class="cap">
+      <p>Change a signer once, and your Safe updates on every chain in the same block.</p>
+    </figcaption>
+  </figure>
+  <figure>
+    <article class="card" id="uc8" data-demo="https://rollupx.eez.dev/dashboard/#/falcon-demo" data-demo-label="Try the post-quantum demo" tabindex="0" aria-label="Post-quantum keys. Point at the card to sign on a post-quantum rollup and update a Safe on Ethereum.">
+      <header class="head">
+        <h2>Post-quantum keys</h2>
+        <span class="idx">04</span>
+      </header>
+      <div class="stage">
+        <i class="crop tl"></i><i class="crop tr"></i><i class="crop bl"></i><i class="crop br"></i>
+        <svg id="art8" viewBox="-150 -140 300 270" role="img" aria-label="A post-quantum rollup beside Ethereum. A post-quantum signature travels across, and the Safe on Ethereum updates in the same block."></svg>
+      </div>
+      <footer class="foot" aria-live="polite">
+        <span><small>Safe on Ethereum</small><b id="l8done">Waiting</b></span>
+        <span class="blk"><small>Signature</small><b>Post-quantum</b></span>
+      </footer>
+    </article>
+    <figcaption class="cap">
+      <p>Sign with a post-quantum key on a rollup and control a Safe on Ethereum, in the same block.</p>
+    </figcaption>
+  </figure>
+  <figure>
+    <article class="card" id="uc9" data-demo="https://build.eez.io/" data-demo-label="Read the walkthroughs" tabindex="0" aria-label="Read Ethereum, no oracle. Point at the card and two chains read the same price from Ethereum in the same block.">
+      <header class="head">
+        <h2>Read Ethereum, no oracle</h2>
+        <span class="idx">05</span>
+      </header>
+      <div class="stage">
+        <i class="crop tl"></i><i class="crop tr"></i><i class="crop bl"></i><i class="crop br"></i>
+        <svg id="art9" viewBox="-150 -140 300 270" role="img" aria-label="Ethereum on the left holds a price. Two chains on the right read it at the same moment, from the same Ethereum block."></svg>
+      </div>
+      <footer class="foot" aria-live="polite">
+        <span><small>Price read</small><b id="l9done">—</b></span>
+        <span class="blk"><small>Oracle needed</small><b>None</b></span>
+      </footer>
+    </article>
+    <figcaption class="cap">
+      <p>Read a mainnet price, name or registry inside your own transaction. No oracle, no heartbeat.</p>
+    </figcaption>
+  </figure>
+  <div class="detail" id="detail" role="dialog" aria-modal="false" aria-labelledby="dt-h">
+    <button class="x" id="dt-x" aria-label="Close">×</button>
+    <div class="txt"><small id="dt-k"></small><h3 id="dt-h"></h3><p class="body" id="dt-b"></p><a class="go" id="dt-go" href="https://eez.dev/" target="_blank" rel="noopener">Try it on the devnet<i aria-hidden="true">→</i></a></div>
+  </div>
+</main>
+<p class="ringcap" id="ringcap" aria-live="polite"></p>
+<nav class="ringnav" aria-label="Use case carousel">
+  <button id="rp" aria-label="Previous use case">←</button><span class="dots" id="rdots"></span><button id="rn" aria-label="Next use case">→</button>
+</nav>
+  </div>
+  <div class="cta-row"><a class="pill" href="https://eez.dev/"><span>Try on the testnet</span><i aria-hidden="true">→</i></a></div>
+<a class="more" href="/use-cases/all">All use cases →</a>
+</section>
+
+<section class="sec" id="build">
+  <p class="eb">[ Build on EEZ ]</p>
+  <h2><b>Start</b> where you are.</h2>
+  <div class="auds auds4">
+  <div class="aud"><img src="/_shell/inst.svg?v=1" alt="" class="iso"><h3>Institutions</h3><p>Read and call mainnet contracts from your own chain, in the same transaction.</p><a class="pill" href="/use-cases/institutions"><span>For institutions</span><i aria-hidden="true">→</i></a></div>
+  <div class="aud"><img src="assets/ops.svg?v=3" alt="" class="iso"><h3>Chains</h3><p>Keep your own rules, provers and proof threshold, and call Ethereum without a bridge.</p><a class="pill" href="/use-cases/chains"><span>For rollup teams</span><i aria-hidden="true">→</i></a></div>
+  <div class="aud"><img src="assets/app.svg?v=3" alt="" class="iso"><h3>Apps</h3><p>Use Ethereum's liquidity from a cheap, fast zone without a bridge.</p><a class="pill" href="/use-cases/apps"><span>For app developers</span><i aria-hidden="true">→</i></a></div>
+  <div class="aud"><img src="assets/infra.svg?v=3" alt="" class="iso"><h3>Infra</h3><p>Run a follower node, a prover or a block builder, or add EEZ chains to your wallet.</p><a class="pill" href="/use-cases/infra"><span>For infra &amp; wallets</span><i aria-hidden="true">→</i></a></div>
+</div>
+<style>.auds.auds4{grid-template-columns:repeat(4,minmax(0,1fr))}@media (max-width:980px){.auds.auds4{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:600px){.auds.auds4{grid-template-columns:1fr}}</style>
+</section>
+
+<section class="sec" id="alliance">
+  <p class="eb">[ The Alliance ]</p>
+  <h2><b>The teams</b> building on the commons.</h2>
+  <div class="tier"><div class="tierhd"><h3>Adoption partners</h3><p>Projects committed to using EEZ for synchronous composability.</p></div><div class="emap"><div class="row"><div class="grp" style="--n:4"><p class="eb">[ DeFi ]</p><ul><li class="tile"><img src="assets/logos/aave.png?v=5" alt="Aave" style="--w:95px"></li><li class="tile"><img src="assets/logos/spark.png?v=5" alt="Spark" style="--w:74px"></li><li class="tile"><img src="assets/logos/cowswap.png?v=5" alt="CoW Swap" style="--w:99px"></li><li class="tile"><img src="assets/logos/kyber.png?v=5" alt="Kyber Network" style="--w:91px"></li></ul></div><div class="grp" style="--n:4"><p class="eb">[ Assets and payments ]</p><ul><li class="tile"><img src="assets/logos/centrifuge.png?v=5" alt="Centrifuge" style="--w:71px"></li><li class="tile"><img src="assets/logos/xstocks.png?v=5" alt="xStocks" style="--w:77px"></li><li class="tile"><img src="assets/logos/monerium.png?v=5" alt="Monerium" style="--w:84px"></li><li class="tile"><img src="assets/logos/bermuda-bay.png?v=5" alt="Bermuda Bay" style="--w:103px"></li></ul></div><div class="grp one" style="--n:1"><p class="eb">[ Staking ]</p><ul><li class="tile"><img src="assets/logos/ssv.png?v=5" alt="ssv.network" style="--w:87px"></li></ul></div></div>
+<div class="row"><div class="grp" style="--n:3"><p class="eb">[ Chains ]</p><ul><li class="tile"><img src="assets/logos/linea.png?v=5" alt="Linea" style="--w:74px"></li><li class="tile"><img src="assets/logos/gnosis-chain.png?v=5" alt="Gnosis Chain" style="--w:101px"></li><li class="tile"><img src="assets/logos/hydration.png?v=5" alt="Hydration" style="--w:87px"></li></ul></div><div class="grp one" style="--n:2"><p class="eb">[ Interoperability ]</p><ul><li class="tile"><img src="assets/logos/consensys.png?v=5" alt="Consensys" style="--w:84px"></li></ul></div><div class="grp one" style="--n:2"><p class="eb">[ Public goods ]</p><ul><li class="tile"><img src="assets/logos/octant.png?v=5" alt="Octant" style="--w:75px"></li></ul></div><div class="grp one" style="--n:2"><p class="eb">[ Non-financial ]</p><ul><li class="tile"><img src="assets/logos/fileverse.png?v=5" alt="Fileverse" style="--w:110px"></li></ul></div></div>
+<div class="row"><div class="grp join" style="--n:4"><a class="mbtn" href="/get-in-touch?intent=alliance"><span class="c" aria-hidden="true"></span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span class="t">Join the Alliance</span></a></div></div></div></div>
+<div class="tier"><div class="tierhd"><h3>Infrastructure partners</h3><p>Teams that build and run the Ethereum Economic Zone.</p></div><div class="emap"><div class="row"><div class="grp" style="--n:3"><p class="eb">[ Co-initiators ]</p><ul><li class="tile"><img src="assets/logos/gnosis.png?v=5" alt="Gnosis" style="--w:76px"></li><li class="tile"><img src="assets/logos/zisk.png?v=5" alt="ZisK" style="--w:59px"></li><li class="tile"><img src="assets/logos/ethereum-foundation.png?v=5" alt="Ethereum Foundation" style="--w:82px"></li></ul></div><div class="grp" style="--n:4"><p class="eb">[ Clients ]</p><ul><li class="tile"><img src="assets/logos/nethermind.png?v=5" alt="Nethermind" style="--w:108px"></li><li class="tile"><img src="assets/logos/erigon.png?v=5" alt="Erigon" style="--w:83px"></li><li class="tile"><img src="assets/logos/besu.png?v=5" alt="Besu" style="--w:58px"></li><li class="tile" title="Colibri"><img src="assets/logos/colibri.png?v=5" alt="" class="ic"><span>Colibri</span></li></ul></div></div>
+<div class="row"><div class="grp" style="--n:4"><p class="eb">[ Block builders ]</p><ul><li class="tile"><img src="assets/logos/flashbots.png?v=5" alt="Flashbots" style="--w:78px"></li><li class="tile"><img src="assets/logos/titan.png?v=5" alt="Titan" style="--w:65px"></li><li class="tile" title="Beaver Build"><img src="assets/logos/beaverbuild.png?v=5" alt="" class="ic"><span>beaverbuild</span></li><li class="tile"><img src="assets/logos/eureka.png?v=5" alt="Eureka Labs" style="--w:80px"></li></ul></div><div class="grp" style="--n:2"><p class="eb">[ Tools ]</p><ul><li class="tile"><img src="assets/logos/blockscout.png?v=5" alt="Blockscout" style="--w:88px"></li><li class="tile"><img src="assets/logos/remix.png?v=5" alt="Remix" style="--w:72px"></li></ul></div><div class="grp" style="--n:2"><p class="eb">[ Wallets and accounts ]</p><ul><li class="tile"><img src="assets/logos/safe.png?v=5" alt="Safe" style="--w:72px"></li><li class="tile"><img src="assets/logos/cometh.png?v=5" alt="Cometh" style="--w:64px"></li></ul></div></div></div></div>
+</section>
+
+<section class="sec" id="progress">
+  <p class="eb">[ Progress ]</p>
+  <h2><b>Where</b> EEZ stands.</h2>
+  <div class="phases"><div class="phase"><span class="phb on">Live</span><b>Ethereum Testnet</b><p>Zones call Ethereum and each other, live on the devnet.</p></div><div class="phase"><i class=rail></i><span class="phb on">In progress</span><b>Security audit</b><p>Independent review of the core protocol.</p></div><div class="phase"><span class="phb">Planned</span><b>ZK proofs and real&#8209;time proving</b><p>Zones are proven with ZK proofs, generated in real time.</p></div><div class="phase"><span class="phb">Planned</span><b>First general&#8209;purpose EEZ instance</b><p>Gnosis Chain launches as the first EEZ instance.</p></div><div class="phase"><span class="phb">Horizon</span><b>Many zones on Ethereum</b><p>Many zones composing with Ethereum.</p></div></div>
+</section>
+
+<section class="sec" id="news">
+  <p class="eb">[ News and media ]</p>
+  <h2><b>Hear it</b> from the team.</h2>
+  <div class="vids"><a class="vid" href="https://www.youtube.com/watch?v=uvY3yww_1oY" target="_blank" rel="noopener">
+  <span class="th"><img src="assets/media/uvY3yww_1oY.jpg" alt=""><i class="play" aria-hidden="true"></i><em>49:17</em></span>
+  <small>Talk · Devcon  ·  Nov 2026</small><b>One Ethereum: Same Block, Every Chain. Friederike Ernst</b></a><a class="vid" href="https://www.youtube.com/watch?v=Mdneqyvvk7g" target="_blank" rel="noopener">
+  <span class="th"><img src="assets/media/Mdneqyvvk7g.jpg" alt=""><i class="play" aria-hidden="true"></i><em>27:01</em></span>
+  <small>Talk · Devcon  ·  Nov 2026</small><b>EEZ: Building Synchronous Ethereum with Real-Time ZK Proofs. Jordi Baylina</b></a><a class="vid" href="https://www.youtube.com/watch?v=CK1FwcWdqMI" target="_blank" rel="noopener">
+  <span class="th"><img src="assets/media/CK1FwcWdqMI.jpg" alt=""><i class="play" aria-hidden="true"></i><em>1:12:10</em></span>
+  <small>Podcast · Epicenter  ·  Jul 2026</small><b>Vitalik Buterin on the Ethereum Economic Zone</b></a><a class="vid" href="https://www.youtube.com/watch?v=gfG-R8AOu0E" target="_blank" rel="noopener">
+  <span class="th"><img src="assets/media/gfG-R8AOu0E.jpg" alt=""><i class="play" aria-hidden="true"></i><em>15:57</em></span>
+  <small>Talk · Dappcon  ·  Jun 2026</small><b>Vitalik Buterin and Friederike Ernst on the Ethereum Economic Zone</b></a></div>
+  <a class="more" href="https://www.youtube.com/results?search_query=ethereum+economic+zone" target="_blank" rel="noopener">All talks →</a>
+  <p class="eb latest">[ Latest ]</p>
+  <div class="posts"><a class="post" href="https://eez.io/blog" target="_blank" rel="noopener"><img src="assets/media/post-sep.jpg" alt=""><small>[Date]</small><b>Monthly update · September 2026</b></a><a class="post" href="https://eez.io/blog/monthly-update-august-2026" target="_blank" rel="noopener"><img src="assets/media/post-aug.jpg" alt=""><small>Aug 20, 2026</small><b>Monthly update · August 2026</b></a><a class="post" href="https://eez.io/blog/introducing-the-eez" target="_blank" rel="noopener"><img src="assets/media/post-intro.jpg" alt=""><small>Mar 29, 2026</small><b>Introducing the Ethereum Economic Zone</b></a></div>
+</section>
+
+<footer class="ef">
+  <div class="ef-in">
+    <div class="ef-brand">
+      <a class="eh-logo" href="/" aria-label="EEZ home"><img src="/_shell/logo.svg" alt="Ethereum Economic Zone" width="80" height="36"></a>
+      <p>EEZ activates Ethereum as an economic operating system for composable zones.</p>
+    </div>
+    <div class="ef-cols">
+      <div><p>[ Use cases ]</p>
+        <a href="/use-cases/institutions">Institutions</a>
+        <a href="/use-cases/chains">Chains</a>
+        <a href="/use-cases/apps">Apps</a>
+        <a href="/use-cases/infra">Infra</a>
+        <a href="/use-cases/all">All use cases</a>
+      </div>
+      <div><p>[ Developers ]</p>
+        <a href="https://docs.eez.io" target="_blank" rel="noopener">Docs&nbsp;↗</a>
+        <a href="https://build.eez.io" target="_blank" rel="noopener">Quickstarts&nbsp;↗</a>
+        <a href="https://eez.dev/dashboard/" target="_blank" rel="noopener">Dashboard&nbsp;↗</a>
+        <a href="https://github.com/eez-association" target="_blank" rel="noopener">GitHub&nbsp;↗</a>
+        <a href="https://github.com/eez-association/eez-demos/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contribute a walkthrough&nbsp;↗</a>
+      </div>
+      <div><p>[ News ]</p>
+        <a href="https://eez.io/blog">News</a>
+        <a href="/#news">Press and talks</a>
+        <a href="#">Brand and logo</a>
+      </div>
+      <div><p>[ Follow ]</p>
+        <a href="https://x.com/etheconomiczone" target="_blank" rel="noopener">X&nbsp;↗</a>
+        <a href="https://github.com/eez-association" target="_blank" rel="noopener">GitHub&nbsp;↗</a>
+      </div>
+    </div>
+  </div>
+  <div class="ef-legal">© 2026 Ethereum Economic Zone.</div>
+</footer>
+
+<script>
+// UC2 · Swap on Ethereum liquidity. An order on your L2 fills from the pool on Ethereum.
+// Pointing picks the chain that trades; every chain shows the same price.
+(() => {
+  const NS = "http://www.w3.org/2000/svg";
+  const C = Math.cos(Math.PI / 6), S = 0.5;
+  const P = (x, y, z) => [(x - y) * C, (x + y) * S - z];
+  const pts = a => a.map(p => p.map(n => n.toFixed(2)).join(",")).join(" ");
+  const el = (tag, attrs, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    parent.appendChild(n);
+    return n;
+  };
+  const hex = (cx, cy, z, r) =>
+    Array.from({ length: 6 }, (_, k) => {
+      const a = (Math.PI / 3) * k + Math.PI / 6;
+      return P(cx + r * Math.cos(a), cy + r * Math.sin(a), z);
+    });
+  const sides = (cx, cy, z0, z1, r) => {
+    const out = [];
+    for (let k = 0; k < 6; k++) {
+      const a0 = (Math.PI / 3) * k + Math.PI / 6, a1 = a0 + Math.PI / 3, am = (a0 + a1) / 2;
+      if (Math.cos(am) + Math.sin(am) <= 0.01) continue;
+      const c0 = [cx + r * Math.cos(a0), cy + r * Math.sin(a0)], c1 = [cx + r * Math.cos(a1), cy + r * Math.sin(a1)];
+      out.push({ shade: Math.cos(am) > Math.sin(am) ? "a" : "b",
+        poly: [P(c0[0], c0[1], z0), P(c1[0], c1[1], z0), P(c1[0], c1[1], z1), P(c0[0], c0[1], z1)] });
+    }
+    return out;
+  };
+
+  const art = document.getElementById("art2");
+  const pool = { x: -10, y: 70, r: 34, h: 22 };
+  const CH = 56, CR = 44;                         // the Ethereum pool
+  const chains = [
+    { name: "Ethereum", short: "Ethereum pool", x: -5, y: -45 },
+  ];
+
+  const plate = [P(-95, -95, 0), P(65, -95, 0), P(65, 65, 0), P(-95, 65, 0)];
+  // no ground plate
+
+  // a liquid level drawn as a green prism inside a glass outline
+  const fill = (into, x, y, r, z) => {
+    into.textContent = "";
+    if (z <= 0.3) return;
+    sides(x, y, 0, z, r).forEach(s => el("polygon", { points: pts(s.poly), class: s.shade === "a" ? "g-a" : "g-b" }, into));
+    el("polygon", { points: pts(hex(x, y, z, r)), class: "g-top" }, into);
+  };
+
+  // spokes: chain to pool. The green runs travel the same way, all three at once
+  const poolTop = P(pool.x, pool.y, pool.h);
+  chains.forEach(c => {
+    const t = P(c.x, c.y, 0);
+    c.flow = el("line", { x1: t[0], y1: t[1], x2: poolTop[0], y2: poolTop[1], class: "flow", pathLength: 1 }, art);
+    el("line", { x1: t[0], y1: t[1], x2: poolTop[0], y2: poolTop[1], class: "spoke" }, art);   // rail above the run so its march shows
+  });
+
+  // chains: glass prisms holding liquidity, full at rest
+  chains.forEach(c => {
+    const g = el("g", {}, art);
+    el("polygon", { points: pts(hex(c.x, c.y, 0, CR)), class: "face" }, g);
+    c.liquid = el("g", {}, g);
+    sides(c.x, c.y, 0, CH, CR).forEach(s => el("polygon", { points: pts(s.poly), class: "ln" }, g));
+    el("polygon", { points: pts(hex(c.x, c.y, CH, CR)), class: "ln" }, g);
+    const np = P(c.x, c.y, CH + CR * 0.9 + 8);   // clear of the top rim
+    el("text", { x: np[0], y: np[1], "text-anchor": "middle", class: "lbl-ink" }, g).textContent = c.short;
+  });
+
+  // the pool: an empty glass basin in front, and the touch target
+  const pg = el("g", { class: "hit" }, art);
+  el("polygon", { points: pts(hex(pool.x, pool.y, 0, pool.r)), class: "face", "pointer-events": "all" }, pg);
+  const poolLiquid = el("g", {}, pg);
+  sides(pool.x, pool.y, 0, pool.h, pool.r).forEach(s => el("polygon", { points: pts(s.poly), class: "ln", "pointer-events": "all" }, pg));
+  el("polygon", { points: pts(hex(pool.x, pool.y, pool.h, pool.r)), class: "ln", "pointer-events": "all" }, pg);
+  { const lp = P(pool.x, pool.y, 0); el("text", { x: lp[0], y: lp[1] + pool.r + 14, "text-anchor": "middle", class: "lbl-dim" }, art).textContent = "Your L2 order"; }
+
+  const card = document.getElementById("uc2");
+  const depth = document.getElementById("l2depth");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let t = 0, target = 0, raf = 0, last = 0;
+  // t is one shared value: the runs, the three drains and the pool fill all read it
+  const paint = () => {
+    const run = Math.min(1, t / 0.35), level = Math.max(0, (t - 0.2) / 0.8);
+    chains.forEach(c => {
+      c.flow.style.strokeDashoffset = (1 - run).toFixed(3);
+      c.flow.style.opacity = t > 0.001 ? 1 : 0;
+      fill(c.liquid, c.x, c.y, CR, CH * (1 - 0.45 * level));   // deep pool: only part of it moves
+    });
+    fill(poolLiquid, pool.x, pool.y, pool.r, pool.h * level);
+    depth.textContent = (Math.round(level * 500) * 10).toLocaleString("en-US");
+  };
+  const step = now => {
+    const dt = Math.min(48, now - (last || now)); last = now;
+    const d = Math.sign(target - t);
+    t += d * dt / 900;                               // ~0.9s each way
+    if (reduce || (d > 0 ? t >= target : t <= target)) t = target;
+    paint();
+    raf = t === target ? 0 : requestAnimationFrame(step);
+    if (!raf) last = 0;
+  };
+  const go = v => { target = v ? 1 : 0; if (!raf) raf = requestAnimationFrame(step); };
+
+  // pool: hover with a mouse, tap on touch, Enter or Space from the keyboard
+  pg.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") go(true); });
+  pg.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") go(false); });
+
+  const tilt = e => {
+    if (reduce) return;
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+    card.style.setProperty("--ry", ((px - 0.5) * 7).toFixed(2) + "deg");
+    card.style.setProperty("--rx", ((0.5 - py) * 5).toFixed(2) + "deg");
+  };
+  const on = () => card.classList.add("on");
+  const off = () => { card.classList.remove("on"); card.style.setProperty("--rx", "0deg"); card.style.setProperty("--ry", "0deg"); go(false); };
+  card.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") on(); });
+  card.addEventListener("pointermove", e => { if (e.pointerType === "mouse" && card.classList.contains("on")) tilt(e); });
+  card.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") off(); });
+  card.addEventListener("focus", on);
+  card.addEventListener("blur", off);
+  card.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") { go(target === 0); e.preventDefault(); }
+  });
+
+  paint();
+})();
+
+// UC5 · Smart accounts. One Safe, deployed on three chains. Rotate a signer on
+// the lead Safe once and every copy updates in the same transaction.
+(() => {
+  const NS = "http://www.w3.org/2000/svg";
+  const C = Math.cos(Math.PI / 6), S = 0.5;
+  const P = (x, y, z) => [(x - y) * C, (x + y) * S - z];
+  const pts = a => a.map(p => p.map(n => n.toFixed(2)).join(",")).join(" ");
+  const el = (tag, attrs, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    parent.appendChild(n);
+    return n;
+  };
+  const hex = (cx, cy, z, r) =>
+    Array.from({ length: 6 }, (_, k) => {
+      const a = (Math.PI / 3) * k + Math.PI / 6;
+      return P(cx + r * Math.cos(a), cy + r * Math.sin(a), z);
+    });
+  const sides = (cx, cy, z0, z1, r) => {
+    const out = [];
+    for (let k = 0; k < 6; k++) {
+      const a0 = (Math.PI / 3) * k + Math.PI / 6, a1 = a0 + Math.PI / 3, am = (a0 + a1) / 2;
+      if (Math.cos(am) + Math.sin(am) <= 0.01) continue;
+      const c0 = [cx + r * Math.cos(a0), cy + r * Math.sin(a0)], c1 = [cx + r * Math.cos(a1), cy + r * Math.sin(a1)];
+      out.push({ shade: Math.cos(am) > Math.sin(am) ? "a" : "b",
+        poly: [P(c0[0], c0[1], z0), P(c1[0], c1[1], z0), P(c1[0], c1[1], z1), P(c0[0], c0[1], z1)] });
+    }
+    return out;
+  };
+
+  // a vault: hex prism with a lock on top; a green copy over it fades in as it updates
+  const vault = (parent, x, y, r, h) => {
+    const g = el("g", {}, parent);
+    sides(x, y, 0, h, r).forEach(s => el("polygon", { points: pts(s.poly), class: "face" }, g));
+    el("polygon", { points: pts(hex(x, y, h, r)), class: "face" }, g);
+    const green = el("g", { opacity: 0 }, g);
+    sides(x, y, 0, h, r).forEach(s => el("polygon", { points: pts(s.poly), class: s.shade === "a" ? "g-a" : "g-b" }, green));
+    el("polygon", { points: pts(hex(x, y, h, r)), class: "g-top" }, green);
+    const [cx, cy] = P(x, y, h);
+    const k = r / 16;
+    el("path", { d: `M ${cx - 3.2 * k} ${cy - 1 * k} v ${-2.6 * k} a ${3.2 * k} ${3.2 * k} 0 0 1 ${6.4 * k} 0 v ${2.6 * k}`, class: "ln" }, g);
+    el("rect", { x: cx - 4.8 * k, y: cy - 1 * k, width: 9.6 * k, height: 7 * k, rx: 1.2 * k, class: "lock" }, g);
+    const badge = el("g", { opacity: 0 }, g);
+    const [bx, by] = P(x, y, h + r * 0.95);
+    el("circle", { cx: bx + r * 0.9, cy: by, r: 5.5, class: "seal" }, badge);
+    el("polyline", { points: `${bx + r * 0.9 - 2.6},${by} ${bx + r * 0.9 - 0.6},${by + 2} ${bx + r * 0.9 + 2.8},${by - 2}`, class: "tick" }, badge);
+    return {
+      set(v) {                                         // v runs 0..1
+        green.setAttribute("opacity", v.toFixed(3));
+        badge.setAttribute("opacity", Math.max(0, v * 2 - 1).toFixed(3));
+      },
+    };
+  };
+
+  const art = document.getElementById("art5");
+  const lead = { x: -55, y: 55, r: 30, h: 30 };   // lead on the left
+  const VR = 24, VH = 22, GAP = 55;               // node r24
+  const copies = [-1, 0, 1].map(i => ({ x: 40 + i * GAP, y: -40.8 + i * GAP, name: "L2 " + "ABC"[i + 1] }));   // a column on the right   // L2 A / B / C, as on UC2
+
+  // fan: lead base to each copy, drawn in on the same clock
+  const from = P(lead.x, lead.y, 0);
+  copies.forEach(c => {
+    const to = P(c.x, c.y, VH);
+    c.flow = el("line", { x1: from[0], y1: from[1], x2: to[0], y2: to[1], class: "flow thin", pathLength: 1 }, art);
+    el("line", { x1: from[0], y1: from[1], x2: to[0], y2: to[1], class: "spoke" }, art);   // rail above the run so its march shows
+    c.from = from; c.to = to;
+  });
+
+  const leadV = vault(art, lead.x, lead.y, lead.r, lead.h);
+  const [lx, ly] = P(lead.x, lead.y, lead.h + 30);
+  el("text", { x: lx, y: ly, "text-anchor": "middle", class: "lbl-ink" }, art).textContent = "One Safe · 2 of 3";
+
+  // "rotate signer" tag beside the lead
+  const [tx, ty0] = P(lead.x, lead.y, 0), ty = ty0 + lead.r + 22;   // under the lead
+  const tag = el("g", { class: "tag" }, art);
+  el("rect", { x: tx - 41, y: ty - 9, width: 82, height: 18, rx: 9, class: "tag-pill" }, tag);
+  el("text", { x: tx, y: ty + 3.5, "text-anchor": "middle", class: "tag-text" }, tag).textContent = "rotate signer";
+
+  copies.forEach(c => {
+    c.v = vault(art, c.x, c.y, VR, VH);
+    const [nx, ny] = P(c.x, c.y, 0);
+    el("text", { x: nx + 37, y: ny - VH / 2 + 4, "text-anchor": "start", class: "lbl-dim" }, art).textContent = c.name;
+  });
+
+  // a small signer token rides each line to its copy
+  copies.forEach(c => {
+    c.chip = el("g", { opacity: 0 }, art);
+    el("rect", { x: -8, y: -6, width: 16, height: 12, rx: 2.5, class: "lock" }, c.chip);
+    el("circle", { cx: -2, cy: 0, r: 2.2, class: "ln" }, c.chip);
+    el("line", { x1: 0.2, y1: 0, x2: 5, y2: 0, class: "ln" }, c.chip);
+  });
+
+  const card = document.getElementById("uc5");
+  const done = document.getElementById("l5done");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let t = 0, target = 0, raf = 0, last = 0;
+  const paint = () => {
+    const ease = v => (v = Math.min(1, Math.max(0, v)), v < 0.5 ? 2 * v * v : 1 - Math.pow(-2 * v + 2, 2) / 2);
+    // one continuous run with overlapping beats: tag slides in, the lead fills,
+    // tokens ride the lines out, and the three copies fill together as they land
+    const tg = ease(t / 0.22);
+    tag.style.opacity = tg.toFixed(3);
+    tag.setAttribute("transform", `translate(${((1 - tg) * -10).toFixed(2)} 0)`);
+    leadV.set(ease((t - 0.08) / 0.24));
+    const run = ease((t - 0.2) / 0.52);
+    const land = ease((t - 0.6) / 0.22);              // same value for every copy
+    copies.forEach(c => {
+      c.flow.style.strokeDashoffset = (1 - run).toFixed(3);
+      c.flow.style.opacity = t > 0.2 ? 1 : 0;
+      const k = 0.12 + 0.76 * run;
+      c.chip.setAttribute("transform", `translate(${(c.from[0] + (c.to[0] - c.from[0]) * k).toFixed(2)} ${(c.from[1] + (c.to[1] - c.from[1]) * k).toFixed(2)})`);
+      c.chip.setAttribute("opacity", (Math.min(1, (t - 0.2) / 0.06) * (1 - land)).toFixed(3));
+      c.v.set(land);
+    });
+    const all = land >= 0.5;
+    done.textContent = (all ? 3 : 0) + " of 3";
+  };
+  const step = now => {
+    const dt = Math.min(48, now - (last || now)); last = now;
+    const d = Math.sign(target - t);
+    t += d * dt / (d > 0 ? 1600 : 700);
+    if (reduce || (d > 0 ? t >= target : t <= target)) t = target;
+    paint();
+    raf = t === target ? 0 : requestAnimationFrame(step);
+    if (!raf) last = 0;
+  };
+  const go = v => { target = v ? 1 : 0; if (!raf) raf = requestAnimationFrame(step); };
+
+  const tilt = e => {
+    if (reduce) return;
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+    card.style.setProperty("--ry", ((px - 0.5) * 7).toFixed(2) + "deg");
+    card.style.setProperty("--rx", ((0.5 - py) * 5).toFixed(2) + "deg");
+  };
+  const on = () => { card.classList.add("on"); go(true); };
+  const off = () => { card.classList.remove("on"); card.style.setProperty("--rx", "0deg"); card.style.setProperty("--ry", "0deg"); go(false); };
+  card.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") on(); });
+  card.addEventListener("pointermove", e => { if (e.pointerType === "mouse" && card.classList.contains("on")) tilt(e); });
+  card.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") off(); });
+  card.addEventListener("focus", on);
+  card.addEventListener("blur", off);
+
+  paint();
+})();
+
+// Multi-chain cards: chains and Ethereum settle together in one block.
+// Used by "Public and private chains" (uc7) and "Post-quantum keys" (uc8).
+(() => {
+  const NS = "http://www.w3.org/2000/svg";
+  const C = Math.cos(Math.PI / 6), S = 0.5;
+  const P = (x, y, z) => [(x - y) * C, (x + y) * S - z];
+  const pts = a => a.map(p => p.map(n => n.toFixed(2)).join(",")).join(" ");
+  const el = (tag, attrs, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    parent.appendChild(n);
+    return n;
+  };
+  const hex = (cx, cy, z, r) =>
+    Array.from({ length: 6 }, (_, k) => {
+      const a = (Math.PI / 3) * k + Math.PI / 6;
+      return P(cx + r * Math.cos(a), cy + r * Math.sin(a), z);
+    });
+  const sides = (cx, cy, z0, z1, r) => {
+    const out = [];
+    for (let k = 0; k < 6; k++) {
+      const a0 = (Math.PI / 3) * k + Math.PI / 6, a1 = a0 + Math.PI / 3, am = (a0 + a1) / 2;
+      if (Math.cos(am) + Math.sin(am) <= 0.01) continue;
+      const c0 = [cx + r * Math.cos(a0), cy + r * Math.sin(a0)], c1 = [cx + r * Math.cos(a1), cy + r * Math.sin(a1)];
+      out.push({ shade: Math.cos(am) > Math.sin(am) ? "a" : "b",
+        poly: [P(c0[0], c0[1], z0), P(c1[0], c1[1], z0), P(c1[0], c1[1], z1), P(c0[0], c0[1], z1)] });
+    }
+    return out;
+  };
+  const ethGlyph = (g, cx, cy) => {
+    el("polygon", { points: `${cx},${cy - 9} ${cx + 5.5},${cy} ${cx},${cy + 3.5} ${cx - 5.5},${cy}`, class: "eth" }, g);
+    el("polygon", { points: `${cx - 5.5},${cy + 1.6} ${cx},${cy + 5} ${cx + 5.5},${cy + 1.6} ${cx},${cy + 9}`, class: "eth" }, g);
+  };
+  const lockGlyph = (g, cx, cy) => {
+    el("path", { d: `M ${cx - 3.6} ${cy - 1.5} v -3 a 3.6 3.6 0 0 1 7.2 0 v 3`, class: "ln" }, g);
+    el("rect", { x: cx - 5.4, y: cy - 1.5, width: 10.8, height: 8, rx: 1.4, class: "lock" }, g);
+  };
+  const keyGlyph = (g, cx, cy) => {
+    el("circle", { cx: cx - 4, cy, r: 3.6, class: "ln" }, g);
+    el("polyline", { points: `${cx - 0.4},${cy} ${cx + 7},${cy} ${cx + 7},${cy + 3}`, class: "ln" }, g);
+    el("line", { x1: cx + 4, y1: cy, x2: cx + 4, y2: cy + 2.6, class: "ln" }, g);
+  };
+  const GLYPH = { eth: ethGlyph, wall: lockGlyph, key: keyGlyph };
+  const chip = (art, inner) => {
+    const g = el("g", { class: "chip" }, art);
+    el("rect", { x: -9, y: -7, width: 18, height: 14, rx: 2.5, class: "lock" }, g);
+    inner(g);
+    return g;
+  };
+  const CHIP = {
+    call: g => { [-2.5, 0.5].forEach(y => el("line", { x1: -5, y1: y, x2: 5, y2: y, class: "ln" }, g)); el("line", { x1: -5, y1: 3.5, x2: 1.5, y2: 3.5, class: "ln" }, g); },
+    done: g => { el("circle", { cx: 0, cy: 0, r: 4.6, class: "seal" }, g); el("polyline", { points: "-2.2,0 -0.4,1.8 2.6,-1.8", class: "tick" }, g); },
+    data: g => { el("polyline", { points: "-5.5,3 -2,-0.5 0.8,1.6 5.5,-3.5", class: "ln" }, g); },
+    key: g => { el("circle", { cx: -3, cy: 0, r: 2.6, class: "ln" }, g); el("line", { x1: -0.4, y1: 0, x2: 5, y2: 0, class: "ln" }, g); el("line", { x1: 3, y1: 0, x2: 3, y2: 2.2, class: "ln" }, g); },
+  };
+
+  const bankGlyph = (g, cx, cy) => {
+    el("polyline", { points: `${cx - 6.5},${cy - 2.5} ${cx},${cy - 6.5} ${cx + 6.5},${cy - 2.5}`, class: "ln" }, g);
+    [-4, 0, 4].forEach(dx => el("line", { x1: cx + dx, y1: cy - 1.5, x2: cx + dx, y2: cy + 3.5, class: "ln" }, g));
+    el("line", { x1: cx - 6.5, y1: cy + 5, x2: cx + 6.5, y2: cy + 5, class: "ln" }, g);
+  };
+  const G = { ...GLYPH, bank: bankGlyph, none: () => {} };
+
+  // nodes: { x, y, r, label, glyph, wall, lab: "above" | "below", ink }
+  // legs: [chip, from, to, t0, t1] with node indices. Every node settles on the same frame.
+  const scene = o => {
+    const art = document.getElementById(o.art), card = document.getElementById(o.card);
+    if (!art || !card) return;
+    const H = o.H || 24, nodes = o.nodes;
+    const top = n => P(n.x, n.y, H);
+    const links = o.links.map(([i, j]) => { const p = top(nodes[i]), q = top(nodes[j]);
+      return el("line", { x1: p[0], y1: p[1], x2: q[0], y2: q[1], class: "spoke" }, art); });
+    [...nodes].sort((a, b) => (a.x + a.y) - (b.x + b.y)).forEach(n => {   // back to front
+      const g = el("g", {}, art), R = n.r;
+      n.faces = sides(n.x, n.y, 0, H, R).map(s => ({ shade: s.shade, n: el("polygon", { points: pts(s.poly), class: "face" }, g) }));
+      n.top = el("polygon", { points: pts(hex(n.x, n.y, H, R)), class: "face" }, g);
+      if (n.wall) el("polygon", { points: pts(hex(n.x, n.y, H, R - 5)), class: "ln wall" }, g);
+      const [cx, cy] = P(n.x, n.y, H);
+      G[n.glyph](g, cx, cy);
+      const [lx, ly] = P(n.x, n.y, 0);
+      el("text", { x: lx, y: n.lab === "above" ? ly - H - R * 0.9 - 10 : ly + R + 14, "text-anchor": "middle", class: n.ink ? "lbl-ink" : "lbl-dim" }, g).textContent = n.label;
+      n.badge = el("g", { class: "badge" }, g);
+      const [bx, by] = P(n.x, n.y, H + 14);
+      el("circle", { cx: bx + R * 0.95, cy: by, r: 6, class: "seal" }, n.badge);
+      el("polyline", { points: `${bx + R * 0.95 - 2.8},${by} ${bx + R * 0.95 - 0.6},${by + 2.2} ${bx + R * 0.95 + 3},${by - 2.2}`, class: "tick" }, n.badge);
+    });
+    const legs = o.legs.map(([kind, i, j, t0, t1]) => [chip(art, CHIP[kind]), top(nodes[i]), top(nodes[j]), t0, t1]);
+
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let t = 0, target = 0, raf = 0, last = 0;
+    const paint = () => {
+      legs.forEach(([c, p, q, t0, t1]) => {
+        const k = Math.min(1, Math.max(0, (t - t0) / (t1 - t0))), e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+        c.setAttribute("transform", `translate(${(p[0] + (q[0] - p[0]) * (0.18 + 0.64 * e)).toFixed(2)} ${(p[1] + (q[1] - p[1]) * (0.18 + 0.64 * e)).toFixed(2)})`);
+        c.style.opacity = t > t0 + 0.001 && t < t1 ? 1 : 0;
+      });
+      const ok = t >= 0.8;
+      nodes.forEach(n => {
+        n.top.setAttribute("class", ok ? "g-top" : "face");
+        n.faces.forEach(f => f.n.setAttribute("class", ok ? (f.shade === "a" ? "g-a" : "g-b") : "face"));
+        n.badge.classList.toggle("in", ok);
+      });
+      const flash = t >= 0.8 && t < 0.96;
+      links.forEach(l => { l.style.strokeDasharray = flash ? "none" : ""; l.style.stroke = flash ? "var(--green-side)" : ""; l.style.strokeWidth = flash ? "1.8" : ""; });
+      o.settle(ok);
+    };
+    const step = now => {
+      const dt = Math.min(48, now - (last || now)); last = now;
+      const d = Math.sign(target - t);
+      t += d * dt / (d > 0 ? 1500 : 600);
+      if (reduce || (d > 0 ? t >= target : t <= target)) t = target;
+      paint();
+      raf = t === target ? 0 : requestAnimationFrame(step);
+      if (!raf) last = 0;
+    };
+    const go = v => { target = v ? 1 : 0; if (!raf) raf = requestAnimationFrame(step); };
+    const tilt = e => {
+      if (reduce) return;
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      card.style.setProperty("--ry", ((px - 0.5) * 7).toFixed(2) + "deg");
+      card.style.setProperty("--rx", ((0.5 - py) * 5).toFixed(2) + "deg");
+    };
+    const on = () => { card.classList.add("on"); go(true); };
+    const off = () => { card.classList.remove("on"); card.style.setProperty("--rx", "0deg"); card.style.setProperty("--ry", "0deg"); go(false); };
+    card.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") on(); });
+    card.addEventListener("pointermove", e => { if (e.pointerType === "mouse" && card.classList.contains("on")) tilt(e); });
+    card.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") off(); });
+    card.addEventListener("focus", on);
+    card.addEventListener("blur", off);
+    paint();
+  };
+
+  // Ethereum at the hub; a public rollup, a private chain and a bank zone each call it, and all four settle in one block
+  const l7 = document.getElementById("l7done");
+  scene({ art: "art7", card: "uc7", H: 22,
+    nodes: [
+      { x: 0, y: 0, r: 30, label: "Ethereum", glyph: "eth", lab: "above", ink: true },
+      { x: -108, y: 10, r: 24, label: "Public rollup", glyph: "none", lab: "below" },
+      { x: 10, y: -108, r: 24, label: "Private chain", glyph: "wall", wall: true, lab: "below" },
+      { x: 84, y: 84, r: 24, label: "Bank zone", glyph: "bank", wall: true, lab: "below" },
+    ],
+    links: [[0, 1], [0, 2], [0, 3]],
+    legs: [["call", 1, 0, 0, 0.45], ["call", 2, 0, 0, 0.45], ["call", 3, 0, 0, 0.45],
+           ["done", 0, 1, 0.42, 0.78], ["done", 0, 2, 0.42, 0.78], ["done", 0, 3, 0.42, 0.78]],
+    settle: ok => { l7.textContent = (ok ? 4 : 0) + " of 4"; } });
+
+  // Ethereum on the left holds the price; two chains on the right read it in the same block, no oracle in between
+  const l9 = document.getElementById("l9done");
+  scene({ art: "art9", card: "uc9",
+    nodes: [
+      { x: -50, y: 50, r: 30, label: "Ethereum", glyph: "eth", lab: "below", ink: true },
+      { x: 10, y: -70, r: 22, label: "Your chain", glyph: "none", lab: "above" },
+      { x: 70, y: -10, r: 22, label: "Another chain", glyph: "none", lab: "below" },
+    ],
+    links: [[0, 1], [0, 2]],
+    legs: [["data", 0, 1, 0, 0.78], ["data", 0, 2, 0, 0.78]],
+    settle: ok => { l9.textContent = ok ? "$1,784" : "—"; } });
+
+  // side by side: a post-quantum signature is checked on the rollup, and the Safe on Ethereum acts in the same block
+  const l8 = document.getElementById("l8done");
+  scene({ art: "art8", card: "uc8",
+    nodes: [
+      { x: 45, y: -45, r: 30, label: "Ethereum", glyph: "eth", lab: "below", ink: true },
+      { x: -45, y: 45, r: 30, label: "Post-quantum rollup", glyph: "key", lab: "below" },
+    ],
+    links: [[0, 1]],
+    legs: [["key", 1, 0, 0, 0.78]],
+    settle: ok => { l8.textContent = ok ? "Updated" : "Waiting"; } });
+})();
+
+</script>
+<script>
+(() => {
+  const ring = document.getElementById("ring"), detail = document.getElementById("detail");
+  const figs = [...ring.querySelectorAll("figure")], n = figs.length;
+  const body = {
+    uc2: "Swap on your L2 against pools on Ethereum. The trade fills on mainnet and settles back on your L2 in the same Ethereum block, with no bridge and no wrapped assets.",
+    uc7: "Public rollups, private chains and permissioned zones like a bank each keep their own participants and rules. Each one calls Ethereum directly, for example to lock tokenized Treasuries as collateral, and all of them settle in the same Ethereum block.",
+    uc5: "Rotate a signer or set a spending limit on your Safe once. Every copy of the Safe follows in the same block, and a spend over the limit on any chain is rejected.",
+    uc9: "Your contract reads any Ethereum contract from the same L1 block, inside its own transaction. Prices, names, registries and allowlists stay on Ethereum, and every chain reads the same value. No feed to run, no heartbeat to wait for.",
+    uc8: "A rollup can run cryptography Ethereum doesn't have yet. Sign with a post-quantum key, verify it on the rollup, and control a Safe on Ethereum in the same block."
+  };
+  const cap = document.getElementById("ringcap"), dots = document.getElementById("rdots");
+  figs.forEach(() => dots.appendChild(document.createElement("i")));
+  let cur = 0, pos = 0, open = false;
+  const geo = () => { const w = ring.clientWidth, narrow = w < 720;
+    const cw = narrow ? Math.min(250, w * 0.62) : 300; ring.style.setProperty("--cw", cw + "px");
+    return { w, cw, step: narrow ? 30 : 17, R: narrow ? 560 : 1050 }; };
+  const wrap = d => { d = ((d % n) + n) % n; return d > n / 2 ? d - n : d; };
+  function layout() {
+    const g = geo();
+    figs.forEach((f, i) => {
+      const d = wrap(i - pos), a = Math.abs(d);
+      const x = d * (g.cw + 24), s = 1 - 0.06 * Math.min(a, 3);
+      f.style.transform = `translate(${x.toFixed(1)}px,0px) scale(${s.toFixed(3)})`;
+      f.style.opacity = open ? (i === cur ? 1 : 0) : (a < 1.5 ? 1 : n < 5 ? 0 : Math.max(0, 1 - (a - 1.5) * 0.9)).toFixed(2);
+      f.style.zIndex = 10 - Math.round(a);
+      f.classList.toggle("center", i === cur);
+      f.setAttribute("aria-hidden", i === cur ? "false" : "true");
+      f.querySelector(".card").tabIndex = i === cur ? 0 : -1;
+    });
+    const c = figs[cur].querySelector(".card");
+    cap.innerHTML = figs[cur].querySelector(".cap p").textContent + '<span>' + (lastPointer !== "mouse" ? (tapped === cur ? "Tap again for details" : "Tap to play, tap again for details") : "Click the card to open it") + '</span>';
+    schedule();
+    [...dots.children].forEach((d, i) => d.classList.toggle("on", i === cur));
+  }
+  // the centre card plays its own animation when it arrives, so nobody has to hover or click to see it
+  const touchUI = matchMedia("(hover: none)").matches;
+  // the hint follows the pointer actually in use: touch laptops and iPads with a trackpad report hover but get tapped
+  let lastPointer = touchUI ? "touch" : "mouse";
+  window.addEventListener("pointerdown", e => { const p = e.pointerType === "mouse" ? "mouse" : "touch"; if (p !== lastPointer) { lastPointer = p; if (!open) layout(); } }, true);
+  let live = -1, liveT = 0, inView = false, tapped = -1;
+  function play(i) {
+    const card = figs[i].querySelector(".card");
+    card.dispatchEvent(new Event("focus"));
+    const h = card.querySelector(".hit"); if (h) h.dispatchEvent(new PointerEvent("pointerenter", { pointerType: "mouse" }));
+    live = i;
+  }
+  function stop(i) {
+    if (i < 0) return; const card = figs[i].querySelector(".card");
+    const h = card.querySelector(".hit"); if (h) h.dispatchEvent(new PointerEvent("pointerleave", { pointerType: "mouse" }));
+    card.dispatchEvent(new Event("blur")); if (live === i) live = -1;
+  }
+  function schedule() {
+    if (open) return; clearTimeout(liveT);
+    if (live !== cur) stop(live);
+    if (!inView || live === cur) return;
+    liveT = setTimeout(() => { if (!open && inView) play(cur); }, 450);
+  }
+  function replay() { stop(cur); clearTimeout(liveT); liveT = setTimeout(() => play(cur), 380); }
+  new IntersectionObserver(es => es.forEach(e => { inView = e.isIntersecting; if (inView) schedule(); else { clearTimeout(liveT); stop(live); } }), { threshold: 0.4 }).observe(ring);
+  const go = i => { if (open) return; cur = ((i % n) + n) % n; pos = cur + Math.round((pos - cur) / n) * n; pos = closest(cur); layout(); };
+  const closest = i => { let best = i, bd = 1e9; for (let k = -2; k <= 2; k++) { const v = i + k * n; if (Math.abs(v - pos) < bd) { bd = Math.abs(v - pos); best = v; } } return best; };
+
+  // open: panel grows out of the card, the card moves left and plays its animation
+  function openCard() {
+    if (open) return; open = true; ring.classList.add("tall");
+    const f = figs[cur], card = f.querySelector(".card"), g = geo();
+    const W = ring.clientWidth, H = ring.clientHeight, ch = card.offsetHeight;
+    const left = W / 2 - g.cw / 2, top = 40;
+    detail.style.transition = "none";
+    detail.style.transform = `translate(${left}px,${top}px) scale(${g.cw / W},${ch / H})`;
+    document.getElementById("dt-k").textContent = card.querySelector(".idx").textContent;
+    document.getElementById("dt-h").textContent = card.querySelector("h2").textContent;
+    document.getElementById("dt-b").textContent = body[card.id] || "";
+    { const go = document.getElementById("dt-go");   // each card links to its own live demo
+      go.href = card.dataset.demo || "https://eez.dev/";
+      go.firstChild.textContent = card.dataset.demoLabel || "Try it on the devnet"; }
+    ring.classList.add("open");
+    requestAnimationFrame(() => requestAnimationFrame(() => { detail.style.transition = ""; detail.style.transform = "none"; }));
+    const narrow = W < 720, sc = narrow ? 0.78 : Math.min(1.25, (H - 60) / ch);
+    const txt = detail.querySelector(".txt"), tw = Math.min(440, W * 0.4), gl = Math.max(40, (W - (g.cw * sc + 64 + tw)) / 2);
+    if (narrow) { txt.style.left = txt.style.right = txt.style.width = ""; } else { txt.style.left = (gl + g.cw * sc + 64) + "px"; txt.style.right = "auto"; txt.style.width = tw + "px"; }
+    const tx = narrow ? 0 : (gl + g.cw * sc / 2) - W / 2, ty = narrow ? 16 + ch * sc / 2 - (top + ch / 2) : (H / 2) - (top + ch / 2);
+    f.style.transform = `translate(${tx}px,${ty}px) scale(${sc})`;
+    figs.forEach((o, i) => { if (i !== cur) o.style.opacity = 0; });
+    card.focus({ preventScroll: true });
+    if (card.id === "uc2") { const h = card.querySelector(".hit"); if (h) h.dispatchEvent(new PointerEvent("pointerenter", { pointerType: "mouse" })); }
+    cap.style.visibility = "hidden";
+  }
+  function closeCard() {
+    if (!open) return;
+    { const h = figs[cur].querySelector(".hit"); if (h) { open = false; h.dispatchEvent(new PointerEvent("pointerleave", { pointerType: "mouse" })); open = true; } }
+    const f = figs[cur], card = f.querySelector(".card"), g = geo();
+    const W = ring.clientWidth, H = ring.clientHeight, ch = card.offsetHeight;
+    detail.style.transform = `translate(${W / 2 - g.cw / 2}px,40px) scale(${g.cw / W},${ch / H})`;
+    open = false; card.blur(); ring.classList.remove("open"); cap.style.visibility = "";
+    live = -1; ring.classList.remove("tall"); layout();
+  }
+  // keep an opened card lit even when the pointer leaves it; side cards ignore the pointer
+  figs.forEach(f => f.addEventListener("pointerleave", e => {
+    if (open || (f.classList.contains("center") && live === figs.indexOf(f))) {
+      e.stopPropagation(); const c = f.querySelector(".card"); c.style.setProperty("--rx", "0deg"); c.style.setProperty("--ry", "0deg");
+    } }, true));
+  figs.forEach(f => f.querySelector(".card").addEventListener("blur", e => { if (open) { e.stopImmediatePropagation(); } }, true));
+
+  // drag, click, wheel, keys
+  let down = null, moved = false;
+  ring.addEventListener("pointerdown", e => { if (open || e.button > 0) return; down = { x: e.clientX, p: pos }; moved = false; });
+  window.addEventListener("pointermove", e => {
+    if (!down) return; const dx = e.clientX - down.x;
+    if (!moved && Math.abs(dx) > 6) { moved = true; ring.classList.add("drag"); }
+    if (moved) { pos = down.p - dx / 170; cur = ((Math.round(pos) % n) + n) % n; layout(); }
+  });
+  window.addEventListener("pointerup", e => {
+    if (!down) return; const wasDrag = moved; down = null; ring.classList.remove("drag");
+    if (wasDrag) { pos = Math.round(pos); cur = ((pos % n) + n) % n; layout(); return; }
+    const f = e.target.closest && e.target.closest("main.ring figure"); if (!f || open) return;
+    const i = figs.indexOf(f);
+    if (i !== cur) { tapped = -1; go(i); return; }
+    if (e.pointerType !== "mouse" && tapped !== cur) { tapped = cur; replay(); layout(); return; }
+    tapped = -1; openCard();
+  });
+  // a drag the browser takes over (it turns into a page scroll) ends in pointercancel, not pointerup:
+  // drop the gesture and snap to the nearest card instead of staying parked between two
+  window.addEventListener("pointercancel", () => {
+    if (!down) return; const wasDrag = moved; down = null; ring.classList.remove("drag");
+    if (wasDrag) { pos = Math.round(pos); cur = ((pos % n) + n) % n; layout(); }
+  });
+  let acc = 0;
+  ring.addEventListener("wheel", e => { if (open || Math.abs(e.deltaX) < Math.abs(e.deltaY)) return; e.preventDefault(); acc += e.deltaX;
+    if (Math.abs(acc) > 60) { go(cur + Math.sign(acc)); acc = 0; } }, { passive: false });
+  document.getElementById("rp").onclick = () => go(cur - 1);
+  document.getElementById("rn").onclick = () => go(cur + 1);
+  document.getElementById("dt-x").onclick = closeCard;
+  detail.addEventListener("pointerup", e => { if (e.target === detail) closeCard(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeCard(); });
+  figs.forEach((f, i) => f.querySelector(".card").addEventListener("keydown", e => { if (e.key === "Enter" && i === cur && !open && f.querySelector(".card").id !== "uc2") openCard(); }));
+  window.addEventListener("resize", () => { if (!open) layout(); });
+  layout();
+})();
+</script>
+<script>
+(() => {
+  const mq = document.getElementById("mq"), t = document.getElementById("mqt"), set = t.children[0];
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let x = 0, v = 40, target = 40, last = null;
+  mq.addEventListener("pointerenter", () => target = 12);
+  mq.addEventListener("pointerleave", () => target = 40);
+  const step = now => { if (last !== null) { const dt = Math.min(64, now - last) / 1000; v += (target - v) * Math.min(1, dt * 4);
+      const L = set.getBoundingClientRect().width; x = (x + v * dt) % L; t.style.transform = `translateX(${-x}px)`; }
+    last = now; requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+})();
+</script>
+<script>(() => {
+  const box = document.querySelector("#how .zone.zv .vcard"), v = box && box.querySelector("video");
+  if (!v) return;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const rest = () => { v.pause(); try { v.currentTime = 4.5; } catch (_) {} };
+  v.addEventListener("loadedmetadata", rest, { once: true }); if (v.readyState >= 1) rest();
+  const on = () => { box.classList.add("on"); if (!reduce) { v.currentTime = 0; v.play().catch(() => {}); } };
+  const off = () => { box.classList.remove("on"); box.style.setProperty("--rx", "0deg"); box.style.setProperty("--ry", "0deg"); rest(); };
+  const tilt = e => {
+    if (reduce) return;
+    const r = box.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+    box.style.setProperty("--ry", ((px - 0.5) * 4).toFixed(2) + "deg");
+    box.style.setProperty("--rx", ((0.5 - py) * 3).toFixed(2) + "deg");
+  };
+  box.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") on(); });
+  box.addEventListener("pointermove", e => { if (box.classList.contains("on")) tilt(e); });
+  box.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") off(); });
+  box.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse") box.classList.contains("on") ? off() : on(); });
+  document.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse" && !box.contains(e.target)) off(); });
+  box.addEventListener("focus", on); box.addEventListener("blur", off);
+  box.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { box.classList.contains("on") ? off() : on(); e.preventDefault(); } });
+})();</script>
+<script>
+(() => {
+  // number the tiles for the stagger, then bump them once each time the map scrolls into view
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { const m = e.target; m.classList.remove("bump"); void m.offsetWidth; m.classList.add("bump"); }
+  }), { threshold: 0.35 });
+  document.querySelectorAll(".emap").forEach(map => {
+    map.querySelectorAll(".tile").forEach((t, i) => t.style.setProperty("--i", i));
+    io.observe(map);
+  });
+})();
+(() => {
+  // close an open use-case card once the carousel scrolls out of view
+  const ring = document.querySelector("main.ring"), x = document.getElementById("dt-x"); if (!ring || !x) return;
+  new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting && ring.classList.contains("open")) x.click(); }), { threshold: 0 }).observe(ring);
+})();
+</script>
+<script src="/_shell/shell.js?v=2" defer></script>
+</body>
+</html>

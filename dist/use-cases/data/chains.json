@@ -1,0 +1,52 @@
+{
+  "$comment": "Source for the registry tables. Read 2026-10-30 from the two dashboard configs and the registry contracts. Addresses are truncated in the UI; full values below.",
+  "generatedAt": "2026-10-30T00:00:00Z",
+  "networks": [
+    {
+      "name": "Ethereum mainnet",
+      "l1ChainId": 1,
+      "registry": "0x4b2760f84b83d6b3829e30a7573b0172b6d6402c",
+      "bridge": "0x95273bf880ae09fdeb8c71d5aa37a0ba70835b55",
+      "rollups": [
+        {
+          "rollupId": 2,
+          "manager": "0x5ac3536dded4afa973df5208e7fbca51a0355e7c",
+          "proofSystem": "0x23a2d3c9116c2014af076fda49b8c5825fedb3a8",
+          "proofType": "ECDSA",
+          "threshold": 1,
+          "status": "active",
+          "activity": "19 batches / 4k blocks",
+          "l2ChainId": 696991,
+          "dashboard": "https://rollupx.eez.dev/dashboard",
+          "name": "RollupX"
+        }
+      ]
+    },
+    {
+      "name": "Chiado (testnet)",
+      "l1ChainId": 10200,
+      "registry": "0x6258189d3a04eb31a196a8931077dfe001a9f6fd",
+      "bridge": "0xe993715bE7a0F60d484C5D19c4f008Ba79df1D4E",
+      "rollups": [
+        {
+          "rollupId": 2,
+          "manager": "0xf321dbb2e5ad31d3154da951a0257a38a7867ba7",
+          "proofSystem": "0x1fb73b0954026b91d9771a378ccd6b0c71100d4c",
+          "proofType": "ECDSA",
+          "threshold": 1,
+          "status": "active",
+          "activity": "verified, 20 blocks behind head",
+          "l2ChainId": 699169,
+          "dashboard": "https://eez.dev/dashboard",
+          "name": "EEZ-X Testnet"
+        }
+      ]
+    },
+    {
+      "name": "Gnosis Chain",
+      "l1ChainId": 100,
+      "status": "coming",
+      "rollups": []
+    }
+  ]
+}

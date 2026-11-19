@@ -1,0 +1,97 @@
+/* EEZ Design System — generated from tokens.json */
+@font-face { font-family: "Geist"; src: url("fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Geist Mono"; src: url("fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+:root, [data-theme="dark"] {
+  --void: #000000;
+  --canvas: #0a0a0a;
+  --screen: #161616;
+  --chrome: #1f1f1f;
+  --edge: #2e2e2e;
+  --edge-quiet: #1a1a1a;
+  --control: #141414;
+  --control-edge: #2a2a2a;
+  --control-hover: #1a1a1a;
+  --code-well: #050505;
+  --grid-line: rgba(255,255,255,0.045);
+  --frost: rgba(248,248,243,0.1);
+  --ink: #ffffff;
+  --ink-dim: rgba(255,255,255,0.7);
+  --ink-soft: #d8d8d8;
+  --ink-body: #c9cfda;
+  --muted: #9aa3b3;
+  --ink-quiet: #8f8f8f;
+  --card-num: #808080;
+  --label: #9ba6d6;
+  --eez-green: #3be57e;
+  --green-text: oklch(0.814 0.197 151.6);
+  --green-wash: oklch(0.64 0.197 151.6 / 0.12);
+  --pinned: #a8f3ce;
+  --grad-mint: #8ae5ac;
+  --grad-steel: #6283bd;
+  --grad-indigo: #4439cb;
+  --grad-mint-hover: #9debbb;
+  --grad-steel-hover: #7593cd;
+  --logo-mint: #8ce8ab;
+  --logo-indigo: #3f2acd;
+  --alliance-indigo: #452bd6;
+  --table-head: oklch(0.26 0 0);
+  --shadow-card-lift: 0 20px 44px -20px rgba(0,0,0,0.75);
+  --shadow-field-focus: 0 0 0 3px rgba(59,229,126,0.16);
+  --shadow-focus-ring: 0 0 0 2px #0a0a0a, 0 0 0 4px #3be57e;
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 18px;
+  --space-6: 20px;
+  --card-pad-x: 20px;
+  --card-pad-top: 22px;
+  --gutter: 32px;
+  --grid-cell: 42px;
+  --section: 56px;
+  --stage-header: 96px;
+  --page-max: 1200px;
+  --radius-hairline: 4px;
+  --radius-control: 5px;
+  --radius-nav: 6px;
+  --radius-code: 8px;
+  --radius-terminal: 10px;
+  --radius-field: 12px;
+  --radius-card: 16px;
+  --radius-brand-pill: 48px;
+  --radius-pill: 100px;
+  --radius-circle: 50%;
+  --border-hairline: 1px;
+  --rail: 2px;
+  --progress: 3px;
+  --font-sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+.brand-heading { font-family: var(--font-sans); font-size: 28px; line-height: 33.6px; font-weight: 400; letter-spacing: -1px; }
+.brand-subhead { font-family: var(--font-sans); font-size: 20px; line-height: 24px; font-weight: 400; letter-spacing: -0.4px; }
+.brand-body { font-family: var(--font-sans); font-size: 16px; line-height: 21.92px; font-weight: 400; }
+.brand-eyebrow { font-family: var(--font-sans); font-size: 13px; line-height: 15.6px; font-weight: 600; }
+.brand-button { font-family: var(--font-sans); font-size: 14px; line-height: 18.2px; font-weight: 600; }
+.doc-home-title { font-family: var(--font-sans); font-size: 48px; line-height: 51.84px; font-weight: 400; letter-spacing: -0.48px; }
+.doc-h1 { font-family: var(--font-sans); font-size: 36px; line-height: 36px; font-weight: 500; }
+.doc-h2 { font-family: var(--font-sans); font-size: 24px; line-height: 24px; font-weight: 500; }
+.doc-h3 { font-family: var(--font-sans); font-size: 20px; line-height: 20px; font-weight: 500; }
+.doc-body { font-family: var(--font-sans); font-size: 16px; line-height: 26px; font-weight: 400; }
+.doc-table { font-family: var(--font-sans); font-size: 14px; line-height: 21.2px; font-weight: 500; }
+.doc-nav { font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 450; }
+.display { font-family: var(--font-sans); font-size: 40px; line-height: 1.08; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); }
+.section-title { font-family: var(--font-sans); font-size: 44px; line-height: 1.1; font-weight: 700; }
+.stage-title { font-family: var(--font-sans); font-size: 56px; line-height: 1.14; font-weight: 600; }
+.stage-lede { font-family: var(--font-sans); font-size: 25px; line-height: 1.5; font-weight: 400; }
+.caption { font-family: var(--font-sans); font-size: 22px; line-height: 1.45; font-weight: 400; }
+.lede { font-family: var(--font-sans); font-size: 17px; line-height: 1.55; font-weight: 400; }
+.card-title { font-family: var(--font-sans); font-size: 17.5px; line-height: 1.35; font-weight: 600; }
+.body-small { font-family: var(--font-sans); font-size: 13.5px; line-height: 1.55; font-weight: 400; }
+.eyebrow { font-family: var(--font-mono); font-size: 12.5px; line-height: 1.4; font-weight: 400; letter-spacing: 0.1em; }
+.label { font-family: var(--font-mono); font-size: 12px; line-height: 1.4; font-weight: 500; letter-spacing: 0.1em; }
+.cta { font-family: var(--font-mono); font-size: 11.5px; line-height: 1.4; font-weight: 500; letter-spacing: 0.02em; }
+.badge { font-family: var(--font-mono); font-size: 11px; line-height: 1.4; font-weight: 400; letter-spacing: 0.04em; }
+.code { font-family: var(--font-mono); font-size: 14px; line-height: 21px; font-weight: 400; }
+.code-stage { font-family: var(--font-mono); font-size: 19px; line-height: 34px; font-weight: 400; }
