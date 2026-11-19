@@ -1,15 +1,15 @@
 # eez-merge-demo — inventory
 
-Source: `dist/` (identical to https://eez-merge-demo.vercel.app, checked 19 Nov 2026). 9 pages: `/`, `/use-cases/institutions|chains|apps|infra|all|kit|scoping`, `/get-in-touch`.
+Source: `dist/`, live at https://0xarmagan.github.io/eez.io/ (updated 19 Nov 2026). Home now matches published eez.io except for the proposal's intended changes; see [PARITY.md](PARITY.md). 9 pages: `/`, `/use-cases/institutions|chains|apps|infra|all|kit|scoping`, `/get-in-touch`.
 ↗ = opens a new tab. Relative paths are on eez.io.
 
 ## Issues found
 
 | # | Where | Issue |
 |---|---|---|
-| 1 | Footer → Brand and logo (all pages) | Dead link: `#` |
-| 2 | Home → Latest → September card | Shows a `[Date]` placeholder and links to `/blog`, not the post |
-| 3 | Home → "Try on the testnet" | Opens in the same tab; every other external link opens a new tab |
+| 1 | Footer → Brand and logo (all pages) | Fixed: now eez.io/brand (was `#`) |
+| 2 | Home → Latest → September card | Fixed: Latest now shows live's three posts with real dates and links (was a `[Date]` placeholder) |
+| 3 | Home → "Try on the testnet" | Fixed: opens a new tab like every other external link |
 | 4 | Get in touch → Send to the team | Demo only: validates, then shows "nothing was sent" |
 | 5 | `use-cases/orbit.js`, `doors.js` | Shipped but not loaded by any page |
 | 6 | Institutions page | Hidden empty link ("The one-ledger version:"), no href |
@@ -21,6 +21,7 @@ Source: `dist/` (identical to https://eez-merge-demo.vercel.app, checked 19 Nov 
 ### Shared header (every page)
 | Element | Label | Goes to |
 |---|---|---|
+| Devcon bar | [ Devcon ] Watch the EEZ talks from Devcon: | `/#news` |
 | Devcon bar | [ One Ethereum ] | youtube.com/watch?v=uvY3yww_1oY ↗ |
 | Devcon bar | [ Real-time ZK proofs ] | youtube.com/watch?v=Mdneqyvvk7g ↗ |
 | Logo | — | `/` |
@@ -46,7 +47,7 @@ The current page's menu item is marked (`aria-current`).
 | | Contribute a walkthrough ↗ | github.com/eez-association/eez-demos/blob/main/CONTRIBUTING.md |
 | News | News | eez.io/blog |
 | | Press and talks | `/#news` |
-| | Brand and logo | `#` (dead, issue 1) |
+| | Brand and logo | eez.io/brand |
 | Follow | X ↗ | x.com/etheconomiczone |
 | | GitHub ↗ | github.com/eez-association |
 | — | © 2026 Ethereum Economic Zone. | — |
@@ -56,7 +57,7 @@ The current page's menu item is marked (`aria-current`).
 |---|---|---|
 | Hero | Use cases → | `/use-cases/all` |
 | Hero | Start building → | build.eez.io ↗ |
-| What you can build | Try on the testnet → | eez.dev (same tab, issue 3) |
+| What you can build | Try on the testnet → | eez.dev ↗ |
 | What you can build | All use cases → | `/use-cases/all` |
 | Carousel card panel | Try the swap demo (Swap on Ethereum liquidity) | rollupx.eez.dev/dashboard/#/cow-demo ↗ |
 | | Try a cross-chain call (Public and private chains) | rollupx.eez.dev/dashboard/#/counter-demo ↗ |
@@ -73,10 +74,10 @@ The current page's menu item is marked (`aria-current`).
 | | EEZ: Building Synchronous Ethereum… | youtube.com/watch?v=Mdneqyvvk7g ↗ |
 | | Vitalik Buterin on the EEZ (Epicenter) | youtube.com/watch?v=CK1FwcWdqMI ↗ |
 | | Vitalik Buterin and Friederike Ernst (Dappcon) | youtube.com/watch?v=gfG-R8AOu0E ↗ |
-| | All talks → | YouTube search "ethereum economic zone" ↗ |
-| Latest | Monthly update · September 2026 | eez.io/blog ↗ (issue 2) |
-| | Monthly update · August 2026 | eez.io/blog/monthly-update-august-2026 ↗ |
-| | Introducing the Ethereum Economic Zone | eez.io/blog/introducing-the-eez ↗ |
+| | All talks ↗ | YouTube search "ethereum economic zone" ↗ |
+| Latest | Monthly update — October & Devcon Mumbai | eez.io/blog/monthly-update---october-devcon-mumbai ↗ |
+| | Monthly update — September 2026 | eez.io/blog/monthly-update---september ↗ |
+| | Introducing the Ethereum Economic Zone (EEZ) | eez.io/blog/introducing-the-eez ↗ |
 
 ### Use-case and contact pages (besides header/footer)
 | Page | Label | Goes to |
@@ -149,7 +150,8 @@ All of them respect reduced motion, which shows the final state with no motion.
 |---|---|---|
 | Hero Ethereum mark | Always | Floats up 10 px and back, 6 s ease-in-out, loops |
 | Alliance logo strip | Always | Scrolls at 40 px/s and loops; slows to 12 px/s on hover (eases in about 0.25 s) |
-| "One call away" diagram (a video) | Hover, focus or tap | Plays from 0; at rest it shows the 4.5 s frame. Tilts with the pointer (±2° / ±1.5°), 0.25 s |
+| Page background | Always | Static: green/purple wash + 8 blurred colour glows |
+| "One call away" diagram (animated SVG) | 40% on screen; resets when it leaves, so it replays | Call line draws 0.95 s; B check pops at 1.0 s; return line draws from 1.15 s (0.9 s); A check at 2.1 s; "[ One transaction ]" pill rises at 2.35 s (0.5 s) |
 | Carousel: centre card | Arrives in the centre while ≥40% of the carousel is on screen | Plays its animation after 450 ms. Stops when it leaves the centre or the carousel leaves the screen |
 | Carousel: card animations | Hover, focus or tap (and the autoplay above) | Swap: 0.9 s in and out. Safe: 1.6 s in, 0.7 s out. Public and private chains, Post-quantum, Read Ethereum: 1.5 s in, 0.6 s out. Dashed lines march every 0.7 s while playing. Cards tilt with the pointer |
 | Carousel: moving between cards | Drag (170 px per card), sideways wheel (60 px), arrows, dots, clicking a side card | Cards slide and scale (−6% per step), side cards fade; dots grow 0.3 s |
@@ -157,9 +159,9 @@ All of them respect reduced motion, which shows the final state with no motion.
 | Start where you are cards | Hover | Border and background change, 0.22 s |
 | Alliance partner tiles | Grid scrolls into view (35%), every time | Each tile bumps up 7 px and scales to 1.04 with a green border, 0.6 s overshoot, 45 ms apart in sequence |
 | Alliance tile hover | Hover | Lifts 4 px, green border and glow, logo scales to 1.06, 0.25 s |
-| Join the Alliance button | Hover or focus | Green gradient fills the button left to right, 0.5 s `cubic-bezier(.65,0,.35,1)`; arrow moves 6 px |
+| Where EEZ stands timeline | 20% on screen, once | Spine fades in 0.8 s; columns rise 22 px and fade in (0.6–0.7 s), 80 ms apart. A light sweeps the done part of the spine every 3.4 s; the In progress dot pulses every 2.2 s (its tag dot every 1.6 s) |
 | Talk thumbnails | Hover | Image zooms, 0.5 s |
-| Latest posts | Hover | Border colour, 0.2 s |
+| Latest posts | Hover | Cover zooms to 1.03, 0.5 s |
 
 ### Use-case pages
 | Page and element | Trigger | Motion and timing |
@@ -178,16 +180,16 @@ All of them respect reduced motion, which shows the final state with no motion.
 
 | Element | Where | Count | Contents |
 |---|---|---|---|
-| Section header | Every section | — | `[ EYEBROW ]` (mono, grey) + heading (Geist Light) |
-| Pill button | Hero ×2, Try on the testnet, Get in touch | 7 on Home | Label + round arrow chip |
+| Section header | Every section | — | `[ EYEBROW ]` (mono, grey) + heading (Geist Light, one weight, centred) |
+| Pill button | Hero ×2, Try on the testnet, Join the Alliance, Get in touch | 8 on Home | Label + round arrow chip |
 | Mono text link "… →" | All use cases, card links, All talks | — | Uppercase Geist Mono, green or white, arrow |
 | Dropdown item | Header menus | 5 + 4 | Bold title + one-line grey description |
 | Use-case carousel card | Home | 5 | Title, number (01–05), animated isometric diagram, 2 stat rows, panel text + demo link |
 | Audience card | Start where you are | 4 | Isometric icon, title, one line, "For … →" link |
-| Partner group | Alliance | 13 groups, 30 tiles | `[ Category ]` label + logo tiles; 2 bands: Adoption and Infrastructure partners |
-| Progress card | Where EEZ stands | 5 | Status tag (Live, In progress, Planned, Horizon) + title + one line |
+| Partner group | Alliance | 13 groups, 30 tiles | `[ Category ]` label + logo tiles; 2 bands with vertical side labels: Adoption (green) and Infrastructure partners (blue) |
+| Timeline step | Where EEZ stands | 5 | Dot on the spine (done ✓, in progress pulsing, planned, horizon) + status tag + title + one line |
 | Talk card | Hear it from the team | 4 | Thumbnail + duration, `TYPE · EVENT · DATE`, title ↗ |
-| Post card | Latest | 3 | Cover image, date, title |
+| Post card | Latest | 3 | Cover thumbnail, `TYPE · DATE`, title |
 | Footer column | Footer | 4 | `[ Column ]` label + links |
 | Use-case card | All use cases | 35 in 6 categories | Number, title, one line, roles, status tag, optional link |
 | Filter chip | All use cases | 5 | Label + live count |

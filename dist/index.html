@@ -437,7 +437,7 @@ main.ring .flow,main.ring .flow.thin,main.ring .lane-a,main.ring .readout.full,m
 .tile{padding:0 6px}
 .tile span{font-size:12px;white-space:nowrap}
 </style>
-<link rel="stylesheet" href="/_shell/shell.css?v=3">
+<link rel="stylesheet" href="/_shell/shell.css?v=4">
 <style>/* live-parity */
 body{position:relative;z-index:0}
 .lp-bg{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
@@ -537,12 +537,33 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
   .eeztl .node{padding:0 0 0 38px}
   .eeztl .dot{top:1px;left:0}
 }
+
+.hero h1 b,.sec > h2 b,#how .build > h2 b{font-weight:inherit;color:inherit}
+#build > .eb,#build > h2,#alliance > .eb,#alliance > h2,#news > .eb,#news > h2{text-align:center;margin-inline:auto}
+.mq .logo b{font:500 16px/1 var(--sans)}
+.tile span,.tile span{font:500 16px/1 var(--sans);white-space:nowrap}
+#alliance .join-row{display:flex;justify-content:center;margin-top:32px}
+#alliance .tier{position:relative;margin-top:40px}
+#alliance .tier .emap{margin-top:0}
+#alliance .tierlbl{position:absolute;left:-41px;top:0;margin:0;transform:rotate(-90deg) translateX(-100%);transform-origin:0 0;white-space:nowrap;
+  font:400 12.5px/16px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+#alliance .tierlbl.adopt{color:#3BE57E}#alliance .tierlbl.infra{color:#6E9BEE}
+@media (max-width:1240px){#alliance .tierlbl{position:static;transform:none;margin:0 0 12px}}
+.vid small{font-size:12px}
+.th em{font-size:16px}
+.posts{margin-top:24px;gap:24px}
+.post{background:none;border:0;border-radius:0;padding:0;gap:0}
+.post .pth{display:block;border:1px solid #1e1e1e;border-radius:14px;background:#111;overflow:hidden;aspect-ratio:363/227}
+.post .pth img{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;border-radius:0;transition:transform .5s ease}
+.post:hover .pth img{transform:scale(1.03)}
+.post small{margin-top:14px;font:400 12px/1.6 var(--mono);letter-spacing:.06em;color:#7a7a76}
+.post b{margin-top:8px;font:500 15px/1.4 var(--sans);color:#f2f2ec}
 </style>
 </head>
 <body>
 <div class="lp-bg" aria-hidden="true"><i style="width:821px;height:821px;left:-168px;top:0.0%;background:radial-gradient(circle,rgba(60,229,126,.13),transparent 62%)"></i><i style="width:859px;height:859px;left:calc(50% + 54px);top:5.4%;background:radial-gradient(circle,rgba(84,66,205,.14),transparent 62%)"></i><i style="width:836px;height:836px;left:calc(50% + 110px);top:24.0%;background:radial-gradient(circle,rgba(60,229,126,.13),transparent 62%)"></i><i style="width:895px;height:895px;left:-261px;top:32.5%;background:radial-gradient(circle,rgba(84,66,205,.14),transparent 62%)"></i><i style="width:833px;height:833px;left:-171px;top:52.0%;background:radial-gradient(circle,rgba(60,229,126,.13),transparent 62%)"></i><i style="width:877px;height:877px;left:calc(50% + 37px);top:59.5%;background:radial-gradient(circle,rgba(98,131,189,.12),transparent 62%)"></i><i style="width:860px;height:860px;left:calc(50% + 90px);top:80.0%;background:radial-gradient(circle,rgba(60,229,126,.13),transparent 62%)"></i><i style="width:831px;height:831px;left:-237px;top:87.5%;background:radial-gradient(circle,rgba(84,66,205,.14),transparent 62%)"></i></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="eez-t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8CE8AB"/><stop offset="1" stop-color="#79B9B4"/></linearGradient><linearGradient id="eez-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#79B9B4"/><stop offset="1" stop-color="#3F2ACD"/></linearGradient><linearGradient id="eez-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6AA29E"/><stop offset="1" stop-color="#3725B4"/></linearGradient></defs></svg>
-<div class="devcon"><span class="eb g">[ Devcon ]</span><span>Watch the EEZ talks from Devcon:</span><a href="https://www.youtube.com/watch?v=uvY3yww_1oY" target="_blank" rel="noopener" class="eb w">[ One Ethereum ] →</a><a href="https://www.youtube.com/watch?v=Mdneqyvvk7g" target="_blank" rel="noopener" class="eb w">[ Real-time ZK proofs ] →</a></div>
+<div class="eh-devcon"><a class="eh-dc-intro" href="/#news"><span class="eh-dc-k">[ Devcon ]</span><span class="eh-dc-t">Watch the EEZ talks from Devcon:</span></a><a href="https://www.youtube.com/watch?v=uvY3yww_1oY" target="_blank" rel="noopener" class="eh-dc-l">[ One Ethereum ]&nbsp;↗</a><a href="https://www.youtube.com/watch?v=Mdneqyvvk7g" target="_blank" rel="noopener" class="eh-dc-l">[ Real-time ZK proofs ]&nbsp;↗</a></div>
 <header class="eh" id="eh">
   <div class="eh-in">
     <a class="eh-logo" href="/" aria-label="EEZ home"><img src="/_shell/logo.svg" alt="Ethereum Economic Zone" width="80" height="36"></a>
@@ -717,7 +738,7 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
   <button id="rp" aria-label="Previous use case">←</button><span class="dots" id="rdots"></span><button id="rn" aria-label="Next use case">→</button>
 </nav>
   </div>
-  <div class="cta-row"><a class="pill" href="https://eez.dev/"><span>Try on the testnet</span><i aria-hidden="true">→</i></a></div>
+  <div class="cta-row"><a class="pill" href="https://eez.dev/" target="_blank" rel="noopener"><span>Try on the testnet</span><i aria-hidden="true">→</i></a></div>
 <a class="more" href="/use-cases/all">All use cases →</a>
 </section>
 
@@ -736,10 +757,11 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
 <section class="sec" id="alliance">
   <p class="eb">[ The Alliance ]</p>
   <h2><b>The teams</b> building on the commons.</h2>
-  <div class="tier"><div class="tierhd"><h3>Adoption partners</h3><p>Projects committed to using EEZ for synchronous composability.</p></div><div class="emap"><div class="row"><div class="grp" style="--n:4"><p class="eb">[ DeFi ]</p><ul><li class="tile"><img src="assets/logos/aave.png?v=5" alt="Aave" style="--w:95px"></li><li class="tile"><img src="assets/logos/spark.png?v=5" alt="Spark" style="--w:74px"></li><li class="tile"><img src="assets/logos/cowswap.png?v=5" alt="CoW Swap" style="--w:99px"></li><li class="tile"><img src="assets/logos/kyber.png?v=5" alt="Kyber Network" style="--w:91px"></li></ul></div><div class="grp" style="--n:4"><p class="eb">[ Assets and payments ]</p><ul><li class="tile"><img src="assets/logos/centrifuge.png?v=5" alt="Centrifuge" style="--w:71px"></li><li class="tile"><img src="assets/logos/xstocks.png?v=5" alt="xStocks" style="--w:77px"></li><li class="tile"><img src="assets/logos/monerium.png?v=5" alt="Monerium" style="--w:84px"></li><li class="tile"><img src="assets/logos/bermuda-bay.png?v=5" alt="Bermuda Bay" style="--w:103px"></li></ul></div><div class="grp one" style="--n:1"><p class="eb">[ Staking ]</p><ul><li class="tile"><img src="assets/logos/ssv.png?v=5" alt="ssv.network" style="--w:87px"></li></ul></div></div>
+  <div class="join-row"><a class="pill" href="/get-in-touch?intent=alliance"><span>Join the Alliance</span><i aria-hidden="true">→</i></a></div>
+  <div class="tier"><p class="tierlbl adopt">Adoption partners</p><div class="emap"><div class="row"><div class="grp" style="--n:4"><p class="eb">[ DeFi ]</p><ul><li class="tile"><img src="assets/logos/aave.png?v=5" alt="Aave" style="--w:95px"></li><li class="tile"><img src="assets/logos/spark.png?v=5" alt="Spark" style="--w:74px"></li><li class="tile"><img src="assets/logos/cowswap.png?v=5" alt="CoW Swap" style="--w:99px"></li><li class="tile"><img src="assets/logos/kyber.png?v=5" alt="Kyber Network" style="--w:91px"></li></ul></div><div class="grp" style="--n:4"><p class="eb">[ Assets and payments ]</p><ul><li class="tile"><img src="assets/logos/centrifuge.png?v=5" alt="Centrifuge" style="--w:71px"></li><li class="tile"><img src="assets/logos/xstocks.png?v=5" alt="xStocks" style="--w:77px"></li><li class="tile"><img src="assets/logos/monerium.png?v=5" alt="Monerium" style="--w:84px"></li><li class="tile"><img src="assets/logos/bermuda-bay.png?v=5" alt="Bermuda Bay" style="--w:103px"></li></ul></div><div class="grp one" style="--n:1"><p class="eb">[ Staking ]</p><ul><li class="tile"><img src="assets/logos/ssv.png?v=5" alt="ssv.network" style="--w:87px"></li></ul></div></div>
 <div class="row"><div class="grp" style="--n:3"><p class="eb">[ Chains ]</p><ul><li class="tile"><img src="assets/logos/linea.png?v=5" alt="Linea" style="--w:74px"></li><li class="tile"><img src="assets/logos/gnosis-chain.png?v=5" alt="Gnosis Chain" style="--w:101px"></li><li class="tile"><img src="assets/logos/hydration.png?v=5" alt="Hydration" style="--w:87px"></li></ul></div><div class="grp one" style="--n:2"><p class="eb">[ Interoperability ]</p><ul><li class="tile"><img src="assets/logos/consensys.png?v=5" alt="Consensys" style="--w:84px"></li></ul></div><div class="grp one" style="--n:2"><p class="eb">[ Public goods ]</p><ul><li class="tile"><img src="assets/logos/octant.png?v=5" alt="Octant" style="--w:75px"></li></ul></div><div class="grp one" style="--n:2"><p class="eb">[ Non-financial ]</p><ul><li class="tile"><img src="assets/logos/fileverse.png?v=5" alt="Fileverse" style="--w:110px"></li></ul></div></div>
-<div class="row"><div class="grp join" style="--n:4"><a class="mbtn" href="/get-in-touch?intent=alliance"><span class="c" aria-hidden="true"></span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span class="t">Join the Alliance</span></a></div></div></div></div>
-<div class="tier"><div class="tierhd"><h3>Infrastructure partners</h3><p>Teams that build and run the Ethereum Economic Zone.</p></div><div class="emap"><div class="row"><div class="grp" style="--n:3"><p class="eb">[ Co-initiators ]</p><ul><li class="tile"><img src="assets/logos/gnosis.png?v=5" alt="Gnosis" style="--w:76px"></li><li class="tile"><img src="assets/logos/zisk.png?v=5" alt="ZisK" style="--w:59px"></li><li class="tile"><img src="assets/logos/ethereum-foundation.png?v=5" alt="Ethereum Foundation" style="--w:82px"></li></ul></div><div class="grp" style="--n:4"><p class="eb">[ Clients ]</p><ul><li class="tile"><img src="assets/logos/nethermind.png?v=5" alt="Nethermind" style="--w:108px"></li><li class="tile"><img src="assets/logos/erigon.png?v=5" alt="Erigon" style="--w:83px"></li><li class="tile"><img src="assets/logos/besu.png?v=5" alt="Besu" style="--w:58px"></li><li class="tile" title="Colibri"><img src="assets/logos/colibri.png?v=5" alt="" class="ic"><span>Colibri</span></li></ul></div></div>
+</div></div>
+<div class="tier"><p class="tierlbl infra">Infrastructure partners</p><div class="emap"><div class="row"><div class="grp" style="--n:3"><p class="eb">[ Co-initiators ]</p><ul><li class="tile"><img src="assets/logos/gnosis.png?v=5" alt="Gnosis" style="--w:76px"></li><li class="tile"><img src="assets/logos/zisk.png?v=5" alt="ZisK" style="--w:59px"></li><li class="tile"><img src="assets/logos/ethereum-foundation.png?v=5" alt="Ethereum Foundation" style="--w:82px"></li></ul></div><div class="grp" style="--n:4"><p class="eb">[ Clients ]</p><ul><li class="tile"><img src="assets/logos/nethermind.png?v=5" alt="Nethermind" style="--w:108px"></li><li class="tile"><img src="assets/logos/erigon.png?v=5" alt="Erigon" style="--w:83px"></li><li class="tile"><img src="assets/logos/besu.png?v=5" alt="Besu" style="--w:58px"></li><li class="tile" title="Colibri"><img src="assets/logos/colibri.png?v=5" alt="" class="ic"><span>Colibri</span></li></ul></div></div>
 <div class="row"><div class="grp" style="--n:4"><p class="eb">[ Block builders ]</p><ul><li class="tile"><img src="assets/logos/flashbots.png?v=5" alt="Flashbots" style="--w:78px"></li><li class="tile"><img src="assets/logos/titan.png?v=5" alt="Titan" style="--w:65px"></li><li class="tile" title="Beaver Build"><img src="assets/logos/beaverbuild.png?v=5" alt="" class="ic"><span>beaverbuild</span></li><li class="tile"><img src="assets/logos/eureka.png?v=5" alt="Eureka Labs" style="--w:80px"></li></ul></div><div class="grp" style="--n:2"><p class="eb">[ Tools ]</p><ul><li class="tile"><img src="assets/logos/blockscout.png?v=5" alt="Blockscout" style="--w:88px"></li><li class="tile"><img src="assets/logos/remix.png?v=5" alt="Remix" style="--w:72px"></li></ul></div><div class="grp" style="--n:2"><p class="eb">[ Wallets and accounts ]</p><ul><li class="tile"><img src="assets/logos/safe.png?v=5" alt="Safe" style="--w:72px"></li><li class="tile"><img src="assets/logos/cometh.png?v=5" alt="Cometh" style="--w:64px"></li></ul></div></div></div></div>
 </section>
 
@@ -754,16 +776,16 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
   <h2><b>Hear it</b> from the team.</h2>
   <div class="vids"><a class="vid" href="https://www.youtube.com/watch?v=uvY3yww_1oY" target="_blank" rel="noopener">
   <span class="th"><img src="assets/media/uvY3yww_1oY.jpg" alt=""><i class="play" aria-hidden="true"></i><em>49:17</em></span>
-  <small>Talk · Devcon  ·  Nov 2026</small><b>One Ethereum: Same Block, Every Chain. Friederike Ernst</b></a><a class="vid" href="https://www.youtube.com/watch?v=Mdneqyvvk7g" target="_blank" rel="noopener">
+  <small>Talk · Devcon  ·  Nov 2026</small><b>One Ethereum: Same Block, Every Chain. Friederike Ernst&nbsp;↗</b></a><a class="vid" href="https://www.youtube.com/watch?v=Mdneqyvvk7g" target="_blank" rel="noopener">
   <span class="th"><img src="assets/media/Mdneqyvvk7g.jpg" alt=""><i class="play" aria-hidden="true"></i><em>27:01</em></span>
-  <small>Talk · Devcon  ·  Nov 2026</small><b>EEZ: Building Synchronous Ethereum with Real-Time ZK Proofs. Jordi Baylina</b></a><a class="vid" href="https://www.youtube.com/watch?v=CK1FwcWdqMI" target="_blank" rel="noopener">
+  <small>Talk · Devcon  ·  Nov 2026</small><b>EEZ: Building Synchronous Ethereum with Real-Time ZK Proofs. Jordi Baylina&nbsp;↗</b></a><a class="vid" href="https://www.youtube.com/watch?v=CK1FwcWdqMI" target="_blank" rel="noopener">
   <span class="th"><img src="assets/media/CK1FwcWdqMI.jpg" alt=""><i class="play" aria-hidden="true"></i><em>1:12:10</em></span>
-  <small>Podcast · Epicenter  ·  Jul 2026</small><b>Vitalik Buterin on the Ethereum Economic Zone</b></a><a class="vid" href="https://www.youtube.com/watch?v=gfG-R8AOu0E" target="_blank" rel="noopener">
+  <small>Podcast · Epicenter  ·  Jul 2026</small><b>Vitalik Buterin on the Ethereum Economic Zone&nbsp;↗</b></a><a class="vid" href="https://www.youtube.com/watch?v=gfG-R8AOu0E" target="_blank" rel="noopener">
   <span class="th"><img src="assets/media/gfG-R8AOu0E.jpg" alt=""><i class="play" aria-hidden="true"></i><em>15:57</em></span>
-  <small>Talk · Dappcon  ·  Jun 2026</small><b>Vitalik Buterin and Friederike Ernst on the Ethereum Economic Zone</b></a></div>
-  <a class="more" href="https://www.youtube.com/results?search_query=ethereum+economic+zone" target="_blank" rel="noopener">All talks →</a>
+  <small>Talk · Dappcon  ·  Jun 2026</small><b>Vitalik Buterin and Friederike Ernst on the Ethereum Economic Zone&nbsp;↗</b></a></div>
+  <a class="more" href="https://www.youtube.com/results?search_query=ethereum+economic+zone" target="_blank" rel="noopener">All talks ↗</a>
   <p class="eb latest">[ Latest ]</p>
-  <div class="posts"><a class="post" href="https://eez.io/blog" target="_blank" rel="noopener"><img src="assets/media/post-sep.jpg" alt=""><small>[Date]</small><b>Monthly update · September 2026</b></a><a class="post" href="https://eez.io/blog/monthly-update-august-2026" target="_blank" rel="noopener"><img src="assets/media/post-aug.jpg" alt=""><small>Aug 20, 2026</small><b>Monthly update · August 2026</b></a><a class="post" href="https://eez.io/blog/introducing-the-eez" target="_blank" rel="noopener"><img src="assets/media/post-intro.jpg" alt=""><small>Mar 29, 2026</small><b>Introducing the Ethereum Economic Zone</b></a></div>
+  <div class="posts"><a class="post" href="https://eez.io/blog/monthly-update---october-devcon-mumbai" target="_blank" rel="noopener"><span class="pth"><img src="assets/media/post-oct-live.png" alt="" loading="lazy"></span><small>Update · Nov 9, 2026</small><b>Monthly update — October &amp; Devcon Mumbai</b></a><a class="post" href="https://eez.io/blog/monthly-update---september" target="_blank" rel="noopener"><span class="pth"><img src="assets/media/post-sep-live.png" alt="" loading="lazy"></span><small>Update · Oct 1, 2026</small><b>Monthly update — September 2026</b></a><a class="post" href="https://eez.io/blog/introducing-the-eez" target="_blank" rel="noopener"><span class="pth"><img src="assets/media/post-intro-live.png" alt="" loading="lazy"></span><small>About · Mar 29, 2026</small><b>Introducing the Ethereum Economic Zone (EEZ)</b></a></div>
 </section>
 
 <footer class="ef">
@@ -790,7 +812,7 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
       <div><p>[ News ]</p>
         <a href="https://eez.io/blog">News</a>
         <a href="/#news">Press and talks</a>
-        <a href="#">Brand and logo</a>
+        <a href="https://eez.io/brand">Brand and logo</a>
       </div>
       <div><p>[ Follow ]</p>
         <a href="https://x.com/etheconomiczone" target="_blank" rel="noopener">X&nbsp;↗</a>

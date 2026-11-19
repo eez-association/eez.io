@@ -22,6 +22,9 @@ Local check: `BASE=/eez.io python3 tools/pages.py`
 
 Full link, animation and component list: [INVENTORY.md](INVENTORY.md).
 
+## Matching live eez.io
+`assemble.py` ends by running `tools/live_parity.py`, which brings Home in line with published eez.io (Framer): background, one-call diagram, progress timeline, heading style, Alliance layout, talks and Latest. `shared/` holds the Devcon bar and footer for every page. What was matched, what differs on purpose, and what is still open: [PARITY.md](PARITY.md).
+
 ## Files
 - `shared/` — header, footer, Devcon bar, shell.css/js, logo (the one source for both origins)
 - `assemble.py` — copies + rewrites both sources into `dist/`

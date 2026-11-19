@@ -177,6 +177,71 @@ HIW_HTML = hw(HIW_HTML, True)
 HIW_CSS = hw(HIW_CSS, False) + "\n#how .hiwclip svg{height:100%!important}\n"
 BG_CSS += "\nhtml{height:auto;min-height:100%}body{height:auto;min-height:100%}\n"
 
+# 4. the rest of the home, checked against published eez.io on 19 Nov 2026 -------------------
+# Headings: one light weight, no bold first word. Build, Alliance and News headers centred.
+# Alliance: vertical side labels (green / blue) instead of sub-headings; "Join the Alliance" is a
+# pill under the heading. Talks: ↗ on titles. Latest: the three posts live shows.
+REST_CSS = """
+.hero h1 b,.sec > h2 b,#how .build > h2 b{font-weight:inherit;color:inherit}
+#build > .eb,#build > h2,#alliance > .eb,#alliance > h2,#news > .eb,#news > h2{text-align:center;margin-inline:auto}
+.mq .logo b{font:500 16px/1 var(--sans)}
+.tile span,.tile span{font:500 16px/1 var(--sans);white-space:nowrap}
+#alliance .join-row{display:flex;justify-content:center;margin-top:32px}
+#alliance .tier{position:relative;margin-top:40px}
+#alliance .tier .emap{margin-top:0}
+#alliance .tierlbl{position:absolute;left:-41px;top:0;margin:0;transform:rotate(-90deg) translateX(-100%);transform-origin:0 0;white-space:nowrap;
+  font:400 12.5px/16px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+#alliance .tierlbl.adopt{color:#3BE57E}#alliance .tierlbl.infra{color:#6E9BEE}
+@media (max-width:1240px){#alliance .tierlbl{position:static;transform:none;margin:0 0 12px}}
+.vid small{font-size:12px}
+.th em{font-size:16px}
+.posts{margin-top:24px;gap:24px}
+.post{background:none;border:0;border-radius:0;padding:0;gap:0}
+.post .pth{display:block;border:1px solid #1e1e1e;border-radius:14px;background:#111;overflow:hidden;aspect-ratio:363/227}
+.post .pth img{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;border-radius:0;transition:transform .5s ease}
+.post:hover .pth img{transform:scale(1.03)}
+.post small{margin-top:14px;font:400 12px/1.6 var(--mono);letter-spacing:.06em;color:#7a7a76}
+.post b{margin-top:8px;font:500 15px/1.4 var(--sans);color:#f2f2ec}
+"""
+POSTS = [("post-oct-live.png", "6eL5F7RsHGKLg7lWz1fxn1YvgZU.png", "Update · Nov 9, 2026", "Monthly update — October &amp; Devcon Mumbai",
+          "https://eez.io/blog/monthly-update---october-devcon-mumbai"),
+         ("post-sep-live.png", "sXYqT2lUyIdJci0sPiOxxuFRYA.png", "Update · Oct 1, 2026", "Monthly update — September 2026",
+          "https://eez.io/blog/monthly-update---september"),
+         ("post-intro-live.png", "ElQPWQGOvp2LnMhhjsE3N9OYk6A.png", "About · Mar 29, 2026", "Introducing the Ethereum Economic Zone (EEZ)",
+          "https://eez.io/blog/introducing-the-eez")]
+POSTS_HTML = '<div class="posts">' + "".join(
+    f'<a class="post" href="{u}" target="_blank" rel="noopener"><span class="pth"><img src="assets/media/{f}" alt="" loading="lazy"></span>'
+    f'<small>{m}</small><b>{t}</b></a>' for f, _, m, t, u in POSTS) + "</div>"
+DEVCON = (INDEX.parent.parent / "shared/devcon.html").read_text().strip()
+
+def rest(s):
+    def sub(pat, new, count=1, flags=0):
+        nonlocal s
+        s, n = re.subn(pat, new, s, count=count, flags=flags)
+        if n == 0: sys.exit(f"pattern not found: {pat[:60]}")
+    # Devcon bar: same as every other page (shared/devcon.html)
+    sub(r'<div class="devcon">[\s\S]*?</div>', lambda m: DEVCON)
+    # Try on the testnet opens a new tab, like every other external link
+    sub(r'<a class="pill" href="https://eez.dev/">', '<a class="pill" href="https://eez.dev/" target="_blank" rel="noopener">')
+    # Alliance: pill under the heading, vertical labels, no join row / sub-headings
+    sub(r'<div class="row"><div class="grp join"[\s\S]*?</a></div></div>', '')
+    sub(r'(<h2><b>The teams</b> building on the commons\.</h2>)',
+        r'\1\n  <div class="join-row"><a class="pill" href="/get-in-touch?intent=alliance"><span>Join the Alliance</span><i aria-hidden="true">→</i></a></div>')
+    sub(r'<div class="tierhd"><h3>Adoption partners</h3><p>[^<]*</p></div>', '<p class="tierlbl adopt">Adoption partners</p>')
+    sub(r'<div class="tierhd"><h3>Infrastructure partners</h3><p>[^<]*</p></div>', '<p class="tierlbl infra">Infrastructure partners</p>')
+    # Talks: ↗ on titles and on All talks
+    s = re.sub(r'(<a class="vid"[^>]*>[\s\S]*?<b>)([^<]*)(</b>)', lambda m: m[1] + m[2] + "&nbsp;↗" + m[3], s)
+    sub(r'All talks →', 'All talks ↗')
+    # Latest: the three posts on live eez.io
+    sub(r'<div class="posts">[\s\S]*?</div>', lambda m: POSTS_HTML)
+    return s
+
+def copy_media():
+    import shutil
+    src, dst = INDEX.parent.parent / "tools/live-media", INDEX.parent / "assets/media"
+    for f, orig, *_ in POSTS:
+        shutil.copyfile(src / orig, dst / f)
+
 def main():
     s = INDEX.read_text()
     if MARK in s:
@@ -185,7 +250,9 @@ def main():
     s = s[:a] + HIW_HTML + s[b:]
     s, n = re.subn(r'<section class="sec" id="progress">[\s\S]*?</section>', PROGRESS, s, count=1)
     if n != 1: sys.exit("progress section not found")
-    s = s.replace("</head>", f"<style>{MARK}{BG_CSS}{HIW_CSS}{TL_CSS}</style>\n</head>", 1)
+    s = rest(s)
+    copy_media()
+    s = s.replace("</head>", f"<style>{MARK}{BG_CSS}{HIW_CSS}{TL_CSS}{REST_CSS}</style>\n</head>", 1)
     s = s.replace("<body>", "<body>\n" + BG_HTML, 1)
     s = s.replace("</body>", JS + "\n</body>", 1)
     INDEX.write_text(s)
