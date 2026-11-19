@@ -32,6 +32,8 @@ FIXES = [
     ('dapps: "Dapps"', 'dapps: "Apps"'),
     ("EEZ for infra and wallets", "EEZ for infrastructure operators and wallets"),
     ("For infra &amp; wallets", "For infrastructure operators and wallets"),
+    # the home card button keeps it short; the Infra page keeps the full name
+    ("<span>For infrastructure operators and wallets</span>", "<span>For infra and wallets</span>"),
     ("Infra or wallet", "Infra"),
     # zone -> chain (the name Ethereum Economic Zone is untouched)
     ("operating system for composable zones.", "operating system for composable chains."),

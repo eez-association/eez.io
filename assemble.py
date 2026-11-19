@@ -167,6 +167,8 @@ def main():
     import runpy; runpy.run_path(str(ROOT / "tools/live_parity.py"), run_name="__main__")
     # agreed copy standards: audience names, chain not zone, devnet, three status labels
     runpy.run_path(str(ROOT / "tools/copy_fixes.py"), run_name="__main__")
+    # Infra hero: same line motion as Apps and Chains
+    runpy.run_path(str(ROOT / "tools/hero_fixes.py"), run_name="__main__")
     # accessibility and weight fixes from the Impeccable audit
     runpy.run_path(str(ROOT / "tools/audit_fixes.py"), run_name="__main__")
     # curly apostrophes and quotes in visible copy (eez.io uses ’ and “ ”)
