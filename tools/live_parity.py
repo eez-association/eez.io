@@ -259,12 +259,12 @@ def rest(s):
     return s
 
 def copy_media():
-    # eez.io's covers, as 726 px JPEGs (2x the ~363 px card)
-    import subprocess
+    # eez.io's covers, pre-flattened onto the card colour (#111) and trimmed of their soft edge, so no
+    # transparent pixels turn white: tools/live-media/<id>.jpg, 726 px wide (2x the ~363 px card)
+    import shutil
     src, dst = INDEX.parent.parent / "tools/live-media", INDEX.parent / "assets/media"
     for f, orig, *_ in POSTS:
-        subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", "82", "--resampleWidth", "726",
-                        str(src / orig), "--out", str(dst / f)], capture_output=True, check=True)
+        shutil.copyfile(src / orig.replace(".png", ".jpg"), dst / f)
 
 def main():
     s = INDEX.read_text()
