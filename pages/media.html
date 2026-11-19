@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EEZ · News and media</title>
+<meta name="description" content="Coverage, talks, and announcements across the EEZ alliance.">
+<link rel="canonical" href="https://eez.io/media">
+<meta property="og:title" content="EEZ · News and media">
+<meta property="og:description" content="Coverage, talks, and announcements across the EEZ alliance.">
+<meta property="og:url" content="https://eez.io/media">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="/assets/eez-mark.svg">
+<style>
+/* Media page: same tokens, header and footer as the rest of eez.io; talk cards match the home page's */
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--eez-page);color:var(--eez-ink);font:400 16px/1.6 "Geist",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.glow{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(700px 520px at 18% 30%,rgba(59,229,126,.07),transparent 70%),radial-gradient(760px 560px at 86% 58%,rgba(84,66,205,.08),transparent 70%)}
+.skip{position:absolute;left:16px;top:-80px;z-index:300;padding:10px 14px;border-radius:8px;background:#fff;color:#0a0a0a;font:500 12px/1 "Geist Mono",monospace;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+.skip:focus{top:12px}
+.wrap{width:min(1136px,100% - 32px);margin:0 auto}
+.page{padding:96px 0 120px;display:grid;gap:56px}
+.head{display:grid;gap:16px;justify-items:center;text-align:center}
+.eb{margin:0;font:400 12.5px/1.3 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--eez-label)}
+h1{margin:0;font:300 clamp(40px,6vw,64px)/1.05 "Geist",sans-serif;letter-spacing:-.01em;color:var(--eez-ink);text-wrap:balance}
+h1 .lite{color:var(--eez-heading)}
+.lede{margin:0;max-width:600px;font-size:18px;line-height:1.55;color:var(--eez-body);text-wrap:pretty}
+
+/* press logos: a slow scroll, static and wrapped when motion is reduced */
+.press{position:relative;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.press-track{display:flex;width:max-content;animation:press 40s linear infinite}
+.press-set{display:flex;align-items:center;gap:72px;padding-right:72px}
+.press img{display:block;height:26px;width:auto;opacity:.82}
+.press:hover .press-track{animation-play-state:paused}
+@keyframes press{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+  .press{-webkit-mask-image:none;mask-image:none}
+  .press-track{animation:none;width:auto;justify-content:center}
+  .press-set{flex-wrap:wrap;justify-content:center;gap:32px 56px;padding:0}
+  .press-set[aria-hidden]{display:none}
+}
+
+.vids{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.vid{display:grid;gap:12px;align-content:start;color:inherit;text-decoration:none;min-width:0}
+.th{position:relative;display:block;aspect-ratio:16/9;border-radius:10px;overflow:hidden;border:1px solid var(--eez-line);background:var(--eez-surface)}
+.th img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.vid:hover .th img{transform:scale(1.04)}
+.play{position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(0,0,0,.42);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1.25px solid var(--eez-green);transition:transform .2s}
+.play::after{content:"";position:absolute;left:17px;top:13px;border-left:13px solid #fff;border-top:8px solid transparent;border-bottom:8px solid transparent}
+.vid:hover .play{transform:scale(1.08)}
+.vid:focus-visible{outline:2px solid var(--eez-green);outline-offset:4px;border-radius:12px}
+.vid small{font:400 12px/1.3 "Geist Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--eez-muted)}
+.vid b{font:500 15px/1.4 "Geist",sans-serif;color:var(--eez-ink-soft)}
+@media (prefers-reduced-motion:reduce){.th img,.play{transition:none}.vid:hover .th img{transform:none}}
+@media (max-width:900px){.vids{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.page{padding-top:64px}.vids{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="glow" aria-hidden="true"></div>
+<!--DEVCON-->
+<!--HEADER-->
+<main id="main" class="wrap page">
+  <div class="head">
+    <p class="eb">[ Press ]</p>
+    <h1>News and <span class="lite">media.</span></h1>
+    <p class="lede">Coverage, talks, and announcements across the EEZ alliance.</p>
+  </div>
+
+  <div class="press" aria-label="Covered by">
+    <div class="press-track">
+      <div class="press-set">
+        <img src="/assets/press/bankless.svg" alt="Bankless">
+        <img src="/assets/press/coindesk.svg" alt="CoinDesk">
+        <img src="/assets/press/decrypt.svg" alt="Decrypt">
+        <img src="/assets/press/theblock.svg" alt="The Block">
+        <img src="/assets/press/thedefiant.svg" alt="The Defiant">
+      </div>
+      <div class="press-set" aria-hidden="true">
+        <img src="/assets/press/bankless.svg" alt="">
+        <img src="/assets/press/coindesk.svg" alt="">
+        <img src="/assets/press/decrypt.svg" alt="">
+        <img src="/assets/press/theblock.svg" alt="">
+        <img src="/assets/press/thedefiant.svg" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="vids">
+    <a class="vid" href="https://www.youtube.com/watch?v=gfG-R8AOu0E" target="_blank" rel="noopener"><span class="th"><img src="/assets/media/gfG-R8AOu0E.jpg" alt="" loading="lazy"><i class="play" aria-hidden="true"></i></span><small>Talk · Dappcon</small><b>Vitalik Buterin and Friederike Ernst on the Ethereum Economic Zone&nbsp;↗</b></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=f5POkcq015s" target="_blank" rel="noopener"><span class="th"><img src="/assets/media/f5POkcq015s.jpg" alt="" loading="lazy"><i class="play" aria-hidden="true"></i></span><small>Talk · Dappcon</small><b>Real-time proving and synchronous composability between rollups. Jordi Baylina&nbsp;↗</b></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=TCC1zK24aG0" target="_blank" rel="noopener"><span class="th"><img src="/assets/media/TCC1zK24aG0.jpg" alt="" loading="lazy"><i class="play" aria-hidden="true"></i></span><small>Workshop · Dappcon</small><b>Ethereum Economic Zone workshop at Dappcon 2026&nbsp;↗</b></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=prgWmgUbSVQ" target="_blank" rel="noopener"><span class="th"><img src="/assets/media/prgWmgUbSVQ.jpg" alt="" loading="lazy"><i class="play" aria-hidden="true"></i></span><small>Fireside · Duct Tape</small><b>Vitalik Buterin and Jordi Baylina fireside chat&nbsp;↗</b></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=40LlU8jZAhk" target="_blank" rel="noopener"><span class="th"><img src="/assets/media/40LlU8jZAhk.jpg" alt="" loading="lazy"><i class="play" aria-hidden="true"></i></span><small>Talk · EthCC</small><b>Rollups broke Ethereum, but we can fix it. Jordi Baylina and Friederike Ernst&nbsp;↗</b></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=VrPeWCnhGHg" target="_blank" rel="noopener"><span class="th"><img src="/assets/media/VrPeWCnhGHg.jpg" alt="" loading="lazy"><i class="play" aria-hidden="true"></i></span><small>Talk · Dappcon</small><b>Fast sequencer or censorship-resistant consensus? Getting the best of both with EEZ&nbsp;↗</b></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=rkRiLs8wl28" target="_blank" rel="noopener"><span class="th"><img src="/assets/media/rkRiLs8wl28.jpg" alt="" loading="lazy"><i class="play" aria-hidden="true"></i></span><small>Podcast · Bankless</small><b>Will the Ethereum Economic Zone rebuild ETH dominance?&nbsp;↗</b></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=INL05J20K9Q" target="_blank" rel="noopener"><span class="th"><img src="/assets/media/INL05J20K9Q.jpg" alt="" loading="lazy"><i class="play" aria-hidden="true"></i></span><small>Fireside · ETHGlobal</small><b>Fireside chat with Jordi Baylina on EEZ&nbsp;↗</b></a>
+    <a class="vid" href="https://www.youtube.com/live/zXQFf4jbVBM" target="_blank" rel="noopener"><span class="th"><img src="/assets/media/zXQFf4jbVBM.jpg" alt="" loading="lazy"><i class="play" aria-hidden="true"></i></span><small>Community call · EEZ</small><b>Ethereum Economic Zone Community Call #1&nbsp;↗</b></a>
+  </div>
+</main>
+<!--FOOTER-->
+</body>
+</html>

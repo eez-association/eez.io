@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "marquee",
+        "value": "*",
+        "files": [
+          "pages/media.html"
+        ],
+        "createdAt": "2026-11-19T23:48:02.396Z",
+        "reason": "Sanctioned: mirrors the press-logo ticker on live eez.io/media (Framer Ticker); pauses on hover and is static under prefers-reduced-motion"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "pages/brand.html"
+        ],
+        "createdAt": "2026-11-19T23:48:02.408Z",
+        "reason": "User deferred the site-wide type scale on 2026-11-20 (to be done with Framer); page uses the existing eez.io sizes"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "pages/media.html"
+        ],
+        "createdAt": "2026-11-19T23:48:02.420Z",
+        "reason": "User deferred the site-wide type scale on 2026-11-20 (to be done with Framer); page uses the existing eez.io sizes"
+      }
+    ]
+  }
+}

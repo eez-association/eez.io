@@ -165,6 +165,8 @@ def main():
     print("dist ready:", sorted(str(p.relative_to(OUT)) for p in OUT.rglob("*.html")))
     # match live eez.io on background, one-call diagram and progress timeline
     import runpy; runpy.run_path(str(ROOT / "tools/live_parity.py"), run_name="__main__")
+    # pages only this repo has: /brand and /media
+    runpy.run_path(str(ROOT / "tools/extra_pages.py"), run_name="__main__")
     # agreed copy standards: audience names, chain not zone, devnet, three status labels
     runpy.run_path(str(ROOT / "tools/copy_fixes.py"), run_name="__main__")
     # Infra hero: same line motion as Apps and Chains
