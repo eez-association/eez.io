@@ -34,6 +34,17 @@ def fix(html):
     parts = TOKEN.split(html)
     skip, prev, n = [], "", 0
     for i, p in enumerate(parts):
+        raw = skip and skip[-1] in ("script", "style")
+        if raw:
+            # Inside <script>/<style> only the matching end tag counts: anything tag-shaped is
+            # text there (e.g. "<code>" inside JSON data) and must not open a new skip level.
+            if i % 2 and re.match(r"</" + skip[-1] + r"\b", p, re.I):
+                skip.pop()
+                continue
+            if skip[-1] == "script":
+                new, k = APOS.subn("\u2019", p)
+                parts[i], n = new, n + k
+            continue
         if i % 2:  # tag or comment
             m = re.match(r"<(/?)([a-zA-Z0-9]+)", p)
             if m:
@@ -44,10 +55,6 @@ def fix(html):
                             skip.pop()
                     else:
                         skip.append(name)
-            continue
-        if skip and skip[-1] == "script":
-            new, k = APOS.subn("\u2019", p)
-            parts[i], n = new, n + k
             continue
         if skip or ("'" not in p and '"' not in p):
             if p.strip():
