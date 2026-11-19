@@ -89,6 +89,16 @@ FIXES = [
      "before you can pin your L2 genesis. On a live chain, that means a hard fork after a counter you do not control."),
     ('li::before { content: "—";', 'li::before { content: "·";'),
     ('li::before{content:"—";', 'li::before{content:"·";'),
+    # Institutions explorer: no links out to the Ethereum Institutional scenarios ("The one-ledger version: …")
+    ('<p class="sx-ei" hidden>The one-ledger version: <a target="_blank" rel="noopener"></a></p>', ''),
+    ('const ei = q(".sx-ei"); ei.hidden = !s.ei; if (s.ei) { const a = ei.querySelector("a"); a.href = s.ei[0]; a.textContent = `${s.ei[1]} →`; }', ''),
+    ('.sx-ei{margin:20px 0 0;font:400 14px/1.6 var(--font-sans);color:var(--ink-quiet)}', ''),
+    ('.sx-ei a{color:var(--ink-soft)}', ''),
+    ('ei: ["https://ethereum-institutional.github.io/ei-digitalassets/scenarios/fund-dealing-tokenized/", "fund subscription and redemption"], ', ''),
+    ('ei: ["https://ethereum-institutional.github.io/ei-digitalassets/scenarios/dvp-deposit-token-tmmf/", "delivery versus payment"], ', ''),
+    ('ei: ["https://ethereum-institutional.github.io/ei-digitalassets/scenarios/repo-deposit-token-bond/", "repo and reverse repo"], ', ''),
+    ('ei: ["https://ethereum-institutional.github.io/ei-digitalassets/scenarios/collateral-mobility-margin/", "collateral mobility and margin"], ', ''),
+    ('ei: ["https://ethereum-institutional.github.io/ei-digitalassets/scenarios/fx-pvp-tokenized-currencies/", "foreign exchange, payment versus payment"], ', ''),
     # reworded lines
     ("<h3>One question before we scope</h3>", "<h3>Tell us what you run</h3>"),
     ("<p>Which role, and which chain. The scoper tells you what applies before you send anything.</p>",
