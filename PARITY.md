@@ -11,19 +11,14 @@ Everything below is applied by `tools/live_parity.py` (Home) and `shared/` (Devc
 | Page background | Flat `#0A0A0A` | Green/purple wash down the page + 8 blurred colour glows (blur 130 px) |
 | Headings (hero, all sections) | First word bold (800, white): "Activate **Ethereum**", "**What** you can build" | One light weight (300), no bold word |
 | Build, Alliance, News headers | Left-aligned | Centred |
-| One-call diagram | Video in a framed card, plays on hover, "Hover to play" caption | Animated SVG (live `hiwclip` component): plays when 40% is on screen, resets when it leaves. Call line 0.95 s → B check 1.0 s → return line from 1.15 s → A check 2.1 s → "[ One transaction ]" pill 2.35 s |
 | Where EEZ stands | Five cards, left-aligned heading | Timeline (live `eeztl` component): gradient spine, light sweep every 3.4 s, pulsing ring on "In progress", columns rise in 80 ms apart once at 20% on screen; vertical on phones |
 | Last progress step | "Many zones on Ethereum / Many zones composing…" | "Many chains on Ethereum / Many chains composing with Ethereum." |
-| Alliance | "Adoption partners" / "Infrastructure partners" sub-headings with a line of text; Join button under the first grid | Vertical side labels (green / blue), no sub-headings; "Join the Alliance" pill centred under the heading |
 | Text-only logos (beaverbuild, Colibri) | Suisse Intl 20 px (fallback font) / 12 px | Geist 500 16 px |
-| Talk cards | Meta 11 px, duration 11 px, no ↗ | Meta 12 px, duration 16 px, title ends in ↗; "All talks ↗" |
-| Latest | Sept (with a `[Date]` placeholder) and Aug updates + Intro, in panels | Live's three: October & Devcon Mumbai (Nov 9), September (Oct 1), Introducing the EEZ (Mar 29), live covers, open thumbnail cards |
 | Try on the testnet | Same tab | New tab |
-| Devcon bar (all pages) | `[ Devcon ]` green, sans text, `→` | Mono 11.5 px, grey key, `↗`; "[ Devcon ] Watch the EEZ talks…" links to `/#news` |
 | Footer (all pages) | Labels `#8f8f8f`, links 12 px, tagline 14 px | Labels `#9aa3b3`, links 13 px, tagline 13.5 px `#7a7a76`, © `#5e5e5a` |
 | Footer → Brand and logo | `#` (dead) | eez.io/brand |
 
-## Intentional differences (the proposal)
+## Intentional differences (the proposal, copy and thumbnails from eez-merge-demo.vercel.app)
 
 | Area | Live eez.io | Demo |
 |---|---|---|
@@ -33,6 +28,11 @@ Everything below is applied by `tools/live_parity.py` (Home) and `shared/` (Devc
 | Start where you are | 3 cards: Chain operators (Tally form), App builders (build.eez.io), Infrastructure operators (specs-draft) | 4 cards: Institutions, Chains, Apps, Infra → `/use-cases/*` |
 | Join the Alliance | tally.so/r/NpLo4l | `/get-in-touch?intent=alliance` |
 | Footer columns | Build · Alliance · News (Blog, Monthly updates, Press → /media, Brand and logo, Talks) · Follow | Use cases · Developers · News (News, Press and talks, Brand and logo) · Follow |
+| One-call diagram | Animated SVG, plays at 40% on screen | Hover-to-play video card, "Hover to play" |
+| Alliance | Vertical side labels, Join pill under heading | "Adoption partners" / "Infrastructure partners" sub-headings with a line of text; Join under the first grid |
+| Talk cards | Titles end in ↗; "All talks ↗" | No ↗ on titles; "All talks →" |
+| Latest | October, September, Intro; live covers | September (Oct 1), August (Aug 20), Intro; landscape EEZ thumbnails |
+| Devcon bar (all pages) | `↗` after each talk | `→` |
 
 ## Still different (decide)
 

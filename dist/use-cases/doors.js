@@ -1,4 +1,4 @@
-// "Start where you are" carousel, ported from the EEZ homepage mock-up's "What you can build" ring:
+// "Start where you are" carousel, ported from the EEZ homepage mock-up’s "What you can build" ring:
 // one row of cards, the centre one in focus (light), the others smaller and fading toward the edges.
 // A side card brings itself to the centre; the centre card opens its page. Drag, wheel, arrows, dots
 // and the keyboard all move it. Without this script the cards stay a plain grid.
@@ -10,7 +10,7 @@
   const cap = document.getElementById("ringcap"), dots = document.getElementById("rdots");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   ring.classList.add("js");
-  // the cards are links: stop the browser's own link drag and text selection, which would steal the gesture
+  // the cards are links: stop the browser’s own link drag and text selection, which would steal the gesture
   cards.forEach((a) => { a.draggable = false; });
   ring.addEventListener("dragstart", (e) => e.preventDefault());
   slides.forEach((s, i) => {

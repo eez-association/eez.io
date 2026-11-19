@@ -29,7 +29,7 @@
       LANES.forEach(([n, p, sub], i) => {
         o += `<rect class="nx-band b${i}" data-k="band${i}" x="${cx[i] - bandW / 2}" y="6" width="${bandW}" height="${H - 12}" rx="10"/>`;
         o += (p ? lock(cx[i] - 4, 14) : `<text class="nx-l1tag" x="${cx[i]}" y="23" text-anchor="middle">L1</text>`) +
-          `<text class="nx-lane is-sm${p ? "" : " is-l1"}" x="${cx[i]}" y="42" text-anchor="middle">${n.replace("Buyer's custodian", "Custodian")}</text>` +
+          `<text class="nx-lane is-sm${p ? "" : " is-l1"}" x="${cx[i]}" y="42" text-anchor="middle">${n.replace("Buyer’s custodian", "Custodian")}</text>` +
           `<text class="nx-lsub" x="${cx[i]}" y="56" text-anchor="middle">${sub}</text>`;
       });
       o += frame(3, top - 14, W - 6, dy * (nS - 1) + bh + 28);

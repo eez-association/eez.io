@@ -15,7 +15,7 @@
     const t = m.querySelector(".eh-trigger");
     // On hover devices the menu is already open when the click lands, so a click keeps it open.
     t.addEventListener("click", () => (fine.matches || !m.classList.contains("is-open") ? open(m) : close()));
-    // Short grace period on leave, so a diagonal move into the menu doesn't close it.
+    // Short grace period on leave, so a diagonal move into the menu doesn’t close it.
     m.addEventListener("mouseenter", () => { if (!fine.matches) return; clearTimeout(timer); open(m); });
     m.addEventListener("mouseleave", () => { if (!fine.matches) return; clearTimeout(timer); timer = setTimeout(() => close(), 250); });
     // Keyboard: Down arrow from the button moves into the menu.

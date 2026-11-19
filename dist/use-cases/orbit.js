@@ -2,7 +2,7 @@
 //   0.00       opening: eyebrow, headline and the small colour EEZ mark, centred
 //   0.01-0.07  the first scroll brings in the subtitle and the partner line; the mark steps down under them
 //   0.07-0.24  hold: the reader has time to read them before anything else moves (about three wheel ticks)
-//   0.24-0.40  the mark grows and travels to the figure's centre, the headline rises, the layer list slides in
+//   0.24-0.40  the mark grows and travels to the figure’s centre, the headline rises, the layer list slides in
 //   0.38-0.52  the mark opens into three rings; Ethereum mainnet appears in the centre
 //   0.54-0.65  public rollups move out onto ring 1
 //   0.68-0.79  new chains onto ring 2
@@ -17,17 +17,17 @@
   const side = root.querySelector(".orb-side"), cue = root.querySelector(".orb-cue"), cta = root.querySelector(".orb-cta"), legend = [...root.querySelectorAll(".orb-legend li")];
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // three tiles per ring, 60° apart from the neighbouring ring's tiles, and every ring turns at the
+  // three tiles per ring, 60° apart from the neighbouring ring’s tiles, and every ring turns at the
   // same speed, so tiles on different rings never run into each other
   const RINGS = [
     { r: 0.52, n: 3, a0: 90, labels: ["RollupX", "EEZ-X Testnet", "Your rollup"] },
     { r: 0.72, n: 2, a0: 0, labels: ["App chain", "Non-EVM chain"] },
     { r: 0.92, n: 2, a0: 60, labels: ["Bank network", "Consortium"] },
   ];
-  const CORE = 0.28; // the Ethereum core's radius, as a share of the figure's half-width
+  const CORE = 0.28; // the Ethereum core’s radius, as a share of the figure’s half-width
   const TEXT = [0.01, 0.07], INTRO = [0.24, 0.4], OPEN = [0.38, 0.52];
   const WIN = [OPEN, [0.54, 0.65], [0.68, 0.79], [0.82, 0.94]]; // per layer: 0 = Ethereum
-  const MARK = 0.26; // the mark's width in the figure, as a share of the figure, just before it opens
+  const MARK = 0.26; // the mark’s width in the figure, as a share of the figure, just before it opens
   const clamp = (x) => Math.max(0, Math.min(1, x));
   const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
   const span = (p, [a, b]) => ease(clamp((p - a) / (b - a)));
@@ -53,7 +53,7 @@
     fig.appendChild(orbit);
   });
   const mark = stage.querySelector(".orb-mark"), core = fig.querySelector(".orb-core"), rings = [...fig.querySelectorAll(".orb-ring")];
-  const RATIO = 428 / 271; // the mark's height / width
+  const RATIO = 428 / 271; // the mark’s height / width
 
   // ---------- layout: where everything sits at the end, and where the opening lockup sits ----------
   let L = null;
@@ -84,7 +84,7 @@
   let kb = false; // a keyboard user gets the header at once, so Tab never lands on something unseen
   addEventListener("keydown", (e) => { if (e.key === "Tab" && !kb) { kb = true; document.documentElement.classList.remove("hdr-away"); } });
   const draw = (p) => {
-    // the legend first: on phones the active layer's note changes the figure's room, so re-measure
+    // the legend first: on phones the active layer’s note changes the figure’s room, so re-measure
     const now = p < OPEN[0] ? -1 : p < 0.53 ? 0 : p < 0.67 ? 1 : p < 0.81 ? 2 : 3;
     if (now !== active) {
       active = now;
@@ -107,7 +107,7 @@
     side.style.opacity = String(sk);
     side.style.visibility = sk ? "visible" : "hidden"; // no focus stops on an invisible list
     side.style.transform = `translateX(${24 * (1 - sk)}px)`;
-    // the mark: small above the headline, then large at the figure's centre, then it opens into the rings
+    // the mark: small above the headline, then large at the figure’s centre, then it opens into the rings
     const w = mix(L.m0.w, L.m1.w, k) * (1 + open * 1.2);
     mark.style.width = `${w}px`;
     mark.style.transform = `translate(${mix(L.m0.x, L.m1.x, k) - w / 2}px, ${mix(m0y, L.m1.y, k) - (w * RATIO) / 2}px)`;
@@ -120,7 +120,7 @@
     core.style.opacity = String(clamp((open - 0.45) / 0.55));
     core.style.transform = `translate(-50%, -50%) scale(${0.85 + 0.15 * open})`;
     tiles.forEach(({ el, ring }) => {
-      const t = span(p, WIN[ring + 1]), a = (+el.dataset.a * Math.PI) / 180, r = (CORE + (RINGS[ring].r - CORE) * t) * L.half; // out from the core's edge
+      const t = span(p, WIN[ring + 1]), a = (+el.dataset.a * Math.PI) / 180, r = (CORE + (RINGS[ring].r - CORE) * t) * L.half; // out from the core’s edge
       el.style.opacity = String(clamp(t * 1.4));
       el.style.setProperty("--x", `${r * Math.cos(a)}px`); el.style.setProperty("--y", `${r * Math.sin(a)}px`);
     });

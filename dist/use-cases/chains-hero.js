@@ -1,4 +1,4 @@
-// Chains hero: your chain calls Ethereum's apps, then other EEZ chains, each answer back in the same
+// Chains hero: your chain calls Ethereum’s apps, then other EEZ chains, each answer back in the same
 // transaction. Wide layout on desktop, stacked on phones (rebuilt across the breakpoint). Loops while
 // on screen. Reduced motion: final state.
 (() => {
