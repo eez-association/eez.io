@@ -36,15 +36,20 @@
   @media (max-width: 900px) { .gotchas { grid-template-columns: 1fr; gap: 20px; } }
   .ix { margin: 36px auto 0; max-width: 760px; }
   .ix-fig svg { display: block; width: 100%; height: auto; }
-  .ix-box rect { fill: #121212; stroke: var(--edge); transition: stroke .35s, fill .35s; }
+  .ix-box { transform-box: fill-box; transform-origin: center; transition: transform .5s cubic-bezier(.2,.8,.2,1), filter .5s ease; }
+  .ix-box rect { fill: #121212; stroke: var(--edge); transition: stroke .5s ease, fill .5s ease; }
   .ix-box.is-you rect { stroke: var(--ink-quiet); }
   .ix-box[data-s="on"] rect { stroke: url(#eez-g); }
-  .ix-box[data-s="ok"] rect { stroke: var(--eez-green); fill: color-mix(in oklab, var(--eez-green) 8%, #121212); }
+  .ix-box[data-s="ok"] { transform: scale(1.02); filter: drop-shadow(0 0 7px rgba(98,131,189,.35)); }
+  .ix-box[data-s="ok"] rect { stroke: url(#eez-g); stroke-width: 1.4; fill: color-mix(in oklab, var(--grad-steel) 12%, #121212); }
   .ix-name { fill: var(--ink); font: 600 13px var(--font-sans); }
   .ix-sub { fill: var(--muted); font: 400 10.5px var(--font-mono); }
   .ix-ic { fill: var(--eez-green); font: 600 13px var(--font-mono); }
-  .ix-edge { fill: none; stroke: var(--edge); stroke-width: 1.3; stroke-dasharray: 4 5; transition: stroke .35s; }
-  .ix-edge[data-s="run"] { stroke: url(#eez-g); stroke-dasharray: none; }
+  .ix-edge { fill: none; stroke: var(--edge); stroke-width: 1; }
+  .ix-trace { fill: none; stroke: url(#eez-g); stroke-width: 1.6; stroke-linecap: round; }
+  .ix-dot { fill: #eef2ff; opacity: 0; }
+  .ix-glow { fill: var(--grad-steel); opacity: 0; filter: blur(4px); }
+  
   .ix-frame { fill: none; stroke: var(--edge); }
   .ix-cap { fill: var(--muted); font: 400 11px var(--font-mono); letter-spacing: .04em; }
   .ix-status { margin: 0; font: 500 14.5px/1.5 var(--font-sans); color: var(--ink-quiet); transition: color .35s; }
@@ -59,7 +64,7 @@
 </style>
 <link rel="icon" type="image/svg+xml" href="/assets/eez-mark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/_shell/shell.css?v=5">
+<link rel="stylesheet" href="/_shell/shell.css?v=6">
 </head>
 <body class="eez-canvas">
 <a class="skip" href="#main">Skip to content</a>
@@ -212,6 +217,7 @@
 </footer>
 
 
+<script src="/use-cases/hero-flow.js" defer></script>
 <script src="/use-cases/infra-hero.js" defer></script>
 <script src="/use-cases/spotlight.js" defer></script>
 <script src="/use-cases/nav.js?v=2" defer></script>

@@ -44,7 +44,7 @@
 </style>
 <link rel="icon" type="image/svg+xml" href="/assets/eez-mark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/_shell/shell.css?v=5">
+<link rel="stylesheet" href="/_shell/shell.css?v=6">
 </head>
 <body class="eez-canvas">
 <a class="skip" href="#main">Skip to content</a>
@@ -113,7 +113,7 @@
         <tr>
           <td class="mono">03</td>
           <td class="net">Freeze your L2 genesis <span class="eez-badge">After 02</span><span class="fine">The predeploy takes the rollupId at construction</span></td>
-          <td>A chain that can carry cross-chain work — or a hard fork</td>
+          <td>A chain that can carry cross-chain work, or a hard fork</td>
         </tr>
         <tr>
           <td class="mono">04</td>
@@ -145,7 +145,7 @@
     </div>
 
     <div class="callout">
-      <p><b>Why 02 precedes 03.</b> The registry assigns your rollupId in the same transaction that notifies your manager, and the L2 predeploy needs that number at construction. You must land an L1 transaction before you can pin your L2 genesis — for a live chain, a hard fork after a counter you do not control.</p>
+      <p><b>Why 02 precedes 03.</b> The registry assigns your rollupId in the same transaction that notifies your manager, and the L2 predeploy needs that number at construction. You must land an L1 transaction before you can pin your L2 genesis. On a live chain, that means a hard fork after a counter you do not control.</p>
     </div>
 
     <div class="footnote">

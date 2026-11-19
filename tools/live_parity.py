@@ -220,6 +220,10 @@ REST_CSS = """
 .post b{margin-top:8px;font:500 15px/1.4 var(--sans);color:#f2f2ec}
 .zone.zv .vcard{cursor:pointer}
 .ringcap span{text-transform:uppercase}
+.eeztl .node.horizon p{color:#8a8a85}
+a.more{display:inline-flex;align-items:center;min-height:24px}
+.skip{position:absolute;left:16px;top:-80px;z-index:300;padding:10px 14px;border-radius:8px;background:#fff;color:#0a0a0a;font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+.skip:focus{top:12px}
 .aud .pill{max-width:100%}.aud .pill span{white-space:normal;text-align:left;line-height:1.35}.aud .pill i{flex:none}
 .aud p{font-size:15.5px}
 .zone.zv .cap .hv,.zone.zv .cap .tp{font:400 12px/1.6 var(--mono);letter-spacing:.06em;color:#7a7a76}

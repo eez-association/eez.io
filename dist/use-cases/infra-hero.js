@@ -34,25 +34,35 @@
   };
 
   const ICON = { ok: "✓" };
+  const F = window.HeroFlow(fig, "ix");
   const set = (k, st) => {
-    const el = fig.querySelector(`[data-k="${k}"]`); if (!el) return;
+    const el = fig.querySelector(`.ix-box[data-k="${k}"]`); if (!el) return;
     el.dataset.s = st;
     const ic = el.querySelector(".ix-ic"); if (ic) ic.textContent = ICON[st] || "";
   };
-  const STEPS = [[200, "you", "on"], [400, "er", "run"], [800, "c0", "ok"], [1200, "c1", "ok"], [1600, "c2", "ok"], [2100, "ec", "run"], [2500, "cmp", "ok"]];
-  let timers = [], loop = 0;
-  const play = () => {
-    timers.forEach(clearTimeout); timers = []; clearTimeout(loop);
-    fig.querySelectorAll("[data-k]").forEach((el) => set(el.dataset.k, ""));
-    status.classList.remove("on");
-    const at = (ms, fn) => (reduce ? fn() : timers.push(setTimeout(fn, ms)));
-    STEPS.forEach(([ms, k, st]) => at(ms, () => set(k, st)));
-    at(2700, () => status.classList.add("on"));
-    if (!reduce) loop = setTimeout(play, 6000);
+  const boxes = () => [...fig.querySelectorAll(".ix-box")];
+  // [kind, key, ms, state]: "box" lights a box, "line" draws a path (same player as the Apps and Chains heroes)
+  const SEQ = [["box", "you", 260, "on"], ["line", "er", 820], ["box", "c0", 200, "ok"], ["box", "c1", 200, "ok"],
+    ["box", "c2", 260, "ok"], ["line", "ec", 820], ["box", "cmp", 220, "ok"]];
+  const play = async () => {
+    const id = F.next();
+    boxes().forEach((el) => set(el.dataset.k, "")); F.reset(); status.classList.remove("on");
+    if (reduce) { SEQ.forEach(([t, k, , st]) => t === "box" && set(k, st)); F.final(); status.classList.add("on"); return; }
+    if (!(await F.wait(300, id))) return;
+    for (const [t, k, ms, st] of SEQ) {
+      if (t === "box") { set(k, st); if (!(await F.wait(ms, id))) return; }
+      else if (!(await F.draw(k, ms, id))) return;
+    }
+    status.classList.add("on");
+    if (!(await F.wait(3200, id))) return;
+    boxes().forEach((el) => set(el.dataset.k, "")); status.classList.remove("on");
+    if (!(await F.retract(700, id))) return;
+    if (!(await F.wait(500, id))) return;
+    play();
   };
 
-  build();
-  narrow.addEventListener("change", () => { build(); play(); });
+  build(); F.enhance();
+  narrow.addEventListener("change", () => { build(); F.enhance(); play(); });
   window.__ixPlay = play; // test hook
   const r = root.getBoundingClientRect();
   if (reduce || !("IntersectionObserver" in window) || (r.top < innerHeight && r.bottom > 0)) return play(); // already in view: start now

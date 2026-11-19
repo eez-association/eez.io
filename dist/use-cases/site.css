@@ -69,7 +69,7 @@ section.blk { margin-top: 48px; border-top: 1px solid var(--edge); padding-top: 
 .door p { font: 400 15px/1.6 var(--font-sans); color: var(--ink-body); margin: 8px 0 0; }
 .door ul { margin: auto 0 0; padding: var(--space-4) 0 0; list-style: none; display: grid; gap: 6px; }
 .door li { font: 400 15px/1.6 var(--font-sans); color: var(--ink-quiet); padding-left: 16px; position: relative; }
-.door li::before { content: "—"; position: absolute; left: 0; color: var(--card-num); }
+.door li::before { content: "·"; position: absolute; left: 0; color: var(--card-num); }
 .door .cta-row { margin-top: 0; padding-top: var(--space-4); }
 .door .cta-row .eez-pill { width: 100%; justify-content: space-between; padding: 14px 0 0; border: 0;
   border-top: 1px solid var(--edge); border-radius: 0; background: none; color: var(--muted); font-size: 11.5px; }
