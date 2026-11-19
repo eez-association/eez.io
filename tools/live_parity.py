@@ -187,8 +187,8 @@ BG_CSS += "\nhtml{height:auto;min-height:100%}body{height:auto;min-height:100%}\
 
 # 4. the rest of the home, checked against published eez.io on 19 Nov 2026 -------------------
 # Headings: one light weight, no bold first word. Build, Alliance and News headers centred.
-# Copy, Alliance sub-headings, talk titles and Latest cards follow the demo (eez-merge-demo.vercel.app),
-# 20 Nov 2026; Latest only gets its real date and link.
+# Copy, Alliance sub-headings and talk titles follow the demo (eez-merge-demo.vercel.app), 20 Nov 2026.
+# Latest shows eez.io's three posts and covers (October, September, Intro).
 REST_CSS = """
 .hero h1 b,.sec > h2 b,#how .build > h2 b{font-weight:inherit;color:#fff}
 #build > .eb,#build > h2,#alliance > .eb,#alliance > h2,#news > .eb,#news > h2{text-align:center;margin-inline:auto}
@@ -229,14 +229,14 @@ a.more{display:inline-flex;align-items:center;min-height:24px}
 .zone.zv .cap .hv,.zone.zv .cap .tp{font:400 12px/1.6 var(--mono);letter-spacing:.06em;color:#7a7a76}
 .th em{font-size:16px}
 """
-POSTS = [("post-oct-live.png", "6eL5F7RsHGKLg7lWz1fxn1YvgZU.png", "Update · Nov 9, 2026", "Monthly update — October &amp; Devcon Mumbai",
+POSTS = [("post-oct-live.jpg", "6eL5F7RsHGKLg7lWz1fxn1YvgZU.png", "Update · Nov 9, 2026", "Monthly update · October and Devcon Mumbai",
           "https://eez.io/blog/monthly-update---october-devcon-mumbai"),
-         ("post-sep-live.png", "sXYqT2lUyIdJci0sPiOxxuFRYA.png", "Update · Oct 1, 2026", "Monthly update — September 2026",
+         ("post-sep-live.jpg", "sXYqT2lUyIdJci0sPiOxxuFRYA.png", "Update · Oct 1, 2026", "Monthly update · September 2026",
           "https://eez.io/blog/monthly-update---september"),
-         ("post-intro-live.png", "ElQPWQGOvp2LnMhhjsE3N9OYk6A.png", "About · Mar 29, 2026", "Introducing the Ethereum Economic Zone (EEZ)",
+         ("post-intro-live.jpg", "ElQPWQGOvp2LnMhhjsE3N9OYk6A.png", "About · Mar 29, 2026", "Introducing the Ethereum Economic Zone (EEZ)",
           "https://eez.io/blog/introducing-the-eez")]
 POSTS_HTML = '<div class="posts">' + "".join(
-    f'<a class="post" href="{u}" target="_blank" rel="noopener"><span class="pth"><img src="assets/media/{f}" alt="" loading="lazy"></span>'
+    f'<a class="post" href="{u}" target="_blank" rel="noopener"><img src="assets/media/{f}" alt="" loading="lazy">'
     f'<small>{m}</small><b>{t}</b></a>' for f, _, m, t, u in POSTS) + "</div>"
 DEVCON = (INDEX.parent.parent / "shared/devcon.html").read_text().strip()
 
@@ -254,16 +254,17 @@ def rest(s):
     sub(r'<div class="tierhd"><h3>Infrastructure partners', '<div class="tierhd infra"><h3>Infrastructure partners')
     sub(r'<a class="mbtn" href="(/get-in-touch\?intent=alliance)">[\s\S]*?</a>',
         r'<a class="pill" href="\1"><span>Join the Alliance</span><i aria-hidden="true">→</i></a>')
-    # Latest: demo cards and thumbnails; fill the September date and link
-    sub(r'<a class="post" href="https://eez.io/blog" ([^>]*)><img src="assets/media/post-sep.jpg" alt=""><small>\[Date\]</small>',
-        r'<a class="post" href="https://eez.io/blog/monthly-update---september" \1><img src="assets/media/post-sep.jpg" alt=""><small>Oct 1, 2026</small>')
+    # Latest: the three posts eez.io shows (October, September, Intro) with eez.io's covers
+    sub(r'<div class="posts">[\s\S]*?</div>', lambda m: POSTS_HTML)
     return s
 
 def copy_media():
-    import shutil
+    # eez.io's covers, as 726 px JPEGs (2x the ~363 px card)
+    import subprocess
     src, dst = INDEX.parent.parent / "tools/live-media", INDEX.parent / "assets/media"
     for f, orig, *_ in POSTS:
-        shutil.copyfile(src / orig, dst / f)
+        subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", "82", "--resampleWidth", "726",
+                        str(src / orig), "--out", str(dst / f)], capture_output=True, check=True)
 
 def main():
     s = INDEX.read_text()
@@ -276,6 +277,7 @@ def main():
     s, n = re.subn(r'<section class="sec" id="progress">[\s\S]*?</section>', PROGRESS, s, count=1)
     if n != 1: sys.exit("progress section not found")
     s = rest(s)
+    copy_media()
     s = s.replace("</head>", f"<style>{MARK}{BG_CSS}{HIW_CSS}{TL_CSS}{REST_CSS}</style>\n</head>", 1)
     s = s.replace("<body>", "<body>\n" + BG_HTML, 1)
     s = s.replace("</body>", JS + "\n</body>", 1)
