@@ -74,6 +74,11 @@ FIXES = [
     ("Coming soon.", "Planned."),
     ("(coming soon)", "(planned)"),
     ("Conformance kit · coming soon", "Conformance kit · Planned"),
+    # "Before you commit" boxes: status, not a warning
+    ('<h2 class="doc-h2">Before you commit</h2>', '<h2 class="doc-h2">Where it stands today</h2>'),
+    ('<span class="cmp-eyebrow">Plan for these</span><h3>In progress</h3>', '<span class="cmp-eyebrow">Next</span><h3>In progress</h3>'),
+    ('<span class="cmp-eyebrow">Plan for these</span><h3>What changes</h3>', '<span class="cmp-eyebrow">Good to know</span><h3>What changes</h3>'),
+    ("Today's gaps by role.", "What runs now and what comes next, by role."),
     # reworded lines
     ("<h3>Three answers decide the call</h3>", "<h3>Whether or not it's right for you depends on three things.</h3>"),
     ("Do you run a sequencer, and are you pre-launch or live?", "Do you run a sequencer? And are you pre-launch or live?"),
