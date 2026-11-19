@@ -30,8 +30,8 @@ FIXES = [
     ("chain, institution, dapp or infra", "chain, institution, app or infra"),
     ('aria-pressed="false">Dapps<', 'aria-pressed="false">Apps<'),
     ('dapps: "Dapps"', 'dapps: "Apps"'),
-    ("EEZ for infra and wallets", "EEZ for infra"),
-    ("For infra &amp; wallets", "For infra"),
+    ("EEZ for infra and wallets", "EEZ for infrastructure operators and wallets"),
+    ("For infra &amp; wallets", "For infrastructure operators and wallets"),
     ("Infra or wallet", "Infra"),
     # zone -> chain (the name Ethereum Economic Zone is untouched)
     ("operating system for composable zones.", "operating system for composable chains."),
@@ -80,6 +80,12 @@ FIXES = [
     ('<span class="cmp-eyebrow">Plan for these</span><h3>What changes</h3>', '<span class="cmp-eyebrow">Good to know</span><h3>What changes</h3>'),
     ("Today's gaps by role.", "What runs now and what comes next, by role."),
     # reworded lines
+    ("<h3>One question before we scope</h3>", "<h3>Tell us what you run</h3>"),
+    ("<p>Which role, and which chain. The scoper tells you what applies before you send anything.</p>",
+     "<p>Which role you play and which chains you serve. We'll come back with what applies to your setup and where to start.</p>"),
+    ("<h3>Which contract, which chain</h3>", "<h3>Tell us what you're building</h3>"),
+    ("<p>Answer three questions and the scoper tells you whether your pattern works today, with changes, or not yet.</p>",
+     "<p>Which contract, and which chains it should reach. We'll come back with what works today and what it takes.</p>"),
     ("<h3>Three answers decide the call</h3>", "<h3>Whether or not it's right for you depends on three things.</h3>"),
     ("Do you run a sequencer, and are you pre-launch or live?", "Do you run a sequencer? And are you pre-launch or live?"),
 ]
