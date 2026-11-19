@@ -28,11 +28,15 @@ Everything below is applied by `tools/live_parity.py` (Home) and `shared/` (Devc
 | Start where you are | 3 cards: Chain operators (Tally form), App builders (build.eez.io), Infrastructure operators (specs-draft) | 4 cards: Institutions, Chains, Apps, Infra → `/use-cases/*` |
 | Join the Alliance | tally.so/r/NpLo4l | `/get-in-touch?intent=alliance` |
 | Footer columns | Build · Alliance · News (Blog, Monthly updates, Press → /media, Brand and logo, Talks) · Follow | Use cases · Developers · News (News, Press and talks, Brand and logo) · Follow |
-| One-call diagram | Animated SVG, plays at 40% on screen | Hover-to-play video card, "Hover to play" |
-| Alliance | Vertical side labels, Join pill under heading | "Adoption partners" / "Infrastructure partners" sub-headings with a line of text; Join under the first grid |
+| One-call diagram | Animated SVG, plays at 40% on screen | Same SVG and colours, plays on hover / tap, "Hover to play" |
+| Alliance | Vertical side labels, Join pill under heading | Same green / blue labels and box borders, placed above each grid with a line of text; Join under the first grid |
 | Talk cards | Titles end in ↗; "All talks ↗" | No ↗ on titles; "All talks →" |
 | Latest | October, September, Intro; live covers | September (Oct 1), August (Aug 20), Intro; landscape EEZ thumbnails |
 | Devcon bar (all pages) | `↗` after each talk | `→` |
+
+## Colours and styling
+
+Matched to live by computed style (20 Nov 2026): heading highlight white, hero lede, header (transparent until scroll), Devcon bar, Build cards, Alliance borders and logos, play buttons, Latest cards, footer. Only the logo lockup size still differs.
 
 ## Still different (decide)
 

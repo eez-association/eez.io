@@ -25,6 +25,9 @@
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") { close(); eh.classList.remove("is-open"); } });
   const tg = eh.querySelector(".eh-toggle");
   tg.addEventListener("click", () => { const o = !eh.classList.contains("is-open"); eh.classList.toggle("is-open", o); tg.setAttribute("aria-expanded", String(o)); });
+  // Transparent over the hero, solid once the page scrolls (as on eez.io).
+  const sc = () => eh.classList.toggle("is-scrolled", scrollY > 8);
+  addEventListener("scroll", sc, { passive: true }); sc();
   // Mark where we are.
   const p = location.pathname.replace(/\.html$/, "").replace(/\/$/, "");
   eh.querySelectorAll(".eh-drop a[href^='/']").forEach((a) => { if (a.getAttribute("href") === p) { a.setAttribute("aria-current", "page"); a.closest(".eh-menu").classList.add("is-here"); } });

@@ -2,8 +2,8 @@
 """Bring three parts of the demo home (dist/index.html) in line with live eez.io (Framer):
 
 1. Page background: a soft green/purple wash plus eight blurred colour glows.
-2. "One call away" diagram: kept as the demo's hover-to-play video card (the live animated SVG
-   is kept below as HIW_HTML but no longer applied, 20 Nov 2026).
+2. "One call away" diagram: the live animated SVG (same colours as eez.io) inside the demo's
+   hover-to-play card; it plays on hover, focus or tap.
 3. "Where EEZ stands": the live timeline (gradient spine, light sweep, pulsing in-progress dot,
    staggered rise-in once at 20% on screen) replaces the five cards.
 
@@ -155,8 +155,16 @@ JS = """<script>
   // live eez.io parity: the one-call diagram plays at 40% on screen and resets when it leaves;
   // the progress timeline rises in once at 20%
   const hiw = document.getElementById("hiw"), tl = document.getElementById("eeztl");
-  if (!("IntersectionObserver" in window)) { hiw && hiw.classList.add("hw-play"); tl && tl.classList.add("in"); return; }
-  if (hiw) new IntersectionObserver(es => es.forEach(e => hiw.classList.toggle("hw-play", e.isIntersecting)), { threshold: 0.4 }).observe(hiw);
+  if (!("IntersectionObserver" in window)) { tl && tl.classList.add("in"); return; }
+  const card = hiw && hiw.closest(".vcard");
+  if (card) {
+    const on = () => { hiw.classList.remove("hw-play"); void hiw.offsetWidth; hiw.classList.add("hw-play"); card.classList.add("on"); };
+    const off = () => { hiw.classList.remove("hw-play"); card.classList.remove("on"); };
+    card.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") on(); });
+    card.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") off(); });
+    card.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse") card.classList.contains("on") ? off() : on(); });
+    card.addEventListener("focus", on); card.addEventListener("blur", off);
+  }
   if (tl) { const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { tl.classList.add("in"); io.disconnect(); } }), { threshold: 0.2 }); io.observe(tl); }
 })();
 </script>"""
@@ -182,11 +190,41 @@ BG_CSS += "\nhtml{height:auto;min-height:100%}body{height:auto;min-height:100%}\
 # Copy, Alliance sub-headings, talk titles and Latest cards follow the demo (eez-merge-demo.vercel.app),
 # 20 Nov 2026; Latest only gets its real date and link.
 REST_CSS = """
-.hero h1 b,.sec > h2 b,#how .build > h2 b{font-weight:inherit;color:inherit}
+.hero h1 b,.sec > h2 b,#how .build > h2 b{font-weight:inherit;color:#fff}
 #build > .eb,#build > h2,#alliance > .eb,#alliance > h2,#news > .eb,#news > h2{text-align:center;margin-inline:auto}
 .mq .logo b{font:500 16px/1 var(--sans)}
 .tile span,.tile span{font:500 16px/1 var(--sans);white-space:nowrap}
-.vid small{font-size:12px}
+.vid small{font-size:12px;letter-spacing:.06em}
+/* colour and design parity with live eez.io (computed styles, 20 Nov 2026) */
+.hero .lede{max-width:520px;color:#c9cfda}
+.pill span{font-size:11.5px;font-weight:500;letter-spacing:.02em}
+.mq .logo b,.tile span{letter-spacing:-.02em}
+.aud{background:linear-gradient(rgba(255,255,255,.016),rgba(0,0,0,0));border-color:#1c1c1c;border-radius:18px}
+.aud .iso{height:96px;align-self:center;margin:8px 0 12px}
+.aud h3{color:#fff;letter-spacing:-.01em}
+.aud .pill{background:none;border:0;border-bottom:1px solid #333;border-radius:0;padding:0 0 4px;gap:8px;color:#fff}
+.aud .pill span{font-size:12px;letter-spacing:.08em}
+.aud .pill i{width:auto;height:auto;background:none}
+.tierhd h3{font:400 12.5px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.tierhd.adopt h3{color:#3BE57E}.tierhd.infra h3{color:#6E9BEE}
+.grp{background:none;border-color:rgba(255,255,255,.08)}
+.tierhd.adopt + .emap .grp{border-color:rgba(59,229,126,.32)}
+.tierhd.infra + .emap .grp{border-color:rgba(98,131,189,.4)}
+.grp .eb{color:#9aa3b3}
+.tile{background:none;border-color:transparent}
+.tile:hover{border-color:rgba(255,255,255,.08)}
+.play{background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.play::after{border-left-color:#fff}
+.th em{letter-spacing:-.02em}
+.posts{margin-top:24px;gap:24px}
+.post{background:none;border:0;border-radius:0;padding:0;gap:0}
+.post img{border:1px solid #1e1e1e;border-radius:14px;background:#111;aspect-ratio:363/227;transition:transform .5s ease}
+.post small{margin-top:16px;font:400 12px/1.6 var(--mono);letter-spacing:.06em;color:#7a7a76}
+.post b{margin-top:8px;font:500 15px/1.4 var(--sans);color:#f2f2ec}
+.zone.zv .vcard{cursor:pointer}
+.ringcap span{text-transform:uppercase}
+.aud p{font-size:15.5px}
+.zone.zv .cap .hv,.zone.zv .cap .tp{font:400 12px/1.6 var(--mono);letter-spacing:.06em;color:#7a7a76}
 .th em{font-size:16px}
 """
 POSTS = [("post-oct-live.png", "6eL5F7RsHGKLg7lWz1fxn1YvgZU.png", "Update · Nov 9, 2026", "Monthly update — October &amp; Devcon Mumbai",
@@ -209,6 +247,11 @@ def rest(s):
     sub(r'<div class="devcon">[\s\S]*?</div>', lambda m: DEVCON)
     # Try on the testnet opens a new tab, like every other external link
     sub(r'<a class="pill" href="https://eez.dev/">', '<a class="pill" href="https://eez.dev/" target="_blank" rel="noopener">')
+    # Alliance sub-headings: green / blue labels like live; Join as the live pill
+    sub(r'<div class="tierhd"><h3>Adoption partners', '<div class="tierhd adopt"><h3>Adoption partners')
+    sub(r'<div class="tierhd"><h3>Infrastructure partners', '<div class="tierhd infra"><h3>Infrastructure partners')
+    sub(r'<a class="mbtn" href="(/get-in-touch\?intent=alliance)">[\s\S]*?</a>',
+        r'<a class="pill" href="\1"><span>Join the Alliance</span><i aria-hidden="true">→</i></a>')
     # Latest: demo cards and thumbnails; fill the September date and link
     sub(r'<a class="post" href="https://eez.io/blog" ([^>]*)><img src="assets/media/post-sep.jpg" alt=""><small>\[Date\]</small>',
         r'<a class="post" href="https://eez.io/blog/monthly-update---september" \1><img src="assets/media/post-sep.jpg" alt=""><small>Oct 1, 2026</small>')
@@ -224,10 +267,14 @@ def main():
     s = INDEX.read_text()
     if MARK in s:
         print("live parity already applied"); return
+    clip = HIW_HTML[HIW_HTML.index('<div class="hiwclip'):HIW_HTML.rindex('</div>')]
+    s, n = re.subn(r'(<div class="zone zv">)<p class="eb g">\[ One transaction \]</p>(<div class="vcard" tabindex="0">)<video[\s\S]*?</video>',
+                   lambda m: m[1] + m[2] + clip, s, count=1)
+    if n != 1: sys.exit("one-call video card not found")
     s, n = re.subn(r'<section class="sec" id="progress">[\s\S]*?</section>', PROGRESS, s, count=1)
     if n != 1: sys.exit("progress section not found")
     s = rest(s)
-    s = s.replace("</head>", f"<style>{MARK}{BG_CSS}{TL_CSS}{REST_CSS}</style>\n</head>", 1)
+    s = s.replace("</head>", f"<style>{MARK}{BG_CSS}{HIW_CSS}{TL_CSS}{REST_CSS}</style>\n</head>", 1)
     s = s.replace("<body>", "<body>\n" + BG_HTML, 1)
     s = s.replace("</body>", JS + "\n</body>", 1)
     INDEX.write_text(s)

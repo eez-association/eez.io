@@ -21,8 +21,8 @@ GIT_MAIN = (SH / "get-in-touch.main.html").read_text()
 DEVCON = (SH / "devcon.html").read_text()
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">')
-SHELL_HEAD = '<link rel="stylesheet" href="/_shell/shell.css?v=4">'
-SHELL_JS = '<script src="/_shell/shell.js?v=2" defer></script>'
+SHELL_HEAD = '<link rel="stylesheet" href="/_shell/shell.css?v=5">'
+SHELL_JS = '<script src="/_shell/shell.js?v=3" defer></script>'
 
 # integrate page -> (new file under dist, new URL)
 PAGES = {
