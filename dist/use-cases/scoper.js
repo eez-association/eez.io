@@ -142,7 +142,7 @@
     sendHref();
   }
 
-  // The intake itself is a Tally form (Gnosis Comms workspace). The scoper's
+  // The intake itself is a Tally form (Gnosis Comms workspace). The scoper’s
   // answers ride along as hidden fields; the respondent adds project and contact.
   var TALLY_ID = 'RWW79Q';
   var TALLY_URL = 'https://tally.so/r/' + TALLY_ID;
@@ -174,7 +174,7 @@
     window.Tally.openPopup(TALLY_ID, { layout: 'modal', width: 560, hiddenFields: hidden() });
   });
 
-  // any radio can be preset from the URL, e.g. ?role=chain&stage=pre for a chain that hasn't launched
+  // any radio can be preset from the URL, e.g. ?role=chain&stage=pre for a chain that hasn’t launched
   new URLSearchParams(location.search).forEach(function (value, name) {
     var input = form.querySelector('input[type="radio"][name="' + CSS.escape(name) + '"][value="' + CSS.escape(value) + '"]');
     if (input) input.checked = true;

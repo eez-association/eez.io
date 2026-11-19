@@ -1,5 +1,5 @@
 // Dapps hero: one app, deployed once, reached by users on Ethereum mainnet, on your chain and on other
-// EEZ chains. Each call lights up in turn and lands in the user's own transaction. Wide layout on
+// EEZ chains. Each call lights up in turn and lands in the user’s own transaction. Wide layout on
 // desktop, stacked on phones. Loops while on screen. Reduced motion: final state.
 (() => {
   const root = document.querySelector(".dx");

@@ -51,7 +51,7 @@
     const capHTML = (s) => `<div class="hd"><h3>${s.title}</h3><span class="tag">${s.tag}</span></div>` +
       `<p>${s.lead ? `<span class="lead">${s.lead}.</span> ` : ""}${s.detail}</p>` + (s.why ? `<p class="why"><b>Why:</b> ${s.why}</p>` : "") +
       (s.bullets.length ? `<ul>${s.bullets.map(([t, gate]) => `<li${gate ? ' class="gate"' : ""}>${t}</li>`).join("")}</ul>` : "");
-    // keep the box as tall as the longest caption, so the page doesn't jump between steps
+    // keep the box as tall as the longest caption, so the page doesn’t jump between steps
     const fit = () => { cap.style.minHeight = ""; let h = 0; steps.forEach((s) => { cap.innerHTML = capHTML(s); h = Math.max(h, cap.offsetHeight); }); cap.style.minHeight = h + "px"; cap.innerHTML = capHTML(steps[Math.max(0, shown)]); };
 
     let timers = [], shown = -1, played = false, io = null;
