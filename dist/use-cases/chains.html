@@ -44,9 +44,9 @@
   .cx-box.is-you rect { stroke: var(--ink-quiet); }
   .cx-box[data-s="on"] rect { stroke: url(#eez-g); }
   .cx-box { transform-box: fill-box; transform-origin: center; transition: transform .5s cubic-bezier(.2,.8,.2,1), filter .5s ease; }
-  .cx-box rect { fill: #121212; stroke: var(--edge); transition: stroke .5s ease, fill .5s ease; }
+  .cx-box rect { fill: var(--eez-surface); stroke: var(--edge); transition: stroke .5s ease, fill .5s ease; }
   .cx-box[data-s="ok"] { transform: scale(1.02); filter: drop-shadow(0 0 7px rgba(98,131,189,.35)); }
-  .cx-box[data-s="ok"] rect { stroke: url(#eez-g); stroke-width: 1.4; fill: color-mix(in oklab, var(--grad-steel) 12%, #121212); }
+  .cx-box[data-s="ok"] rect { stroke: url(#eez-g); stroke-width: 1.4; fill: color-mix(in oklab, var(--grad-steel) 12%, var(--eez-surface)); }
   .cx-edge { fill: none; stroke: var(--edge); stroke-width: 1; }
   .cx-trace { fill: none; stroke: url(#eez-g); stroke-width: 1.6; stroke-linecap: round; }
   .cx-dot { fill: #eef2ff; opacity: 0; }
@@ -88,7 +88,8 @@
 </style>
 <link rel="icon" type="image/svg+xml" href="/assets/eez-mark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/_shell/shell.css?v=6">
+<link rel="stylesheet" href="/_shell/tokens.css?v=1">
+<link rel="stylesheet" href="/_shell/shell.css?v=7">
 </head>
 <body class="eez-canvas">
 <a class="skip" href="#main">Skip to content</a>

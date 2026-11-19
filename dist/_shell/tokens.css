@@ -1,0 +1,32 @@
+/* EEZ site tokens: the one source of colour, line and radius values for every page.
+   The home page, the use-case pages and the shared header/footer each keep their own variable names,
+   but those names now point here (see tools/tokens_fix.py and tools/live_parity.py).
+   Reference: live eez.io (Framer), measured 2026-11-20. */
+:root{
+  /* surfaces */
+  --eez-page:#0a0a0a;          /* page background */
+  --eez-surface:#111111;       /* cards, panels, menus, inputs (eez.io thumbnail well) */
+  --eez-raised:#1f1f1f;        /* chips, pill arrow circles, hover fills */
+  /* lines */
+  --eez-line:#2e2e2e;          /* card and control borders, diagram strokes */
+  --eez-line-soft:#1c1c1c;     /* quiet dividers, eez.io card border */
+  --eez-line-faint:rgba(255,255,255,.08); /* header, footer and section rules */
+  /* text, lightest to darkest; every step passes WCAG AA on --eez-surface */
+  --eez-ink:#ffffff;           /* headings, primary text */
+  --eez-ink-soft:#f2f2ec;      /* titles on cards, logo words */
+  --eez-heading:#dcdcdc;       /* the light part of display headings */
+  --eez-body:#c9cfda;          /* running text, ledes */
+  --eez-label:#9aa3b3;         /* eyebrows, labels, footer column titles */
+  --eez-muted:#8f8f8f;         /* secondary text, meta, captions */
+  /* brand */
+  --eez-green:#3be57e;
+  --eez-mint:#a8f3ce;
+  --eez-grad-mint:#8ae5ac;
+  --eez-grad-steel:#6283bd;
+  --eez-grad-indigo:#4439cb;
+  /* shape */
+  --eez-radius-card:16px;
+  --eez-radius-tile:14px;
+  --eez-radius-menu:10px;
+  --eez-radius-pill:100px;
+}

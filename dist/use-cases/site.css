@@ -40,7 +40,7 @@ body { margin: 0; }
 .page-head { padding: 64px 0 0; }
 .page-head .eez-eyebrow { margin: 0 0 var(--space-5); }
 .page-head h1 { margin: 0; max-width: 1000px; text-wrap: balance; }
-.display .lite { font-weight: 300; color: #dcdcdc; }
+.display .lite { font-weight: 300; color: var(--eez-heading); }
 .page-head .lede { margin: var(--space-5) 0 0; max-width: 820px; color: var(--ink-body); }
 .page-head .lede b { color: var(--ink); font-weight: 600; }
 .page-head .lede a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--muted); text-underline-offset: 3px; }
@@ -131,7 +131,7 @@ section.blk { margin-top: 48px; border-top: 1px solid var(--edge); padding-top: 
 .field .hint { font: 400 13.5px/1.5 var(--font-sans); color: var(--ink-quiet); }
 .input, .select, .textarea {
   box-sizing: border-box; width: 100%; padding: 13px 14px; border-radius: var(--radius-field);
-  border: 1px solid var(--edge); background: #090909; color: var(--ink);
+  border: 1px solid var(--edge); background: var(--eez-page); color: var(--ink);
   font: 400 15px/1.6 var(--font-sans); outline: none; }
 .input:focus, .select:focus, .textarea:focus { border-color: var(--eez-green); box-shadow: var(--shadow-field-focus); }
 .select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
@@ -358,7 +358,7 @@ section.blk { margin-top: 48px; border-top: 1px solid var(--edge); padding-top: 
 /* ---------- why, design A: opening line, two drawn states, three reasons ---------- */
 .why-a { display: grid; gap: 28px; }
 .why-lead { margin: 0; max-width: 860px; font: 500 clamp(24px, 2.6vw, 32px)/1.2 var(--font-sans); letter-spacing: -.02em; color: var(--ink); text-wrap: balance; }
-.why-lead .lite { font-weight: 300; color: #dcdcdc; }
+.why-lead .lite { font-weight: 300; color: var(--eez-heading); }
 .why-lead + .why-sub { margin: -16px 0 0; font: 400 17px/1.55 var(--font-sans); color: var(--ink-body); max-width: 760px; }
 .why-panels { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
 .why-panel { display: grid; gap: 14px; align-content: start; min-width: 0; padding: 20px 22px 18px; border: 1px solid var(--edge); border-radius: var(--radius-card); background: var(--screen); }
@@ -375,14 +375,14 @@ section.blk { margin-top: 48px; border-top: 1px solid var(--edge); padding-top: 
 .why-points b { display: block; margin-bottom: 12px; font: 500 12px/1.4 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--eez-green); }
 .why-points b i { font-style: normal; color: var(--ink); }
 /* diagram parts */
-.wd-box { fill: #121212; stroke: var(--edge); }
+.wd-box { fill: var(--eez-surface); stroke: var(--edge); }
 .wd-box.on { stroke: var(--eez-green); stroke-opacity: .6; }
 .wd-hub { fill: var(--eez-green); }
 .wd-edge { fill: none; stroke: var(--ink-quiet); stroke-dasharray: 4 5; }
 .wd-edge.on { stroke: var(--eez-green); stroke-dasharray: none; }
 .wd-frame { fill: none; stroke: var(--eez-green); stroke-opacity: .45; }
 .wd-name { fill: var(--ink); font: 500 12px var(--font-mono); }
-.wd-name.on-hub { fill: #0a0a0a; font-weight: 600; }
+.wd-name.on-hub { fill: var(--eez-page); font-weight: 600; }
 .wd-txt { fill: var(--muted); font: 400 11px var(--font-mono); }
 .wd-txt.is-eez { fill: var(--eez-green); }
 /* With EEZ: brand gradient on the diagram and the "to" terms */
@@ -401,7 +401,7 @@ section.blk { margin-top: 48px; border-top: 1px solid var(--edge); padding-top: 
 .why-req li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: center; font: 500 19px/1.35 var(--font-sans); color: var(--ink); counter-increment: req; }
 .why-req li::before { content: counter(req); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--eez-green); color: var(--eez-green); font: 600 18px/1 var(--font-sans); }
 .why-strike { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.why-strike li { padding: 14px 12px; border: 1px solid var(--edge); border-radius: 10px; background: #121212; text-align: center; font: 600 15px/1.35 var(--font-sans); color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1.5px; }
+.why-strike li { padding: 14px 12px; border: 1px solid var(--edge); border-radius: 10px; background: var(--eez-surface); text-align: center; font: 600 15px/1.35 var(--font-sans); color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1.5px; }
 .why-panel.is-plain { align-content: space-between; }
 /* why, landing: EezLayers (ported from EezLayers.tsx), in a door-style card */
 .eez-layers { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: center; gap: 8px 40px;
@@ -696,7 +696,7 @@ svg.sqf-dia { display: block; width: 100%; height: auto; overflow: visible; }
 /* the centre card turns to paper, like the mock-up's active card */
 .ring.js .slide.center .door { background: #f2f2ec; border-color: #f2f2ec; transform: translateY(-4px); box-shadow: 0 18px 40px -18px rgba(0,0,0,.8); }
 .ring.js .slide.center .door p { color: #2b2b28; }
-.ring.js .slide.center .door .eez-eyebrow { color: #5f5f5a; }
+.ring.js .slide.center .door .eez-eyebrow { color: var(--eez-muted); }
 .ring.js .slide.center .door .cta-row .eez-pill { color: #0a0a0a; border-top-color: #d6d6cf; }
 .ring.js .slide.center .door .eez-arrow { background: transparent; border-color: #0a0a0a; color: #0a0a0a; }
 .ring.js .slide.center .door:hover .cta-row .eez-arrow { background: var(--eez-grad) border-box; border-color: transparent; color: #0a0a0a; }

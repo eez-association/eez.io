@@ -95,3 +95,14 @@
 .badge { font-family: var(--font-mono); font-size: 11px; line-height: 1.4; font-weight: 400; letter-spacing: 0.04em; }
 .code { font-family: var(--font-mono); font-size: 14px; line-height: 21px; font-weight: 400; }
 .code-stage { font-family: var(--font-mono); font-size: 19px; line-height: 34px; font-weight: 400; }
+
+/* One token system: these names now point at shared/tokens.css (added by tools/tokens_fix.py) */
+:root:root, :root:root[data-theme="dark"] {
+  --void: #000000; --canvas: var(--eez-page); --screen: var(--eez-surface); --chrome: var(--eez-raised);
+  --edge: var(--eez-line); --edge-quiet: var(--eez-line-soft);
+  --control: var(--eez-surface); --control-edge: var(--eez-line); --control-hover: var(--eez-raised);
+  --ink: var(--eez-ink); --ink-soft: var(--eez-heading); --ink-body: var(--eez-body);
+  --muted: var(--eez-label); --ink-quiet: var(--eez-muted); --card-num: var(--eez-muted);
+  --pinned: var(--eez-mint); --grad-mint: var(--eez-grad-mint); --grad-steel: var(--eez-grad-steel); --grad-indigo: var(--eez-grad-indigo);
+  --radius-card: var(--eez-radius-card); --radius-pill: var(--eez-radius-pill);
+}

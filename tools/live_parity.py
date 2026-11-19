@@ -196,10 +196,13 @@ REST_CSS = """
 .tile span,.tile span{font:500 16px/1 var(--sans);white-space:nowrap}
 .vid small{font-size:12px;letter-spacing:.06em}
 /* colour and design parity with live eez.io (computed styles, 20 Nov 2026) */
-.hero .lede{max-width:520px;color:#c9cfda}
+/* one token system: the home page's own names point at shared/tokens.css */
+:root:root{--page:var(--eez-page);--card:var(--eez-surface);--panel:var(--eez-surface);--edge:var(--eez-line);--ln:var(--eez-line);--ln2:var(--eez-line-soft);
+  --ink:var(--eez-ink-soft);--ink-dim:var(--eez-muted);--muted:var(--eez-muted);--ebc:var(--eez-label);--sub:var(--eez-heading);--ledec:var(--eez-body);--white:var(--eez-ink);--green:var(--eez-green)}
+.hero .lede{max-width:520px;color:var(--eez-body)}
 .pill span{font-size:11.5px;font-weight:500;letter-spacing:.02em}
 .mq .logo b,.tile span{letter-spacing:-.02em}
-.aud{background:linear-gradient(rgba(255,255,255,.016),rgba(0,0,0,0));border-color:#1c1c1c;border-radius:18px}
+.aud{background:linear-gradient(rgba(255,255,255,.016),rgba(0,0,0,0));border-color:var(--eez-line-soft);border-radius:var(--eez-radius-card)}
 .aud .iso{height:96px;align-self:center;margin:8px 0 12px}
 .aud h3{color:#fff;letter-spacing:-.01em}
 .tierhd h3{font:400 12.5px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase}
