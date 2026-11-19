@@ -151,8 +151,8 @@
   .sx-foot .eez dt{color:var(--green-text)}
   .sx-foot dd{margin:0;font:400 17px/1.5 var(--font-sans);color:var(--ink-body)}
   .sx-foot .eez dd{color:var(--ink)}
-  .sx-ei{margin:20px 0 0;font:400 14px/1.6 var(--font-sans);color:var(--ink-quiet)}
-  .sx-ei a{color:var(--ink-soft)}
+  
+  
 
   @media (max-width:760px){
     .sx-stage{padding:20px 18px}
@@ -364,7 +364,7 @@
         </div>
       </div>
     </div>
-    <p class="sx-ei" hidden>The one-ledger version: <a target="_blank" rel="noopener"></a></p>
+    
   </div>
     <div class="footnote"><a class="eez-badge" href="/use-cases/all?role=institutions">All use cases →</a></div>
   </section>
@@ -445,7 +445,7 @@
 
   // each scenario: the parties, the steps before the cross-chain call, then the call itself
   const S = [
-    { t: "Redeem fund shares", ei: ["https://ethereum-institutional.github.io/ei-digitalassets/scenarios/fund-dealing-tokenized/", "fund subscription and redemption"], when: "Your tokenized money-market fund runs on your own chain. On a Sunday, an investor asks for $10m back in stablecoins.", st: "Devnet only",
+    { t: "Redeem fund shares", when: "Your tokenized money-market fund runs on your own chain. On a Sunday, an investor asks for $10m back in stablecoins.", st: "Devnet only",
       actA: "Investor", a: "Redemption contract", b: "Liquidity provider’s vault", call: "Buy these shares", ok: "Paid $10m", d1: "Buy these shares at your quoted price.", d2: "Pays $10m in stablecoins to the investor.", d3: "Checks the payment, then moves the shares to the provider.",
       la: "Fund shares → liquidity provider", lb: "$10m in stablecoins → investor", name: "Redeemed, in one transaction",
       pre: [line("aA", "aC", "Redeem $10m", "Your chain", "Request", "The investor redeems", "On a Sunday, the investor asks the redemption contract for $10m back in stablecoins.", "Your chain")],
@@ -455,13 +455,13 @@
       la: "Client settled at their limit price", lb: "The rest fills in mainnet pools, paid out on mainnet", name: "Filled, in one transaction",
       pre: [line("aA", "aC", "$5m order", "Your chain", "Order", "The client sends a $5m order", "It is bigger than your local book can fill.", "Your chain")],
       today: "You fill only what your local book holds.", eez: "You fill the whole order without holding inventory on mainnet." },
-    { t: "Issue a bond", ei: ["https://ethereum-institutional.github.io/ei-digitalassets/scenarios/dvp-deposit-token-tmmf/", "delivery versus payment"], when: "You issue a tokenized bond on your own chain. Investors pay with stablecoins they already hold on mainnet.", st: "Devnet only",
+    { t: "Issue a bond", when: "You issue a tokenized bond on your own chain. Investors pay with stablecoins they already hold on mainnet.", st: "Devnet only",
       actA: "Issuer", actB: "Investor", a: "Issuance contract", b: "Stablecoin contract", call: "Collect payment", ok: "Payment sent", d1: "Collect the investor’s payment, approved in advance.", d2: "Moves the stablecoins to you.", d3: "Checks the payment arrived, then delivers the bond.",
       la: "Bond → investor", lb: "Investor’s stablecoins → issuer", name: "Issued, in one transaction",
       pre: [line("bA", "bC", "Approve the payment", "Mainnet", "Approve", "Approve the payment in advance", "The investor approves its stablecoins for the purchase on mainnet.", "Mainnet"),
             line("aA", "aC", "Issue the bond", "Your chain", "Issue", "Issue the bond", "You call the issuance contract on your own chain.", "Your chain")],
       today: "Payment first, delivery later, risk in between.", eez: "Payment and bond settle together. No one delivers first." },
-    { t: "Four-hour repo", ei: ["https://ethereum-institutional.github.io/ei-digitalassets/scenarios/repo-deposit-token-bond/", "repo and reverse repo"], when: "A firm in New York needs dollars from 11:00 to 15:00. It hands over tokenized Treasuries on its own chain and borrows stablecoins from a lender on mainnet.", st: "Devnet only",
+    { t: "Four-hour repo", when: "A firm in New York needs dollars from 11:00 to 15:00. It hands over tokenized Treasuries on its own chain and borrows stablecoins from a lender on mainnet.", st: "Devnet only",
       actA: "Firm", actB: "Lender", a: "Repo contract", b: "Lender’s cash contract", call: "Send the cash", ok: "Cash sent", d1: "At 11:00, send the cash for these Treasuries.", d2: "Moves the lender’s stablecoins to the firm.", d3: "Checks the cash arrived, then moves the Treasuries to the lender.",
       la: "Tokenized Treasuries → lender", lb: "Stablecoins → firm", name: "Opening, in one transaction", top: "11:00", res: "✓ Opened and unwound, each in one transaction",
       pre: [line("aA", "bA", "Agree the repo: 11:00 to 15:00", "Before", "Agree", "Agree the repo", "Firm and lender agree the amount, the Treasuries and the hours, as they do today.", "Off-ledger", true),
@@ -470,12 +470,12 @@
       post: [{ k: "one", top: "15:00", short: "Unwind", title: "Unwind at 15:00, in one transaction", detail: "Cash back to the lender and Treasuries back to the firm, or neither.", tag: ONE,
         call: "Return the cash", ok: "Cash returned", sub: "Cash goes back to the lender · Treasuries go back to the firm" }],
       today: "You pay for a full night to borrow for four hours.", eez: "Open at 11:00, unwind at 15:00, each in one transaction." },
-    { t: "Pledge Treasuries", ei: ["https://ethereum-institutional.github.io/ei-digitalassets/scenarios/collateral-mobility-margin/", "collateral mobility and margin"], when: "It’s 02:00 in Tokyo and US operations are closed. A margin call comes in on a platform on your chain, and your collateral is tokenized Treasury fund shares held on mainnet.", st: "Live",
+    { t: "Pledge Treasuries", when: "It’s 02:00 in Tokyo and US operations are closed. A margin call comes in on a platform on your chain, and your collateral is tokenized Treasury fund shares held on mainnet.", st: "Live",
       actA: "Firm", a: "Margin platform", b: "Escrow contract", call: "Lock these shares", ok: "Locked", d1: "Lock these fund shares in the platform’s favour.", d2: "Locks the shares in escrow.", d3: "Checks the lock, credits the collateral, clears the margin call.",
       la: "Collateral credited, margin call cleared", lb: "Fund shares locked in escrow, never moved", name: "Pledged, in one transaction",
       pre: [line("aA", "aC", "Meet the margin call", "Your chain", "Margin call", "Meet the margin call", "At 02:00 in Tokyo, the firm answers the margin call on the platform, on its own chain.", "Your chain")],
       today: "Bridge the shares and hold a wrapped copy.", eez: "The shares stay on mainnet. No wrapped copy." },
-    { t: "Swap euros for dollars", ei: ["https://ethereum-institutional.github.io/ei-digitalassets/scenarios/fx-pvp-tokenized-currencies/", "foreign exchange, payment versus payment"], when: "Your bank’s clients hold euro deposit tokens on your own chain. A client sells €5m for dollars, paid in stablecoins by a liquidity provider on mainnet.", st: "Devnet only",
+    { t: "Swap euros for dollars", when: "Your bank’s clients hold euro deposit tokens on your own chain. A client sells €5m for dollars, paid in stablecoins by a liquidity provider on mainnet.", st: "Devnet only",
       actA: "Client", a: "FX settlement contract", b: "Liquidity provider’s vault", call: "Pay the dollars", ok: "Dollars paid", d1: "Pay the dollars at the agreed rate.", d2: "Moves the provider’s stablecoins to the client.", d3: "Checks the dollars arrived, then moves the euros to the provider.",
       la: "Euro deposit tokens → liquidity provider", lb: "Stablecoins → client", name: "Swapped, in one transaction",
       pre: [line("aA", "aC", "Sell €5m", "Your chain", "Sell €5m", "The client sells €5m for dollars", "Its euro deposit tokens sit on your chain.", "Your chain")],
@@ -613,7 +613,7 @@
     q(".sx-when").textContent = s.when; const st = q(".sx-st"); st.textContent = s.st; st.classList.toggle("now", s.st === "Live");
     q("[data-today]").textContent = s.today; q("[data-eez]").textContent = s.eez;
     result.textContent = s.res || "✓ Both chains settled in one transaction";
-    const ei = q(".sx-ei"); ei.hidden = !s.ei; if (s.ei) { const a = ei.querySelector("a"); a.href = s.ei[0]; a.textContent = `${s.ei[1]} →`; }
+    
     build(s);
     q(".lg-off").hidden = !list.some((x) => x.off);
     play();
