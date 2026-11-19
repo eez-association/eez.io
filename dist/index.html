@@ -739,7 +739,7 @@ a.more{display:inline-flex;align-items:center;min-height:24px}
         <svg id="art9" viewBox="-150 -140 300 270" role="img" aria-label="Ethereum on the left holds a price. Two chains on the right read it at the same moment, from the same Ethereum block."></svg>
       </div>
       <footer class="foot" aria-live="polite">
-        <span><small>Price read</small><b id="l9done">—</b></span>
+        <span><small>Price read</small><b id="l9done">Waiting</b></span>
         <span class="blk"><small>Oracle needed</small><b>None</b></span>
       </footer>
     </article>
@@ -1271,7 +1271,7 @@ a.more{display:inline-flex;align-items:center;min-height:24px}
     ],
     links: [[0, 1], [0, 2]],
     legs: [["data", 0, 1, 0, 0.78], ["data", 0, 2, 0, 0.78]],
-    settle: ok => { l9.textContent = ok ? "$1,784" : "—"; } });
+    settle: ok => { l9.textContent = ok ? "$1,784" : "Waiting"; } });
 
   // side by side: a post-quantum signature is checked on the rollup, and the Safe on Ethereum acts in the same block
   const l8 = document.getElementById("l8done");

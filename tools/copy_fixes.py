@@ -81,6 +81,14 @@ FIXES = [
     ('<span class="cmp-eyebrow">Plan for these</span><h3>In progress</h3>', '<span class="cmp-eyebrow">Next</span><h3>In progress</h3>'),
     ('<span class="cmp-eyebrow">Plan for these</span><h3>What changes</h3>', '<span class="cmp-eyebrow">Good to know</span><h3>What changes</h3>'),
     ("Today's gaps by role.", "What runs now and what comes next, by role."),
+    # no em-dashes in visible copy (they read as AI-written)
+    ('<b id="l9done">—</b>', '<b id="l9done">Waiting</b>'),
+    ('l9.textContent = ok ? "$1,784" : "—";', 'l9.textContent = ok ? "$1,784" : "Waiting";'),
+    ("A chain that can carry cross-chain work — or a hard fork", "A chain that can carry cross-chain work, or a hard fork"),
+    ("before you can pin your L2 genesis — for a live chain, a hard fork after a counter you do not control.",
+     "before you can pin your L2 genesis. On a live chain, that means a hard fork after a counter you do not control."),
+    ('li::before { content: "—";', 'li::before { content: "·";'),
+    ('li::before{content:"—";', 'li::before{content:"·";'),
     # reworded lines
     ("<h3>One question before we scope</h3>", "<h3>Tell us what you run</h3>"),
     ("<p>Which role, and which chain. The scoper tells you what applies before you send anything.</p>",
@@ -94,7 +102,7 @@ FIXES = [
 
 
 def main():
-    files = [f for f in DIST.rglob("*") if f.suffix in {".html", ".js", ".json"} and "vendor" not in f.parts]
+    files = [f for f in DIST.rglob("*") if f.suffix in {".html", ".js", ".json", ".css"} and "vendor" not in f.parts]
     text = {f: f.read_text() for f in files}
     missing = []
     for old, new in FIXES:
