@@ -21,7 +21,7 @@ shutil.rmtree(OUT, ignore_errors=True)
 shutil.copytree(SRC, OUT, ignore=shutil.ignore_patterns(".vercel", "vercel.json", ".DS_Store"))
 (OUT / ".nojekyll").write_text("")
 
-PREFIX = re.compile(r"""(["'(=])/(use-cases|_shell|get-in-touch|assets)(?=[/"'?#)\s])""")
+PREFIX = re.compile(r"""(["'(=])/(use-cases|_shell|get-in-touch|assets|brand|media)(?=[/"'?#)\s])""")
 HOME = re.compile(r"""(href=["'])/(["'#])""")
 NOINDEX = '<meta name="robots" content="noindex, nofollow">'
 
