@@ -49,3 +49,14 @@
 .eh-dc-intro{display:inline-flex;gap:10px;align-items:center;text-decoration:none}
 .eh-dc-k,.eh-dc-t,.eh-dc-l{font:11.5px "Geist Mono",ui-monospace,monospace;letter-spacing:.04em;text-transform:uppercase;text-decoration:none}
 .eh-dc-k{color:#9aa3b3}.eh-dc-t{color:#7a7a76;letter-spacing:.04em;text-transform:none}.eh-dc-l{color:#c9cfda}.eh-dc-l:hover,.eh-dc-intro:hover .eh-dc-t{color:#3BE57E}
+/* Audit fixes (2026-11-20): contrast, solid text instead of gradient text, 24 px link targets, 11 px label floor, dark form controls */
+:root{color-scheme:dark}
+.ef-legal{color:#8a8a85}
+body .git-h span,body .git-f em,body #git-result li::before{color:#8a8a85}
+.why-k.is-eez,.why-panel .eez-badge.is-eez,.why-points b i,.why-points b:not(:has(i)){background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#3BE57E}
+.stat b{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#A8F3CE}
+.eh-devcon{padding-top:4px;padding-bottom:4px}
+.eh-dc-intro,.eh-dc-l{display:inline-flex;align-items:center;min-height:24px}
+.footnote .eez-badge,.ux-link{display:inline-flex;align-items:center;min-height:24px}
+.eez-eyebrow a{display:inline-flex;align-items:center;min-height:24px}
+body .sqf-track .time,body .sq-track .time,body .cmp-vs,body .orb-core .k,body .dx-sub,body .cx-sub,body .ix-sub,body .nx-lsub,body .nx-l1tag{font-size:11px}
