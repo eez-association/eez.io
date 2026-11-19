@@ -2,8 +2,8 @@
 """Bring three parts of the demo home (dist/index.html) in line with live eez.io (Framer):
 
 1. Page background: a soft green/purple wash plus eight blurred colour glows.
-2. "One call away" diagram: the live animated SVG (plays when 40% is on screen, resets when it
-   leaves) replaces the hover-to-play video card.
+2. "One call away" diagram: kept as the demo's hover-to-play video card (the live animated SVG
+   is kept below as HIW_HTML but no longer applied, 20 Nov 2026).
 3. "Where EEZ stands": the live timeline (gradient spine, light sweep, pulsing in-progress dot,
    staggered rise-in once at 20% on screen) replaces the five cards.
 
@@ -133,8 +133,8 @@ TL_CSS = """
 CHECK = '<svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.5 2.5L10 3" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
 STEPS = [("live", "Live", "Ethereum Testnet", "Zones call Ethereum and each other, live on the devnet."),
          ("prog", "In progress", "Security audit", "Independent review of the core protocol."),
-         ("plan", "Planned", "ZK proofs and real-time proving", "Zones are proven with ZK proofs, generated in real time."),
-         ("plan", "Planned", "First general-purpose EEZ instance", "Gnosis Chain launches as the first EEZ instance."),
+         ("plan", "Planned", "ZK proofs and real\u2011time proving", "Zones are proven with ZK proofs, generated in real time."),
+         ("plan", "Planned", "First general\u2011purpose EEZ instance", "Gnosis Chain launches as the first EEZ instance."),
          ("horizon", "Horizon", "Many chains on Ethereum", "Many chains composing with Ethereum.")]
 def node(st, label, title, body):
     cls = "node" + (" fut" if st in ("plan", "horizon") else "") + (" horizon" if st == "horizon" else "") + (" now" if st == "prog" else "")
@@ -179,29 +179,15 @@ BG_CSS += "\nhtml{height:auto;min-height:100%}body{height:auto;min-height:100%}\
 
 # 4. the rest of the home, checked against published eez.io on 19 Nov 2026 -------------------
 # Headings: one light weight, no bold first word. Build, Alliance and News headers centred.
-# Alliance: vertical side labels (green / blue) instead of sub-headings; "Join the Alliance" is a
-# pill under the heading. Talks: ↗ on titles. Latest: the three posts live shows.
+# Copy, Alliance sub-headings, talk titles and Latest cards follow the demo (eez-merge-demo.vercel.app),
+# 20 Nov 2026; Latest only gets its real date and link.
 REST_CSS = """
 .hero h1 b,.sec > h2 b,#how .build > h2 b{font-weight:inherit;color:inherit}
 #build > .eb,#build > h2,#alliance > .eb,#alliance > h2,#news > .eb,#news > h2{text-align:center;margin-inline:auto}
 .mq .logo b{font:500 16px/1 var(--sans)}
 .tile span,.tile span{font:500 16px/1 var(--sans);white-space:nowrap}
-#alliance .join-row{display:flex;justify-content:center;margin-top:32px}
-#alliance .tier{position:relative;margin-top:40px}
-#alliance .tier .emap{margin-top:0}
-#alliance .tierlbl{position:absolute;left:-41px;top:0;margin:0;transform:rotate(-90deg) translateX(-100%);transform-origin:0 0;white-space:nowrap;
-  font:400 12.5px/16px var(--mono);letter-spacing:.1em;text-transform:uppercase}
-#alliance .tierlbl.adopt{color:#3BE57E}#alliance .tierlbl.infra{color:#6E9BEE}
-@media (max-width:1240px){#alliance .tierlbl{position:static;transform:none;margin:0 0 12px}}
 .vid small{font-size:12px}
 .th em{font-size:16px}
-.posts{margin-top:24px;gap:24px}
-.post{background:none;border:0;border-radius:0;padding:0;gap:0}
-.post .pth{display:block;border:1px solid #1e1e1e;border-radius:14px;background:#111;overflow:hidden;aspect-ratio:363/227}
-.post .pth img{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;border-radius:0;transition:transform .5s ease}
-.post:hover .pth img{transform:scale(1.03)}
-.post small{margin-top:14px;font:400 12px/1.6 var(--mono);letter-spacing:.06em;color:#7a7a76}
-.post b{margin-top:8px;font:500 15px/1.4 var(--sans);color:#f2f2ec}
 """
 POSTS = [("post-oct-live.png", "6eL5F7RsHGKLg7lWz1fxn1YvgZU.png", "Update · Nov 9, 2026", "Monthly update — October &amp; Devcon Mumbai",
           "https://eez.io/blog/monthly-update---october-devcon-mumbai"),
@@ -223,17 +209,9 @@ def rest(s):
     sub(r'<div class="devcon">[\s\S]*?</div>', lambda m: DEVCON)
     # Try on the testnet opens a new tab, like every other external link
     sub(r'<a class="pill" href="https://eez.dev/">', '<a class="pill" href="https://eez.dev/" target="_blank" rel="noopener">')
-    # Alliance: pill under the heading, vertical labels, no join row / sub-headings
-    sub(r'<div class="row"><div class="grp join"[\s\S]*?</a></div></div>', '')
-    sub(r'(<h2><b>The teams</b> building on the commons\.</h2>)',
-        r'\1\n  <div class="join-row"><a class="pill" href="/get-in-touch?intent=alliance"><span>Join the Alliance</span><i aria-hidden="true">→</i></a></div>')
-    sub(r'<div class="tierhd"><h3>Adoption partners</h3><p>[^<]*</p></div>', '<p class="tierlbl adopt">Adoption partners</p>')
-    sub(r'<div class="tierhd"><h3>Infrastructure partners</h3><p>[^<]*</p></div>', '<p class="tierlbl infra">Infrastructure partners</p>')
-    # Talks: ↗ on titles and on All talks
-    s = re.sub(r'(<a class="vid"[^>]*>[\s\S]*?<b>)([^<]*)(</b>)', lambda m: m[1] + m[2] + "&nbsp;↗" + m[3], s)
-    sub(r'All talks →', 'All talks ↗')
-    # Latest: the three posts on live eez.io
-    sub(r'<div class="posts">[\s\S]*?</div>', lambda m: POSTS_HTML)
+    # Latest: demo cards and thumbnails; fill the September date and link
+    sub(r'<a class="post" href="https://eez.io/blog" ([^>]*)><img src="assets/media/post-sep.jpg" alt=""><small>\[Date\]</small>',
+        r'<a class="post" href="https://eez.io/blog/monthly-update---september" \1><img src="assets/media/post-sep.jpg" alt=""><small>Oct 1, 2026</small>')
     return s
 
 def copy_media():
@@ -246,13 +224,10 @@ def main():
     s = INDEX.read_text()
     if MARK in s:
         print("live parity already applied"); return
-    a = s.index('<div class="zone zv">'); b = s.index('<div class="build" id="use-cases">')
-    s = s[:a] + HIW_HTML + s[b:]
     s, n = re.subn(r'<section class="sec" id="progress">[\s\S]*?</section>', PROGRESS, s, count=1)
     if n != 1: sys.exit("progress section not found")
     s = rest(s)
-    copy_media()
-    s = s.replace("</head>", f"<style>{MARK}{BG_CSS}{HIW_CSS}{TL_CSS}{REST_CSS}</style>\n</head>", 1)
+    s = s.replace("</head>", f"<style>{MARK}{BG_CSS}{TL_CSS}{REST_CSS}</style>\n</head>", 1)
     s = s.replace("<body>", "<body>\n" + BG_HTML, 1)
     s = s.replace("</body>", JS + "\n</body>", 1)
     INDEX.write_text(s)
