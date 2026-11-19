@@ -1,5 +1,5 @@
 /* Shared eez.io shell: one header + footer for Framer-home and proxied integrate pages. */
-.eh,.ef{--eh-bg:rgba(10,10,10,.95);--eh-line:rgba(255,255,255,.1);--eh-fg:#fff;--eh-mute:rgba(255,255,255,.62);--eh-card:#121212;--eh-mono:"Geist Mono",ui-monospace,monospace;--eh-sans:"Geist",system-ui,sans-serif;font-family:var(--eh-sans)}
+.eh,.ef{--eh-bg:rgba(10,10,10,.95);--eh-line:var(--eez-line-faint);--eh-fg:var(--eez-ink);--eh-mute:rgba(255,255,255,.62);--eh-card:var(--eez-surface);--eh-mono:"Geist Mono",ui-monospace,monospace;--eh-sans:"Geist",system-ui,sans-serif;font-family:var(--eh-sans)}
 .eh{position:sticky;top:0;z-index:100;background:transparent;border-bottom:1px solid transparent;transition:background-color .25s,border-color .25s}
 .eh.is-scrolled,.eh.is-open{background:var(--eh-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom-color:rgba(255,255,255,.08)}
 .eh-in{width:min(1136px,100% - 32px);margin:auto;display:flex;align-items:center;gap:24px;min-height:64px}
@@ -60,3 +60,5 @@ body .git-h span,body .git-f em,body #git-result li::before{color:#8a8a85}
 .footnote .eez-badge,.ux-link{display:inline-flex;align-items:center;min-height:24px}
 .eez-eyebrow a{display:inline-flex;align-items:center;min-height:24px}
 body .sqf-track .time,body .sq-track .time,body .cmp-vs,body .orb-core .k,body .dx-sub,body .cx-sub,body .ix-sub,body .nx-lsub,body .nx-l1tag{font-size:11px}
+/* One token system (2026-11-20): one white-button label everywhere (eez.io: 11.5 px, 500, .02em) */
+.eh-cta,body .eez-pill{font-size:11.5px;font-weight:500;letter-spacing:.02em}
