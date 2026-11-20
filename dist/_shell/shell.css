@@ -6,8 +6,8 @@
 .eh-logo{display:inline-flex;margin-right:auto}
 .eh-logo img{display:block;height:36px;width:auto}
 .eh-nav{display:flex;align-items:center;gap:28px;overflow:visible!important;margin:0;padding:0;border:0;background:none}
-.eh-trigger{appearance:none;background:none;border:0;padding:8px 0;cursor:pointer;color:rgba(255,255,255,.88);font:12px/1 var(--eh-mono);letter-spacing:.06em;text-transform:uppercase}
-.eh-trigger i{font-style:normal;font-size:9px;margin-left:4px;opacity:.7}
+.eh-trigger{appearance:none;background:none;border:0;padding:8px 0;cursor:pointer;color:rgba(255,255,255,.88);font:var(--eez-text-sm)/1 var(--eh-mono);letter-spacing:.06em;text-transform:uppercase}
+.eh-trigger i{font-style:normal;font-size:var(--eez-text-xs);margin-left:4px;opacity:.7}
 .eh-trigger:hover,.eh-menu.is-open .eh-trigger,.eh-menu.is-here .eh-trigger{color:var(--eh-fg)}
 .eh-menu{position:relative}
 .eh-drop{position:absolute;top:calc(100% + 12px);left:-14px;width:270px;padding:8px;background:var(--eh-card);border:1px solid var(--eez-line);border-radius:10px;box-shadow:0 16px 40px rgba(0,0,0,.55);display:none}
@@ -17,12 +17,12 @@
 .eh-drop a{display:block;padding:10px 12px;border-radius:6px;text-decoration:none;font-family:var(--eh-sans)}
 .eh-drop a,.eh-drop a *{text-transform:none!important;letter-spacing:normal!important}
 .eh-drop a:hover,.eh-drop a:focus-visible{background:var(--eez-raised);outline:none}
-.eh-drop b{display:block;color:var(--eh-fg);font:500 14px/1.3 var(--eh-sans)}
-.eh-drop small{display:block;color:var(--eez-muted);font:13px/1.35 var(--eh-sans);margin-top:2px}
+.eh-drop b{display:block;color:var(--eh-fg);font:500 var(--eez-text-md)/1.3 var(--eh-sans)}
+.eh-drop small{display:block;color:var(--eez-muted);font:var(--eez-text-sm)/1.35 var(--eh-sans);margin-top:2px}
 .eh-drop .eh-all{margin-top:4px;border-top:1px solid var(--eez-line);border-radius:0 0 6px 6px;padding-top:12px}
 .eh-drop a[aria-current="page"] b{color:#3BE57E}
-.eh-cta{display:inline-flex;align-items:center;gap:10px;padding:5px 5px 5px 16px;border-radius:999px;background:#fff;color:#0A0A0A;text-decoration:none;font:500 12px/1 var(--eh-mono);letter-spacing:.06em;text-transform:uppercase}
-.eh-cta i{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--eez-page);color:var(--eez-ink);font-style:normal;font-size:13px}
+.eh-cta{display:inline-flex;align-items:center;gap:10px;padding:5px 5px 5px 16px;border-radius:999px;background:#fff;color:#0A0A0A;text-decoration:none;font:500 var(--eez-text-sm)/1 var(--eh-mono);letter-spacing:.06em;text-transform:uppercase}
+.eh-cta i{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--eez-page);color:var(--eez-ink);font-style:normal;font-size:var(--eez-text-sm)}
 .eh-cta:hover{background:#e8e8e8}
 .eh-toggle{display:none;appearance:none;background:none;border:1px solid var(--eh-line);border-radius:8px;width:44px;height:40px;cursor:pointer;position:relative}
 .eh-toggle span,.eh-toggle span::before,.eh-toggle span::after{position:absolute;left:12px;right:12px;height:1.5px;background:#fff;content:""}
@@ -31,23 +31,23 @@
   .eh-toggle{display:block}
   .eh-nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;padding:8px 16px 20px;background:var(--eez-page);border-bottom:1px solid var(--eh-line)}
   .eh.is-open .eh-nav{display:flex}
-  .eh-trigger{width:100%;text-align:left;padding:14px 0;font-size:13px}
+  .eh-trigger{width:100%;text-align:left;padding:14px 0;font-size:var(--eez-text-sm)}
   .eh-drop{position:static;width:auto;box-shadow:none;margin:0 0 8px}
   .eh-cta{align-self:flex-start;margin-top:12px}
 }
 .ef{background:var(--eez-page);border-top:1px solid var(--eez-line-faint);padding:72px 0 40px;color:var(--eh-mute)}
 .ef-in{width:min(1136px,100% - 32px);margin:auto;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,3fr);gap:40px}
-.ef-brand p{margin:14px 0 0;max-width:260px;color:var(--eez-muted);font:13.5px/1.5 var(--eh-sans)}
+.ef-brand p{margin:14px 0 0;max-width:260px;color:var(--eez-muted);font:var(--eez-text-md)/1.5 var(--eh-sans)}
 .ef-cols{display:grid;grid-template-columns:1fr 1.15fr 1fr .8fr;gap:24px}
-.ef-cols p{margin:0 0 14px;font:12px var(--eh-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--eez-label)}
-.ef-cols a{display:block;padding:5px 0;color:var(--eez-ink);text-decoration:none;font:13px/1.3 var(--eh-mono);letter-spacing:.02em;text-transform:uppercase}
+.ef-cols p{margin:0 0 14px;font:var(--eez-text-sm) var(--eh-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--eez-label)}
+.ef-cols a{display:block;padding:5px 0;color:var(--eez-ink);text-decoration:none;font:var(--eez-text-sm)/1.3 var(--eh-mono);letter-spacing:.02em;text-transform:uppercase}
 .ef-cols a:hover{color:#3BE57E}
-.ef-legal{width:min(1136px,100% - 32px);margin:44px auto 0;padding-top:24px;border-top:1px solid var(--eez-line-faint);color:var(--eez-muted);font:12px var(--eh-mono);letter-spacing:.04em}
+.ef-legal{width:min(1136px,100% - 32px);margin:44px auto 0;padding-top:24px;border-top:1px solid var(--eez-line-faint);color:var(--eez-muted);font:var(--eez-text-sm) var(--eh-mono);letter-spacing:.04em}
 @media (max-width:760px){.ef-in{grid-template-columns:1fr}.ef-cols{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:32px}}
 /* Devcon bar (copied from the eez.io mockup): only injected on proxied pages; home has its own */
-.eh-devcon{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:6px 14px;padding:9px max(16px,calc((100% - 1136px) / 2));background:#000;border-bottom:1px solid var(--eez-line-faint);font:11.5px/1.3 "Geist Mono",ui-monospace,monospace;color:var(--eez-muted);text-align:left}
+.eh-devcon{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:6px 14px;padding:9px max(16px,calc((100% - 1136px) / 2));background:#000;border-bottom:1px solid var(--eez-line-faint);font:var(--eez-text-xs)/1.3 "Geist Mono",ui-monospace,monospace;color:var(--eez-muted);text-align:left}
 .eh-dc-intro{display:inline-flex;gap:10px;align-items:center;text-decoration:none}
-.eh-dc-k,.eh-dc-t,.eh-dc-l{font:11.5px "Geist Mono",ui-monospace,monospace;letter-spacing:.04em;text-transform:uppercase;text-decoration:none}
+.eh-dc-k,.eh-dc-t,.eh-dc-l{font:var(--eez-text-xs) "Geist Mono",ui-monospace,monospace;letter-spacing:.04em;text-transform:uppercase;text-decoration:none}
 .eh-dc-k{color:var(--eez-label)}.eh-dc-t{color:var(--eez-muted);letter-spacing:.04em;text-transform:none}.eh-dc-l{color:var(--eez-body)}.eh-dc-l:hover,.eh-dc-intro:hover .eh-dc-t{color:#3BE57E}
 /* Audit fixes (2026-11-20): contrast, solid text instead of gradient text, 24 px link targets, 11 px label floor, dark form controls */
 :root{color-scheme:dark}
@@ -59,6 +59,6 @@ body .git-h span,body .git-f em,body #git-result li::before{color:var(--eez-mute
 .eh-dc-intro,.eh-dc-l{display:inline-flex;align-items:center;min-height:24px}
 .footnote .eez-badge,.ux-link{display:inline-flex;align-items:center;min-height:24px}
 .eez-eyebrow a{display:inline-flex;align-items:center;min-height:24px}
-body .sqf-track .time,body .sq-track .time,body .cmp-vs,body .orb-core .k,body .dx-sub,body .cx-sub,body .ix-sub,body .nx-lsub,body .nx-l1tag{font-size:11px}
+body .sqf-track .time,body .sq-track .time,body .cmp-vs,body .orb-core .k,body .dx-sub,body .cx-sub,body .ix-sub,body .nx-lsub,body .nx-l1tag{font-size:var(--eez-text-xs)}
 /* One token system (2026-11-20): one white-button label everywhere (eez.io: 11.5 px, 500, .02em) */
-.eh-cta,body .eez-pill{font-size:11.5px;font-weight:500;letter-spacing:.02em}
+.eh-cta,body .eez-pill{font-size:var(--eez-text-xs);font-weight:500;letter-spacing:.02em}

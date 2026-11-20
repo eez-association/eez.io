@@ -47,30 +47,30 @@
   .dx-trace { fill: none; stroke: url(#eez-g); stroke-width: 1.6; stroke-linecap: round; }
   .dx-dot { fill: #eef2ff; opacity: 0; }
   .dx-glow { fill: var(--grad-steel); opacity: 0; filter: blur(4px); }
-  .dx-name { fill: var(--ink); font: 600 13px var(--font-sans); }
-  .dx-sub { fill: var(--muted); font: 400 10.5px var(--font-mono); }
-  .dx-ic { fill: var(--eez-green); font: 600 13px var(--font-mono); }
-  .dx-status { margin: 0; font: 500 14.5px/1.5 var(--font-sans); color: var(--ink-quiet); transition: color .35s; }
+  .dx-name { fill: var(--ink); font: 600 var(--eez-text-sm) var(--font-sans); }
+  .dx-sub { fill: var(--muted); font: 400 var(--eez-text-xs) var(--font-mono); }
+  .dx-ic { fill: var(--eez-green); font: 600 var(--eez-text-sm) var(--font-mono); }
+  .dx-status { margin: 0; font: 500 var(--eez-text-md)/1.5 var(--font-sans); color: var(--ink-quiet); transition: color .35s; }
   .dx-status.on { color: var(--green-text); }
   @media (prefers-reduced-motion: reduce) { .dx-box rect, .dx-edge, .dx-status { transition: none; } }
   .more { margin-top: 28px; border-top: 1px solid var(--edge); }
-  .more summary { cursor: pointer; padding: 16px 0; font: 500 15px/1.5 var(--font-sans); color: var(--ink); list-style: none; }
+  .more summary { cursor: pointer; padding: 16px 0; font: 500 var(--eez-text-base)/1.5 var(--font-sans); color: var(--ink); list-style: none; }
   .more summary::-webkit-details-marker { display: none; }
   .more summary::before { content: "+"; display: inline-block; width: 22px; font-family: var(--font-mono); color: var(--card-num); }
   .more[open] summary::before { content: "−"; }
-  .sec-intro { margin: 0 0 28px; max-width: 70ch; font: 400 16px/1.65 var(--font-sans); color: var(--ink-body); }
+  .sec-intro { margin: 0 0 28px; max-width: 70ch; font: 400 var(--eez-text-base)/1.65 var(--font-sans); color: var(--ink-body); }
   .proc-copy .why-step { color: var(--ink-quiet); }
   .proc-copy .why-step b { color: var(--ink-body); font-weight: 600; }
   .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
   .stat { display: grid; gap: 4px; align-content: start; padding: 22px 24px 24px; border: 1px solid var(--edge); border-radius: var(--radius-card); background: var(--screen); }
-  .stat b { font: 600 52px/1 var(--font-sans); letter-spacing: -.02em; background: var(--eez-grad-btn); -webkit-background-clip: text; background-clip: text; color: transparent; width: fit-content; }
-  .stat span { font: 500 16px/1.4 var(--font-sans); color: var(--ink); }
-  .stat small { margin-top: 8px; font: 400 14px/1.5 var(--font-sans); color: var(--ink-quiet); }
+  .stat b { font: 600 var(--eez-text-3xl)/1 var(--font-sans); letter-spacing: -.02em; background: var(--eez-grad-btn); -webkit-background-clip: text; background-clip: text; color: transparent; width: fit-content; }
+  .stat span { font: 500 var(--eez-text-base)/1.4 var(--font-sans); color: var(--ink); }
+  .stat small { margin-top: 8px; font: 400 var(--eez-text-md)/1.5 var(--font-sans); color: var(--ink-quiet); }
   @media (max-width: 900px) { .stats { grid-template-columns: 1fr; } }
 </style>
 <link rel="icon" type="image/svg+xml" href="/assets/eez-mark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/_shell/tokens.css?v=1">
+<link rel="stylesheet" href="/_shell/tokens.css?v=3">
 <link rel="stylesheet" href="/_shell/shell.css?v=7">
 </head>
 <body class="eez-canvas">
