@@ -173,6 +173,8 @@ def main():
     runpy.run_path(str(ROOT / "tools/hero_fixes.py"), run_name="__main__")
     # accessibility and weight fixes from the Impeccable audit
     runpy.run_path(str(ROOT / "tools/audit_fixes.py"), run_name="__main__")
+    # home page load: the logo ticker runs only while on screen
+    runpy.run_path(str(ROOT / "tools/perf_fixes.py"), run_name="__main__")
     # one token system: every colour comes from shared/tokens.css
     runpy.run_path(str(ROOT / "tools/tokens_fix.py"), run_name="__main__")
     # curly apostrophes and quotes in visible copy (eez.io uses ’ and “ ”)
