@@ -175,6 +175,8 @@ def main():
     runpy.run_path(str(ROOT / "tools/audit_fixes.py"), run_name="__main__")
     # one token system: every colour comes from shared/tokens.css
     runpy.run_path(str(ROOT / "tools/tokens_fix.py"), run_name="__main__")
+    # link previews: title, description and preview image on every page
+    runpy.run_path(str(ROOT / "tools/social_meta.py"), run_name="__main__")
     # curly apostrophes and quotes in visible copy (eez.io uses ’ and “ ”)
     runpy.run_path(str(ROOT / "tools/smart_quotes.py"), run_name="__main__")
 
