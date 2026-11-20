@@ -24,6 +24,16 @@
   --eez-grad-mint:#8ae5ac;
   --eez-grad-steel:#6283bd;
   --eez-grad-indigo:#4439cb;
+  /* type scale: every font size on the site is one of these (tools/type_scale.py) */
+  --eez-text-xs:11px;          /* labels, captions, diagram text */
+  --eez-text-sm:12.5px;        /* eyebrows, buttons, meta */
+  --eez-text-md:14px;          /* small body, menus */
+  --eez-text-base:16px;        /* body */
+  --eez-text-lg:20px;          /* ledes, sub-heads */
+  --eez-text-xl:26px;          /* card and section titles */
+  --eez-text-2xl:36px;         /* section headings */
+  --eez-text-3xl:52px;         /* page titles, big numbers */
+  --eez-text-hero:72px;        /* home headline */
   /* shape */
   --eez-radius-card:16px;
   --eez-radius-tile:14px;
