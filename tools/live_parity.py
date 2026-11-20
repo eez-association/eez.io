@@ -2,8 +2,8 @@
 """Bring three parts of the demo home (dist/index.html) in line with live eez.io (Framer):
 
 1. Page background: a soft green/purple wash plus eight blurred colour glows.
-2. "One call away" diagram: the live animated SVG (same colours as eez.io) inside the demo's
-   hover-to-play card; it plays on hover, focus or tap.
+2. "One call away" diagram: the live animated SVG (same colours as eez.io). Like live, it plays
+   once when it scrolls into view; a mouse hover replays it. No card lift or shadow.
 3. "Where EEZ stands": the live timeline (gradient spine, light sweep, pulsing in-progress dot,
    staggered rise-in once at 20% on screen) replaces the five cards.
 
@@ -158,18 +158,20 @@ PROGRESS = f"""<section class="sec" id="progress">
 
 JS = """<script>
 (() => {
-  // live eez.io parity: the one-call diagram plays at 40% on screen and resets when it leaves;
-  // the progress timeline rises in once at 20%
+  // the one-call diagram plays once when 40% of it is on screen (works on touch, no hover needed);
+  // a mouse hover replays it after that. Reduced motion shows the finished frame (CSS).
+  // The progress timeline rises in once at 20%.
   const hiw = document.getElementById("hiw"), tl = document.getElementById("eeztl");
-  if (!("IntersectionObserver" in window)) { tl && tl.classList.add("in"); return; }
-  const card = hiw && hiw.closest(".vcard");
-  if (card) {
-    const on = () => { hiw.classList.remove("hw-play"); void hiw.offsetWidth; hiw.classList.add("hw-play"); card.classList.add("on"); };
-    const off = () => { hiw.classList.remove("hw-play"); card.classList.remove("on"); };
-    card.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") on(); });
-    card.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") off(); });
-    card.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse") card.classList.contains("on") ? off() : on(); });
-    card.addEventListener("focus", on); card.addEventListener("blur", off);
+  const play = () => { hiw.classList.remove("hw-play"); void hiw.offsetWidth; hiw.classList.add("hw-play"); };
+  if (!("IntersectionObserver" in window)) { hiw && hiw.classList.add("hw-play"); tl && tl.classList.add("in"); return; }
+  if (hiw && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    let played = false, busy = false;
+    hiw.addEventListener("animationend", e => { if (e.animationName === "hiw-rise") busy = false; });
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { played = busy = true; play(); io.disconnect(); }
+    }), { threshold: 0.4 });
+    io.observe(hiw);
+    hiw.addEventListener("pointerenter", e => { if (e.pointerType === "mouse" && played && !busy) { busy = true; play(); } });
   }
   if (tl) { const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { tl.classList.add("in"); io.disconnect(); } }), { threshold: 0.2 }); io.observe(tl); }
 })();
@@ -237,7 +239,40 @@ a.more{display:inline-flex;align-items:center;min-height:24px}
 .aud p{font-size:15.5px}
 .zone.zv .cap .hv,.zone.zv .cap .tp{font:400 12px/1.6 var(--mono);letter-spacing:.06em;color:#7a7a76}
 .th em{font-size:16px}
+/* review 20 Nov 2026 ------------------------------------------------------------------- */
+/* one-call diagram: plays on scroll; the hover card (lift, tilt, shadow, crosshair) is gone */
+#how .zone.zv .vcard,#how .zone.zv .vcard.on{transform:none;box-shadow:none;cursor:default;transition:none}
+/* Build cards: live's spacing and hover (padding 44/36/40 scaled to four columns, 28 px gaps,
+   6 px lift with a green border, the icon rising with it) */
+#build .auds{gap:20px}
+@media (min-width:1200px){#build .aud .pill span{white-space:nowrap}}
+#build .aud{padding:40px 26px 32px;gap:16px;transition:transform .5s cubic-bezier(.25,1,.3,1),border-color .25s}
+#build .aud .iso{height:104px;margin:4px 0 20px;transition:transform .5s cubic-bezier(.25,1,.3,1)}
+#build .aud:hover,#build .aud:focus-within{transform:translateY(-6px);border-color:rgba(59,229,126,.55)}
+#build .aud:hover .iso,#build .aud:focus-within .iso{transform:translateY(-5px)}
+@media (prefers-reduced-motion:reduce){#build .aud,#build .aud .iso{transition:none}#build .aud:hover,#build .aud:hover .iso,#build .aud:focus-within,#build .aud:focus-within .iso{transform:none}}
+@media (max-width:600px){#build .aud{padding:32px 24px 28px}}
+/* Alliance: live's layout. Join under the heading; each tier's label runs vertically in the
+   left gutter beside its logos; one line of labels above the logos where there is no gutter. */
+#alliance > .pill{display:flex;width:fit-content;margin:28px auto 0}
+#alliance .tier{position:relative;margin-top:48px}
+#alliance .tier + .tier{margin-top:40px}
+#alliance .tier .emap{margin-top:14px}
+#alliance .grp{padding:18px 16px 20px;gap:16px}
+#alliance .tile{padding:0 6px}
+@media (min-width:1240px){
+  #alliance .tierhd{position:absolute;top:0;bottom:0;right:calc(100% + 22px);display:flex;align-items:center}
+  #alliance .tierhd h3{writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap}
+  #alliance .tier .emap{margin-top:0}
+}
 """
+# Alliance logos at equal visual weight: each logo's width comes from its trimmed box and ink
+# density (sqrt of area, half a density correction), measured from the PNGs on 20 Nov 2026, then
+# scaled so the widest fits a 96 px tile interior.
+LOGO_W = {"aave": 81, "spark": 75, "cowswap": 91, "kyber": 96, "centrifuge": 72, "xstocks": 70, "monerium": 79,
+          "bermuda-bay": 86, "ssv": 92, "linea": 69, "gnosis-chain": 87, "hydration": 86, "consensys": 82, "octant": 68,
+          "fileverse": 96, "gnosis": 63, "zisk": 52, "ethereum-foundation": 70, "nethermind": 96, "erigon": 85, "besu": 62,
+          "flashbots": 86, "titan": 58, "eureka": 75, "blockscout": 88, "remix": 73, "safe": 66, "cometh": 63}
 POSTS = [("post-oct-live.jpg", "6eL5F7RsHGKLg7lWz1fxn1YvgZU.png", "Update · Nov 9, 2026", "Monthly update · October and Devcon Mumbai",
           "https://eez.io/blog/monthly-update---october-devcon-mumbai"),
          ("post-sep-live.jpg", "sXYqT2lUyIdJci0sPiOxxuFRYA.png", "Update · Oct 1, 2026", "Monthly update · September 2026",
@@ -261,8 +296,14 @@ def rest(s):
     # Alliance sub-headings: green / blue labels like live; Join as the live pill
     sub(r'<div class="tierhd"><h3>Adoption partners', '<div class="tierhd adopt"><h3>Adoption partners')
     sub(r'<div class="tierhd"><h3>Infrastructure partners', '<div class="tierhd infra"><h3>Infrastructure partners')
-    sub(r'<a class="mbtn" href="(/get-in-touch\?intent=alliance)">[\s\S]*?</a>',
-        r'<a class="pill" href="\1"><span>Join the Alliance</span><i aria-hidden="true">→</i></a>')
+    # Alliance layout like live (review 20 Nov 2026): Join sits under the heading, the tier
+    # labels lose their line of text (they run vertically beside the logos)
+    sub(r'\s*<div class="row"><div class="grp join"[^>]*><a class="mbtn" href="/get-in-touch\?intent=alliance">[\s\S]*?</a></div></div>', '')
+    sub(r'(<section class="sec" id="alliance">[\s\S]*?</h2>)',
+        r'\1\n  <a class="pill" href="/get-in-touch?intent=alliance"><span>Join the Alliance</span><i aria-hidden="true">→</i></a>')
+    sub(r'(<div class="tierhd (?:adopt|infra)"><h3>[^<]*</h3>)<p>[^<]*</p>', r'\1', count=2)
+    for name, w in LOGO_W.items():
+        sub(r'(src="assets/logos/' + re.escape(name) + r'\.png\?v=\d+"[^>]*style="--w:)\d+px', rf'\g<1>{w}px')
     # Latest: the three posts eez.io shows (October, September, Intro) with eez.io's covers
     sub(r'<div class="posts">[\s\S]*?</div>', lambda m: POSTS_HTML)
     return s
@@ -283,6 +324,10 @@ def main():
     s, n = re.subn(r'(<div class="zone zv">)<p class="eb g">\[ One transaction \]</p>(<div class="vcard" tabindex="0">)<video[\s\S]*?</video>',
                    lambda m: m[1] + m[2] + clip, s, count=1)
     if n != 1: sys.exit("one-call video card not found")
+    # auto-play replaces hover-to-play: no caption, no focusable card
+    s, n = re.subn(r'(<div class="zone zv">)<div class="vcard" tabindex="0">([\s\S]*?</div></div>)<p class="cap">[\s\S]*?</p>',
+                   r'\1<div class="vcard">\2', s, count=1)
+    if n != 1: sys.exit("one-call caption not found")
     s, n = re.subn(r'<section class="sec" id="progress">[\s\S]*?</section>', PROGRESS, s, count=1)
     if n != 1: sys.exit("progress section not found")
     s = rest(s)
