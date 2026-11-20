@@ -457,7 +457,7 @@ main.ring .flow,main.ring .flow.thin,main.ring .lane-a,main.ring .readout.full,m
 body{position:relative;z-index:0}
 .lp-bg{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
   background:linear-gradient(rgba(60,229,126,.06),rgba(84,66,205,.07) 28%,rgba(60,229,126,.055) 52%,rgba(84,66,205,.07) 76%,rgba(60,229,126,.06))}
-.lp-bg i{position:absolute;border-radius:50%;filter:blur(130px)}
+.lp-bg i{position:absolute;border-radius:50%}
 
 html{height:auto;min-height:100%}body{height:auto;min-height:100%}
 
@@ -517,7 +517,7 @@ html{height:auto;min-height:100%}body{height:auto;min-height:100%}
 .eeztl .sweep{position:absolute;top:26px;left:12px;width:34%;height:4px;overflow:hidden;border-radius:2px;pointer-events:none}
 .eeztl .sweep i{position:absolute;top:0;left:-30%;width:30%;height:100%;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);filter:blur(1px);animation:eeztl-sweep 3.4s cubic-bezier(.5,0,.5,1) infinite}
-@keyframes eeztl-sweep{0%{left:-30%}62%,100%{left:120%}}
+@keyframes eeztl-sweep{0%{transform:translateX(0)}62%,100%{transform:translateX(500%)}}
 .eeztl .row{display:grid;grid-template-columns:repeat(5,1fr);gap:44px;position:relative}
 .eeztl .node{position:relative;padding-top:84px}
 .eeztl .dot{position:absolute;top:17px;left:0;width:24px;height:24px;border-radius:50%;background:var(--eez-page);border:2px solid var(--dim);display:grid;place-items:center}
@@ -598,7 +598,7 @@ a.more{display:inline-flex;align-items:center;min-height:24px}
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
-<div class="lp-bg" aria-hidden="true"><i style="width:821px;height:821px;left:-168px;top:0.0%;background:radial-gradient(circle,rgba(60,229,126,.13),transparent 62%)"></i><i style="width:859px;height:859px;left:calc(50% + 54px);top:5.4%;background:radial-gradient(circle,rgba(84,66,205,.14),transparent 62%)"></i><i style="width:836px;height:836px;left:calc(50% + 110px);top:24.0%;background:radial-gradient(circle,rgba(60,229,126,.13),transparent 62%)"></i><i style="width:895px;height:895px;left:-261px;top:32.5%;background:radial-gradient(circle,rgba(84,66,205,.14),transparent 62%)"></i><i style="width:833px;height:833px;left:-171px;top:52.0%;background:radial-gradient(circle,rgba(60,229,126,.13),transparent 62%)"></i><i style="width:877px;height:877px;left:calc(50% + 37px);top:59.5%;background:radial-gradient(circle,rgba(98,131,189,.12),transparent 62%)"></i><i style="width:860px;height:860px;left:calc(50% + 90px);top:80.0%;background:radial-gradient(circle,rgba(60,229,126,.13),transparent 62%)"></i><i style="width:831px;height:831px;left:-237px;top:87.5%;background:radial-gradient(circle,rgba(84,66,205,.14),transparent 62%)"></i></div>
+<div class="lp-bg" aria-hidden="true"><i style="width:1301px;height:1301px;left:calc(-168px - 240px);top:calc(0.0% - 240px);background:radial-gradient(circle closest-side,rgba(60,229,126,0.075),rgba(60,229,126,0.062) 30%,rgba(60,229,126,0.035) 55%,rgba(60,229,126,0.012) 78%,transparent)"></i><i style="width:1339px;height:1339px;left:calc(calc(50% + 54px) - 240px);top:calc(5.4% - 240px);background:radial-gradient(circle closest-side,rgba(84,66,205,0.081),rgba(84,66,205,0.067) 30%,rgba(84,66,205,0.038) 55%,rgba(84,66,205,0.013) 78%,transparent)"></i><i style="width:1316px;height:1316px;left:calc(calc(50% + 110px) - 240px);top:calc(24.0% - 240px);background:radial-gradient(circle closest-side,rgba(60,229,126,0.075),rgba(60,229,126,0.062) 30%,rgba(60,229,126,0.035) 55%,rgba(60,229,126,0.012) 78%,transparent)"></i><i style="width:1375px;height:1375px;left:calc(-261px - 240px);top:calc(32.5% - 240px);background:radial-gradient(circle closest-side,rgba(84,66,205,0.081),rgba(84,66,205,0.067) 30%,rgba(84,66,205,0.038) 55%,rgba(84,66,205,0.013) 78%,transparent)"></i><i style="width:1313px;height:1313px;left:calc(-171px - 240px);top:calc(52.0% - 240px);background:radial-gradient(circle closest-side,rgba(60,229,126,0.075),rgba(60,229,126,0.062) 30%,rgba(60,229,126,0.035) 55%,rgba(60,229,126,0.012) 78%,transparent)"></i><i style="width:1357px;height:1357px;left:calc(calc(50% + 37px) - 240px);top:calc(59.5% - 240px);background:radial-gradient(circle closest-side,rgba(98,131,189,0.070),rgba(98,131,189,0.058) 30%,rgba(98,131,189,0.032) 55%,rgba(98,131,189,0.011) 78%,transparent)"></i><i style="width:1340px;height:1340px;left:calc(calc(50% + 90px) - 240px);top:calc(80.0% - 240px);background:radial-gradient(circle closest-side,rgba(60,229,126,0.075),rgba(60,229,126,0.062) 30%,rgba(60,229,126,0.035) 55%,rgba(60,229,126,0.012) 78%,transparent)"></i><i style="width:1311px;height:1311px;left:calc(-237px - 240px);top:calc(87.5% - 240px);background:radial-gradient(circle closest-side,rgba(84,66,205,0.081),rgba(84,66,205,0.067) 30%,rgba(84,66,205,0.038) 55%,rgba(84,66,205,0.013) 78%,transparent)"></i></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="eez-t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8CE8AB"/><stop offset="1" stop-color="#79B9B4"/></linearGradient><linearGradient id="eez-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#79B9B4"/><stop offset="1" stop-color="#3F2ACD"/></linearGradient><linearGradient id="eez-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6AA29E"/><stop offset="1" stop-color="#3725B4"/></linearGradient></defs></svg>
 <div class="eh-devcon"><a class="eh-dc-intro" href="/#news"><span class="eh-dc-k">[ Devcon ]</span><span class="eh-dc-t">Watch the EEZ talks from Devcon:</span></a><a href="https://www.youtube.com/watch?v=uvY3yww_1oY" target="_blank" rel="noopener" class="eh-dc-l">[ One Ethereum ]&nbsp;→</a><a href="https://www.youtube.com/watch?v=Mdneqyvvk7g" target="_blank" rel="noopener" class="eh-dc-l">[ Real-time ZK proofs ]&nbsp;→</a></div>
 <header class="eh" id="eh">
@@ -1452,10 +1452,15 @@ a.more{display:inline-flex;align-items:center;min-height:24px}
   let x = 0, v = 40, target = 40, last = null;
   mq.addEventListener("pointerenter", () => target = 12);
   mq.addEventListener("pointerleave", () => target = 40);
-  const step = now => { if (last !== null) { const dt = Math.min(64, now - last) / 1000; v += (target - v) * Math.min(1, dt * 4);
-      const L = set.getBoundingClientRect().width; x = (x + v * dt) % L; t.style.transform = `translateX(${-x}px)`; }
-    last = now; requestAnimationFrame(step); };
-  requestAnimationFrame(step);
+  let L = 0, on = false, raf = 0;
+  const measure = () => { L = set.getBoundingClientRect().width; };
+  measure(); addEventListener("resize", measure);
+  if (document.fonts) document.fonts.ready.then(measure);
+  t.querySelectorAll("img").forEach(i => i.addEventListener("load", measure));
+  const step = now => { if (last !== null && L) { const dt = Math.min(64, now - last) / 1000; v += (target - v) * Math.min(1, dt * 4);
+      x = (x + v * dt) % L; t.style.transform = `translate3d(${-x}px,0,0)`; }
+    last = now; raf = on ? requestAnimationFrame(step) : 0; };
+  new IntersectionObserver(([e]) => { on = e.isIntersecting; if (on && !raf) { last = null; raf = requestAnimationFrame(step); } }).observe(mq);
 })();
 </script>
 <script>(() => {

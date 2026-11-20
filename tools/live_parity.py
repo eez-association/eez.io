@@ -21,16 +21,22 @@ MARK = "/* live-parity */"
 GLOWS = [(821, -168, 0.0, "60,229,126,.13"), (859, "R54", 5.4, "84,66,205,.14"), (836, "R110", 24.0, "60,229,126,.13"),
          (895, -261, 32.5, "84,66,205,.14"), (833, -171, 52.0, "60,229,126,.13"), (877, "R37", 59.5, "98,131,189,.12"),
          (860, "R90", 80.0, "60,229,126,.13"), (831, -237, 87.5, "84,66,205,.14")]
+# No filter:blur: a 130px blur on eight 850px shapes made the home page re-rasterise huge areas on every
+# repaint and stall slower machines (2026-11-20). The soft falloff is drawn into the gradient instead:
+# the shape grows by PAD on each side and fades through extra stops, which looks the same.
+PAD = 240
 def glow(d, left, top, rgba):
     l = f"calc(50% + {left[1:]}px)" if isinstance(left, str) else f"{left}px"
-    return (f'<i style="width:{d}px;height:{d}px;left:{l};top:{top}%;'
-            f'background:radial-gradient(circle,rgba({rgba}),transparent 62%)"></i>')
+    rgb, a = rgba.rsplit(",", 1); a = float(a)
+    c = lambda k: f"rgba({rgb},{a * k:.3f})"
+    return (f'<i style="width:{d + 2 * PAD}px;height:{d + 2 * PAD}px;left:calc({l} - {PAD}px);top:calc({top}% - {PAD}px);'
+            f'background:radial-gradient(circle closest-side,{c(.58)},{c(.48)} 30%,{c(.27)} 55%,{c(.09)} 78%,transparent)"></i>')
 BG_HTML = '<div class="lp-bg" aria-hidden="true">' + "".join(glow(*g) for g in GLOWS) + "</div>"
 BG_CSS = """
 body{position:relative;z-index:0}
 .lp-bg{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
   background:linear-gradient(rgba(60,229,126,.06),rgba(84,66,205,.07) 28%,rgba(60,229,126,.055) 52%,rgba(84,66,205,.07) 76%,rgba(60,229,126,.06))}
-.lp-bg i{position:absolute;border-radius:50%;filter:blur(130px)}
+.lp-bg i{position:absolute;border-radius:50%}
 """
 
 # 2. one-call diagram ---------------------------------------------------------------------
@@ -94,7 +100,7 @@ TL_CSS = """
 .eeztl .sweep{position:absolute;top:26px;left:12px;width:34%;height:4px;overflow:hidden;border-radius:2px;pointer-events:none}
 .eeztl .sweep i{position:absolute;top:0;left:-30%;width:30%;height:100%;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);filter:blur(1px);animation:eeztl-sweep 3.4s cubic-bezier(.5,0,.5,1) infinite}
-@keyframes eeztl-sweep{0%{left:-30%}62%,100%{left:120%}}
+@keyframes eeztl-sweep{0%{transform:translateX(0)}62%,100%{transform:translateX(500%)}}
 .eeztl .row{display:grid;grid-template-columns:repeat(5,1fr);gap:44px;position:relative}
 .eeztl .node{position:relative;padding-top:84px}
 .eeztl .dot{position:absolute;top:17px;left:0;width:24px;height:24px;border-radius:50%;background:#0A0A0A;border:2px solid var(--dim);display:grid;place-items:center}
