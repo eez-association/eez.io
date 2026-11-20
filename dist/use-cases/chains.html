@@ -30,9 +30,9 @@
 <link rel="stylesheet" href="/use-cases/site.css?v=20261112k">
 <style>
   .models { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
-    .model .body { font: 400 var(--eez-text-base)/1.6 var(--font-sans); color: var(--ink-body); margin: var(--space-3) 0 0; }
+    .model .body { font: 400 15px/1.6 var(--font-sans); color: var(--ink-body); margin: var(--space-3) 0 0; }
   .model ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
-  .model li { font: 400 var(--eez-text-base)/1.6 var(--font-sans); color: var(--ink-soft); padding-left: 18px; position: relative; }
+  .model li { font: 400 15px/1.6 var(--font-sans); color: var(--ink-soft); padding-left: 18px; position: relative; }
   .model li::before { content: "·"; position: absolute; left: 0; color: var(--card-num); }
 
   @media (max-width: 900px) {
@@ -51,29 +51,29 @@
   .cx-trace { fill: none; stroke: url(#eez-g); stroke-width: 1.6; stroke-linecap: round; }
   .cx-dot { fill: #eef2ff; opacity: 0; }
   .cx-glow { fill: var(--grad-steel); opacity: 0; filter: blur(4px); }
-  .cx-name { fill: var(--ink); font: 600 var(--eez-text-sm) var(--font-sans); }
-  .cx-sub { fill: var(--muted); font: 400 var(--eez-text-xs) var(--font-mono); }
-  .cx-ic { fill: var(--eez-green); font: 600 var(--eez-text-sm) var(--font-mono); }
+  .cx-name { fill: var(--ink); font: 600 13px var(--font-sans); }
+  .cx-sub { fill: var(--muted); font: 400 10.5px var(--font-mono); }
+  .cx-ic { fill: var(--eez-green); font: 600 13px var(--font-mono); }
   .cx-frame { fill: none; stroke: var(--edge); }
-  .cx-cap { fill: var(--muted); font: 400 var(--eez-text-xs) var(--font-mono); letter-spacing: .06em; }
-  .cx-status { margin: 0; font: 500 var(--eez-text-md)/1.5 var(--font-sans); color: var(--ink-quiet); transition: color .35s; }
+  .cx-cap { fill: var(--muted); font: 400 11px var(--font-mono); letter-spacing: .06em; }
+  .cx-status { margin: 0; font: 500 14.5px/1.5 var(--font-sans); color: var(--ink-quiet); transition: color .35s; }
   .cx-status.on { color: var(--green-text); }
   .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
   .stat { display: grid; gap: 4px; align-content: start; padding: 22px 24px 24px; border: 1px solid var(--edge); border-radius: var(--radius-card); background: var(--screen); }
-  .stat b { font: 600 var(--eez-text-3xl)/1 var(--font-sans); letter-spacing: -.02em; background: var(--eez-grad-btn); -webkit-background-clip: text; background-clip: text; color: transparent; width: fit-content; }
-  .stat span { font: 500 var(--eez-text-base)/1.4 var(--font-sans); color: var(--ink); }
-  .stat small { margin-top: 8px; font: 400 var(--eez-text-md)/1.5 var(--font-sans); color: var(--ink-quiet); }
+  .stat b { font: 600 52px/1 var(--font-sans); letter-spacing: -.02em; background: var(--eez-grad-btn); -webkit-background-clip: text; background-clip: text; color: transparent; width: fit-content; }
+  .stat span { font: 500 16px/1.4 var(--font-sans); color: var(--ink); }
+  .stat small { margin-top: 8px; font: 400 14px/1.5 var(--font-sans); color: var(--ink-quiet); }
   .path { display: grid; grid-template-columns: 1fr 120px 1fr; align-items: stretch; }
   .path-node { display: grid; gap: 8px; align-content: start; padding: 20px 22px 22px; border: 1px solid var(--edge); border-radius: var(--radius-card); background: var(--screen); }
   .path-node.is-eez { border-color: color-mix(in oklab, var(--grad-steel) 45%, var(--edge)); }
   .path-node .eez-badge { width: fit-content; }
   .path-node .eez-badge.is-eez { color: var(--eez-green); border-color: color-mix(in oklab, var(--eez-green) 45%, var(--edge)); }
-  .path-node h3 { margin: 4px 0 0; font: 600 var(--eez-text-base)/1.35 var(--font-sans); color: var(--ink); }
-  .path-node p { margin: 0; font: 400 var(--eez-text-md)/1.55 var(--font-sans); color: var(--ink-body); }
+  .path-node h3 { margin: 4px 0 0; font: 600 17.5px/1.35 var(--font-sans); color: var(--ink); }
+  .path-node p { margin: 0; font: 400 14.5px/1.55 var(--font-sans); color: var(--ink-body); }
   .path-arrow { position: relative; display: grid; place-items: center; }
   .path-arrow::before { content: ""; position: absolute; left: 10px; right: 14px; top: 50%; height: 1px; background: var(--eez-grad-btn); }
   .path-arrow::after { content: ""; position: absolute; right: 10px; top: calc(50% - 4px); border: 4px solid transparent; border-left: 6px solid var(--grad-indigo); border-right: 0; }
-  .path-arrow span { position: relative; padding: 2px 8px; background: var(--canvas); font: 400 var(--eez-text-xs) var(--font-mono); letter-spacing: .06em; color: var(--muted); }
+  .path-arrow span { position: relative; padding: 2px 8px; background: var(--canvas); font: 400 11px var(--font-mono); letter-spacing: .06em; color: var(--muted); }
   @media (max-width: 900px) {
     .stats { grid-template-columns: 1fr; }
     .path { grid-template-columns: 1fr; }
@@ -82,13 +82,13 @@
     .path-arrow::after { left: calc(50% - 4px); right: auto; top: auto; bottom: 8px; border: 4px solid transparent; border-top: 6px solid var(--grad-indigo); border-bottom: 0; }
   }
   @media (prefers-reduced-motion: reduce) { .cx-box rect, .cx-edge, .cx-status { transition: none; } }
-  .sec-intro { margin: 0 0 28px; max-width: 70ch; font: 400 var(--eez-text-base)/1.65 var(--font-sans); color: var(--ink-body); }
+  .sec-intro { margin: 0 0 28px; max-width: 70ch; font: 400 16px/1.65 var(--font-sans); color: var(--ink-body); }
   .proc-copy .why-step { color: var(--ink-quiet); }
   .proc-copy .why-step b { color: var(--ink-body); font-weight: 600; }
 </style>
 <link rel="icon" type="image/svg+xml" href="/assets/eez-mark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/_shell/tokens.css?v=2">
+<link rel="stylesheet" href="/_shell/tokens.css?v=1">
 <link rel="stylesheet" href="/_shell/shell.css?v=7">
 </head>
 <body class="eez-canvas">
