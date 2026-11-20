@@ -21,7 +21,7 @@ GIT_MAIN = (SH / "get-in-touch.main.html").read_text()
 DEVCON = (SH / "devcon.html").read_text()
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">')
-SHELL_HEAD = '<link rel="stylesheet" href="/_shell/tokens.css?v=1">\n<link rel="stylesheet" href="/_shell/shell.css?v=7">'
+SHELL_HEAD = '<link rel="stylesheet" href="/_shell/tokens.css?v=3">\n<link rel="stylesheet" href="/_shell/shell.css?v=7">'
 SHELL_JS = '<script src="/_shell/shell.js?v=3" defer></script>'
 
 # integrate page -> (new file under dist, new URL)
@@ -175,8 +175,12 @@ def main():
     runpy.run_path(str(ROOT / "tools/audit_fixes.py"), run_name="__main__")
     # home page load: the logo ticker runs only while on screen
     runpy.run_path(str(ROOT / "tools/perf_fixes.py"), run_name="__main__")
+    # one type scale: every font size snaps to the 10 steps in shared/tokens.css
+    runpy.run_path(str(ROOT / "tools/type_scale.py"), run_name="__main__")
     # one token system: every colour comes from shared/tokens.css
     runpy.run_path(str(ROOT / "tools/tokens_fix.py"), run_name="__main__")
+    # link previews: title, description and preview image on every page
+    runpy.run_path(str(ROOT / "tools/social_meta.py"), run_name="__main__")
     # curly apostrophes and quotes in visible copy (eez.io uses ’ and “ ”)
     runpy.run_path(str(ROOT / "tools/smart_quotes.py"), run_name="__main__")
 

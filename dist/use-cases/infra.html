@@ -7,31 +7,31 @@
 <title>EEZ for infrastructure operators and wallets</title>
 <meta name="description" content="Support every EEZ chain with the stack you already run. Chain ID, RPC, blocks, logs and receipts work like any EVM chain.">
 <link rel="canonical" href="https://eez.io/use-cases/infra">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EEZ">
+<meta property="og:title" content="EEZ for infrastructure operators and wallets">
+<meta property="og:description" content="Support every EEZ chain with the stack you already run. Chain ID, RPC, blocks, logs and receipts work like any EVM chain.">
+<meta property="og:url" content="https://eez.io/use-cases/infra">
+<meta property="og:image" content="https://eez.io/assets/og/infra.png?v=9fdec33f7a">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Support every EEZ chain with the stack you already run.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EEZ for infrastructure operators and wallets">
+<meta name="twitter:description" content="Support every EEZ chain with the stack you already run. Chain ID, RPC, blocks, logs and receipts work like any EVM chain.">
+<meta name="twitter:image" content="https://eez.io/assets/og/infra.png?v=9fdec33f7a">
 
 
 
 <meta name="theme-color" content="#0a0a0a">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="EEZ Integrate">
-<meta property="og:title" content="EEZ for infrastructure operators and wallets">
-<meta property="og:description" content="Support every EEZ chain with the stack you already run. Chain ID, RPC, blocks, logs and receipts work like any EVM chain.">
-<meta property="og:url" content="https://eez.io/use-cases/infra">
-<meta property="og:image" content="https://integrate-site-chi.vercel.app/og/infra.png?v=008d66992d">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="For infrastructure operators and wallets: Support every EEZ chain with the stack you already run.">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="EEZ for infrastructure operators and wallets">
-<meta name="twitter:description" content="Support every EEZ chain with the stack you already run. Chain ID, RPC, blocks, logs and receipts work like any EVM chain.">
-<meta name="twitter:image" content="https://integrate-site-chi.vercel.app/og/infra.png?v=008d66992d">
 <!-- meta:end -->
 <link rel="stylesheet" href="/use-cases/system/tokens.css">
 <link rel="stylesheet" href="/use-cases/system/bundle.css">
 <link rel="stylesheet" href="/use-cases/site.css?v=20261112k">
 <style>
   .gotchas { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 40px; }
-  .gotcha { font: 400 15px/1.6 var(--font-sans); color: var(--ink-body); padding-left: 16px; position: relative; }
-  .gotcha::before { content: "×"; position: absolute; left: 0; color: var(--muted); font-family: var(--font-mono); font-size: 12px; }
+  .gotcha { font: 400 var(--eez-text-base)/1.6 var(--font-sans); color: var(--ink-body); padding-left: 16px; position: relative; }
+  .gotcha::before { content: "×"; position: absolute; left: 0; color: var(--muted); font-family: var(--font-mono); font-size: var(--eez-text-sm); }
   .gotcha b { color: var(--ink); font-weight: 600; }
   @media (max-width: 900px) { .gotchas { grid-template-columns: 1fr; gap: 20px; } }
   .ix { margin: 36px auto 0; max-width: 760px; }
@@ -42,17 +42,17 @@
   .ix-box[data-s="on"] rect { stroke: url(#eez-g); }
   .ix-box[data-s="ok"] { transform: scale(1.02); filter: drop-shadow(0 0 7px rgba(98,131,189,.35)); }
   .ix-box[data-s="ok"] rect { stroke: url(#eez-g); stroke-width: 1.4; fill: color-mix(in oklab, var(--grad-steel) 12%, var(--eez-surface)); }
-  .ix-name { fill: var(--ink); font: 600 13px var(--font-sans); }
-  .ix-sub { fill: var(--muted); font: 400 10.5px var(--font-mono); }
-  .ix-ic { fill: var(--eez-green); font: 600 13px var(--font-mono); }
+  .ix-name { fill: var(--ink); font: 600 var(--eez-text-sm) var(--font-sans); }
+  .ix-sub { fill: var(--muted); font: 400 var(--eez-text-xs) var(--font-mono); }
+  .ix-ic { fill: var(--eez-green); font: 600 var(--eez-text-sm) var(--font-mono); }
   .ix-edge { fill: none; stroke: var(--edge); stroke-width: 1; }
   .ix-trace { fill: none; stroke: url(#eez-g); stroke-width: 1.6; stroke-linecap: round; }
   .ix-dot { fill: #eef2ff; opacity: 0; }
   .ix-glow { fill: var(--grad-steel); opacity: 0; filter: blur(4px); }
   
   .ix-frame { fill: none; stroke: var(--edge); }
-  .ix-cap { fill: var(--muted); font: 400 11px var(--font-mono); letter-spacing: .04em; }
-  .ix-status { margin: 0; font: 500 14.5px/1.5 var(--font-sans); color: var(--ink-quiet); transition: color .35s; }
+  .ix-cap { fill: var(--muted); font: 400 var(--eez-text-xs) var(--font-mono); letter-spacing: .04em; }
+  .ix-status { margin: 0; font: 500 var(--eez-text-md)/1.5 var(--font-sans); color: var(--ink-quiet); transition: color .35s; }
   .ix-status.on { color: var(--green-text); }
   .spots.is-boxed { gap: var(--space-4); padding: 0; }
   .spots.is-boxed .spot { border: 1px solid var(--edge); border-radius: var(--radius-card); background: var(--screen); overflow: hidden; gap: 18px; padding: 24px; }
@@ -64,7 +64,7 @@
 </style>
 <link rel="icon" type="image/svg+xml" href="/assets/eez-mark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/_shell/tokens.css?v=1">
+<link rel="stylesheet" href="/_shell/tokens.css?v=3">
 <link rel="stylesheet" href="/_shell/shell.css?v=7">
 </head>
 <body class="eez-canvas">
