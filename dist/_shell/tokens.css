@@ -29,7 +29,8 @@
   --eez-text-sm:12.5px;        /* eyebrows, buttons, meta */
   --eez-text-md:14px;          /* small body, menus */
   --eez-text-base:16px;        /* body */
-  --eez-text-lg:20px;          /* ledes, sub-heads */
+  --eez-text-lead:18px;        /* ledes, large body */
+  --eez-text-lg:20px;          /* sub-heads */
   --eez-text-xl:26px;          /* card and section titles */
   --eez-text-2xl:36px;         /* section headings */
   --eez-text-3xl:52px;         /* page titles, big numbers */

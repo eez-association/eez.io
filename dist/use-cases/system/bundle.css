@@ -54,7 +54,7 @@ body { margin: 0; background: var(--canvas); color: var(--ink-body); font-family
 .eez-card:hover::before, .eez-card.is-hover::before { opacity: 1; }
 .eez-card__head { display: flex; gap: var(--space-3); align-items: baseline; }
 .eez-card__num { font: 500 var(--eez-text-sm)/1.4 var(--font-mono); letter-spacing: 0.1em; color: var(--card-num); }
-.eez-card__title { font: 600 var(--eez-text-base)/1.35 var(--font-sans); color: var(--ink); margin: 0; flex: 1; }
+.eez-card__title { font: 600 var(--eez-text-lead)/1.35 var(--font-sans); color: var(--ink); margin: 0; flex: 1; }
 .eez-card__hook { font: 400 var(--eez-text-md)/1.55 var(--font-sans); color: var(--ink-quiet); margin: 0; }
 .eez-card__cta { margin-top: auto; display: flex; align-items: center; justify-content: space-between; font: 500 var(--eez-text-xs)/1.4 var(--font-mono); letter-spacing: 0.02em; text-transform: uppercase; color: var(--muted); }
 .eez-card__cta .eez-arrow { width: 26px; height: 26px; background: var(--control); border: 1px solid var(--edge); }

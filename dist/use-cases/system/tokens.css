@@ -86,8 +86,8 @@
 .stage-title { font-family: var(--font-sans); font-size: var(--eez-text-3xl); line-height: 1.14; font-weight: 600; }
 .stage-lede { font-family: var(--font-sans); font-size: var(--eez-text-xl); line-height: 1.5; font-weight: 400; }
 .caption { font-family: var(--font-sans); font-size: var(--eez-text-lg); line-height: 1.45; font-weight: 400; }
-.lede { font-family: var(--font-sans); font-size: var(--eez-text-base); line-height: 1.55; font-weight: 400; }
-.card-title { font-family: var(--font-sans); font-size: var(--eez-text-base); line-height: 1.35; font-weight: 600; }
+.lede { font-family: var(--font-sans); font-size: var(--eez-text-lead); line-height: 1.55; font-weight: 400; }
+.card-title { font-family: var(--font-sans); font-size: var(--eez-text-lead); line-height: 1.35; font-weight: 600; }
 .body-small { font-family: var(--font-sans); font-size: var(--eez-text-md); line-height: 1.55; font-weight: 400; }
 .eyebrow { font-family: var(--font-mono); font-size: var(--eez-text-sm); line-height: 1.4; font-weight: 400; letter-spacing: 0.1em; }
 .label { font-family: var(--font-mono); font-size: var(--eez-text-sm); line-height: 1.4; font-weight: 500; letter-spacing: 0.1em; }

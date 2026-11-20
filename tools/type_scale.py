@@ -1,6 +1,6 @@
-"""One type scale (2026-11-20): every font size on every page snaps to the 9 steps in shared/tokens.css.
+"""One type scale (2026-11-20): every font size on every page snaps to the 10 steps in shared/tokens.css.
 
-Steps: 11 · 12.5 · 14 · 16 · 20 · 26 · 36 · 52 · 72 px (--eez-text-xs … --eez-text-hero).
+Steps: 11 · 12.5 · 14 · 16 · 18 · 20 · 26 · 36 · 52 · 72 px (--eez-text-xs … --eez-text-hero).
 - font-size and the size inside font: shorthands snap to the nearest step (ties: up below 20 px,
   down from 20 px), and nothing goes below 11 px.
 - clamp(min, fluid, max): the min snaps down to a step, the max to the nearest step.
@@ -12,8 +12,8 @@ import re, sys
 from pathlib import Path
 
 DIST = Path(__file__).resolve().parent.parent / "dist"
-STEPS = [11, 12.5, 14, 16, 20, 26, 36, 52, 72]
-NAMES = {11: "xs", 12.5: "sm", 14: "md", 16: "base", 20: "lg", 26: "xl", 36: "2xl", 52: "3xl", 72: "hero"}
+STEPS = [11, 12.5, 14, 16, 18, 20, 26, 36, 52, 72]
+NAMES = {11: "xs", 12.5: "sm", 14: "md", 16: "base", 18: "lead", 20: "lg", 26: "xl", 36: "2xl", 52: "3xl", 72: "hero"}
 
 
 def snap(v):
@@ -114,7 +114,7 @@ def main():
                 left.append(f"{f.name}:{m.group(0)[:40]}")
     if left:
         sys.exit("type_scale: px font sizes left: " + "; ".join(left[:8]))
-    print(f"type scale: {total} font sizes snapped to 9 steps")
+    print(f"type scale: {total} font sizes snapped to 10 steps")
 
 
 if __name__ == "__main__":
