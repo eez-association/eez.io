@@ -35,15 +35,15 @@
   .eh-drop{position:static;width:auto;box-shadow:none;margin:0 0 8px}
   .eh-cta{align-self:flex-start;margin-top:12px}
 }
-.ef{background:#0A0A0A;border-top:1px solid rgba(255,255,255,.08);padding:72px 0 40px;color:var(--eh-mute)}
-.ef-in{width:min(1136px,100% - 32px);margin:auto;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,3fr);gap:40px}
+.ef{background:#0A0A0A;border-top:1px solid rgba(255,255,255,.08);padding:104px 0 48px;color:var(--eh-mute)}
+.ef-in{width:min(1136px,100% - 32px);margin:auto;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,3fr);gap:64px}
 .ef-brand p{margin:14px 0 0;max-width:260px;color:#7a7a76;font:13.5px/1.5 var(--eh-sans)}
-.ef-cols{display:grid;grid-template-columns:1fr 1.15fr 1fr .8fr;gap:24px}
-.ef-cols p{margin:0 0 14px;font:12px var(--eh-mono);letter-spacing:.1em;text-transform:uppercase;color:#9aa3b3}
-.ef-cols a{display:block;padding:5px 0;color:#fff;text-decoration:none;font:13px/1.3 var(--eh-mono);letter-spacing:.02em;text-transform:uppercase}
+.ef-cols{display:grid;grid-template-columns:1fr 1.25fr 1fr .7fr;gap:40px}
+.ef-cols p{margin:0 0 20px;font:12px var(--eh-mono);letter-spacing:.1em;text-transform:uppercase;color:#9aa3b3}
+.ef-cols a{display:block;padding:7px 0;color:#fff;text-decoration:none;font:13px/1.3 var(--eh-mono);letter-spacing:.02em;text-transform:uppercase}
 .ef-cols a:hover{color:#3BE57E}
-.ef-legal{width:min(1136px,100% - 32px);margin:44px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,.06);color:#5e5e5a;font:12px var(--eh-mono);letter-spacing:.04em}
-@media (max-width:760px){.ef-in{grid-template-columns:1fr}.ef-cols{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:32px}}
+.ef-legal{width:min(1136px,100% - 32px);margin:80px auto 0;padding-top:28px;border-top:1px solid rgba(255,255,255,.06);color:#5e5e5a;font:12px var(--eh-mono);letter-spacing:.04em}
+@media (max-width:760px){.ef-in{grid-template-columns:1fr}.ef-cols{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 24px}.ef{padding-top:72px}.ef-in{gap:48px}}
 /* Devcon bar (copied from the eez.io mockup): only injected on proxied pages; home has its own */
 .eh-devcon{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:6px 14px;padding:9px max(16px,calc((100% - 1136px) / 2));background:#000;border-bottom:1px solid rgba(255,255,255,.09);font:11.5px/1.3 "Geist Mono",ui-monospace,monospace;color:#7a7a76;text-align:left}
 .eh-dc-intro{display:inline-flex;gap:10px;align-items:center;text-decoration:none}
