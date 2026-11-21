@@ -304,6 +304,17 @@ def rest(s):
     sub(r'(<div class="tierhd (?:adopt|infra)"><h3>[^<]*</h3>)<p>[^<]*</p>', r'\1', count=2)
     for name, w in LOGO_W.items():
         sub(r'(src="assets/logos/' + re.escape(name) + r'\.png\?v=\d+"[^>]*style="--w:)\d+px', rf'\g<1>{w}px')
+    # Use-case carousel: the click fixes live eez.io already has (its srcdoc, read 21 Nov 2026).
+    # 1. A newly centred card lights up after 100 ms, not 450: the slot no longer drops to dark
+    #    between the old card leaving and the new one playing (the "blink" on select).
+    sub(r'(play\(cur\); \}, )450\)', r'\g<1>100)')
+    # 2. A pointerup within 400 ms of opening can't close the panel it just opened.
+    sub(r'let cur = 0, pos = 0, open = false;', 'let cur = 0, pos = 0, open = false, openedAt = 0;')
+    sub(r'if \(open\) return; open = true; ring\.classList\.add\("tall"\);',
+        'if (open) return; open = true; openedAt = performance.now(); ring.classList.add("tall");')
+    sub(r'if \(e\.target === detail\) closeCard\(\);', 'if (e.target === detail && performance.now() - openedAt > 400) closeCard();')
+    # 3. Tap-to-play first only on touch screens; a touch laptop or pen opens like a mouse click.
+    sub(r'if \(e\.pointerType !== "mouse" && tapped !== cur\)', 'if (touchUI && e.pointerType !== "mouse" && tapped !== cur)')
     # Latest: the three posts eez.io shows (October, September, Intro) with eez.io's covers
     sub(r'<div class="posts">[\s\S]*?</div>', lambda m: POSTS_HTML)
     return s

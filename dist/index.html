@@ -1343,7 +1343,7 @@ a.more{display:inline-flex;align-items:center;min-height:24px}
   };
   const cap = document.getElementById("ringcap"), dots = document.getElementById("rdots");
   figs.forEach(() => dots.appendChild(document.createElement("i")));
-  let cur = 0, pos = 0, open = false;
+  let cur = 0, pos = 0, open = false, openedAt = 0;
   const geo = () => { const w = ring.clientWidth, narrow = w < 720;
     const cw = narrow ? Math.min(250, w * 0.62) : 300; ring.style.setProperty("--cw", cw + "px");
     return { w, cw, step: narrow ? 30 : 17, R: narrow ? 560 : 1050 }; };
@@ -1386,7 +1386,7 @@ a.more{display:inline-flex;align-items:center;min-height:24px}
     if (open) return; clearTimeout(liveT);
     if (live !== cur) stop(live);
     if (!inView || live === cur) return;
-    liveT = setTimeout(() => { if (!open && inView) play(cur); }, 450);
+    liveT = setTimeout(() => { if (!open && inView) play(cur); }, 100);
   }
   function replay() { stop(cur); clearTimeout(liveT); liveT = setTimeout(() => play(cur), 380); }
   new IntersectionObserver(es => es.forEach(e => { inView = e.isIntersecting; if (inView) schedule(); else { clearTimeout(liveT); stop(live); } }), { threshold: 0.4 }).observe(ring);
@@ -1395,7 +1395,7 @@ a.more{display:inline-flex;align-items:center;min-height:24px}
 
   // open: panel grows out of the card, the card moves left and plays its animation
   function openCard() {
-    if (open) return; open = true; ring.classList.add("tall");
+    if (open) return; open = true; openedAt = performance.now(); ring.classList.add("tall");
     const f = figs[cur], card = f.querySelector(".card"), g = geo();
     const W = ring.clientWidth, H = ring.clientHeight, ch = card.offsetHeight;
     const left = W / 2 - g.cw / 2, top = 40;
@@ -1449,7 +1449,7 @@ a.more{display:inline-flex;align-items:center;min-height:24px}
     const f = e.target.closest && e.target.closest("main.ring figure"); if (!f || open) return;
     const i = figs.indexOf(f);
     if (i !== cur) { tapped = -1; go(i); return; }
-    if (e.pointerType !== "mouse" && tapped !== cur) { tapped = cur; replay(); layout(); return; }
+    if (touchUI && e.pointerType !== "mouse" && tapped !== cur) { tapped = cur; replay(); layout(); return; }
     tapped = -1; openCard();
   });
   // a drag the browser takes over (it turns into a page scroll) ends in pointercancel, not pointerup:
@@ -1464,7 +1464,7 @@ a.more{display:inline-flex;align-items:center;min-height:24px}
   document.getElementById("rp").onclick = () => go(cur - 1);
   document.getElementById("rn").onclick = () => go(cur + 1);
   document.getElementById("dt-x").onclick = closeCard;
-  detail.addEventListener("pointerup", e => { if (e.target === detail) closeCard(); });
+  detail.addEventListener("pointerup", e => { if (e.target === detail && performance.now() - openedAt > 400) closeCard(); });
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeCard(); });
   figs.forEach((f, i) => f.querySelector(".card").addEventListener("keydown", e => { if (e.key === "Enter" && i === cur && !open && f.querySelector(".card").id !== "uc2") openCard(); }));
   window.addEventListener("resize", () => { if (!open) layout(); });
