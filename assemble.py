@@ -187,6 +187,10 @@ def main():
     runpy.run_path(str(ROOT / "tools/smart_quotes.py"), run_name="__main__")
     # old URLs: /use-cases, /old-home, and the Framer blog (now on blog.eez.io)
     runpy.run_path(str(ROOT / "tools/redirects.py"), run_name="__main__")
+    # files served as-is at the site root (e.g. the Google Search Console verification file)
+    for f in (ROOT / "root").iterdir():
+        if f.name != ".DS_Store":
+            shutil.copy2(f, OUT / f.name)
 
 
 if __name__ == "__main__":

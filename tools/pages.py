@@ -52,7 +52,7 @@ for f in OUT.rglob("*"):
 urls = []
 for f in sorted(OUT.rglob("*.html")):
     t = f.read_text()
-    if f.name == "404.html" or 'http-equiv="refresh"' in t:
+    if f.name == "404.html" or 'http-equiv="refresh"' in t or "<html" not in t:  # not a page (e.g. Google verification)
         continue
     m = CANON.search(t)
     if not m:
