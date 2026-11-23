@@ -21,7 +21,7 @@ GIT_MAIN = (SH / "get-in-touch.main.html").read_text()
 DEVCON = (SH / "devcon.html").read_text()
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">')
-SHELL_HEAD = '<link rel="stylesheet" href="/_shell/tokens.css?v=3">\n<link rel="stylesheet" href="/_shell/shell.css?v=8">'
+SHELL_HEAD = '<link rel="stylesheet" href="/_shell/tokens.css?v=3">\n<link rel="stylesheet" href="/_shell/shell.css?v=9">'
 SHELL_JS = '<script src="/_shell/shell.js?v=3" defer></script>'
 
 # integrate page -> (new file under dist, new URL)
@@ -181,11 +181,13 @@ def main():
     runpy.run_path(str(ROOT / "tools/type_scale.py"), run_name="__main__")
     # one token system: every colour comes from shared/tokens.css
     runpy.run_path(str(ROOT / "tools/tokens_fix.py"), run_name="__main__")
+    # blog: /blog/ and the posts, after the copy, type and token passes (posts keep their published wording)
+    runpy.run_path(str(ROOT / "tools/blog.py"), run_name="__main__")
     # link previews: title, description and preview image on every page
     runpy.run_path(str(ROOT / "tools/social_meta.py"), run_name="__main__")
     # curly apostrophes and quotes in visible copy (eez.io uses ’ and “ ”)
     runpy.run_path(str(ROOT / "tools/smart_quotes.py"), run_name="__main__")
-    # old URLs: /use-cases, /old-home, and the Framer blog (now on blog.eez.io)
+    # old URLs: /use-cases and /old-home
     runpy.run_path(str(ROOT / "tools/redirects.py"), run_name="__main__")
     # files served as-is at the site root (e.g. the Google Search Console verification file)
     for f in (ROOT / "root").iterdir():

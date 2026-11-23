@@ -1,0 +1,24 @@
+<h2>Overview</h2>
+<p>Welcome to Ethereum Economic Zone’s monthly update — a running note on what’s shipped, what’s been said publicly, and where the project actually stands, for anyone following along. We’ll aim to send one of these roughly every month.<br><br></p>
+<h2>Where things stand</h2>
+<p>Quieter month publicly, heavier one on the protocol. Dr. Friederike Ernst joined <a href="https://www.youtube.com/watch?v=7Bw6Juw3ch4&amp;t=1s" target="_blank" rel="noopener">the European Ethereum Institute for a live conversation on EU digital sovereignty and EEZ’s zone architecture</a>. Our team members have also submitted speaker applications for Devcon in Mumbai, applying through its impact program for open-source projects. Beyond that, most of the month’s movement was engineering: several protocol design questions closed, and the team is preparing the next step.<br><br></p>
+<h2>Technical Progress</h2>
+<p>Four design questions closed:</p>
+<ul>
+<li><strong>Chain-sync commitments now use block roots,</strong> A state root alone can’t prove a rollup’s receipts, logs, and transactions match what the contracts produced.</li>
+<li><strong>L2 gas limit fixed at 15 million per transaction</strong>, matching Ethereum’s current max gas per transaction.</li>
+<li><strong>PrevRandao stays unchanged</strong> rather than rehashed each block, so apps can still detect “unchanged” reliably.</li>
+<li><strong>Rollup Zero’s upgradeability path reaffirmed.</strong> The eventual final version won’t be upgradeable; Rollup Zero itself will be, via a standard proxy pattern, prioritizing a live, trusted network now over contract finality later.</li></ul>
+<p>Also merged: a fix clearing a major liveness blocker, an interim transient-storage library (a stopgap ahead of native Solidity support), and the <a href="https://github.com/eez-association/eez-core-protocol/blob/main/docs/blobs/BLOB_FORMAT_SPEC.md" target="_blank" rel="noopener"><strong>blob spec</strong></a> — the structure for encoding batch data into Ethereum's blob-carrying transactions, replacing the interim call-data format (<code>eez-core-protocol</code> <a href="https://github.com/eez-association/eez-core-protocol/pull/29" target="_blank" rel="noopener">PR #29</a>).<br><br></p>
+<h2>Rollup 0 Development</h2>
+<p><a href="https://github.com/eez-association/eez-rollup0" target="_blank" rel="noopener">Rollup 0</a> ran on Chiado testnet and the internal 12-second devnet through the month, with deployments now starting from a clean genesis (no preloaded accounts beyond the system address, funds bridged in rather than hardcoded, onchain ether checked against the contract’s internal accounting). The team redeployed main and stood up a parallel branch that hit the first real end-to-end milestone: a composer posting a valid block, with the ECDSA prover signing and canonicalizing it. </p>
+<p>A pull request clearing a major liveness blocker has since merged, and last week the composer went live on the 12-second devnet itself. That first deployment surfaced stability bugs, now being fixed. Longer term: stabilize the Rollup Zero feature subset, build a dedicated test suite for complex cross-chain transactions, and publish a specification so other clients, not just the core team, can build their own composers.</p>
+<p>For builders: the <code>eez-rollup0</code><a href="https://github.com/eez-association/eez-rollup0/tree/main/testing/kurtosis" target="_blank" rel="noopener"> Kurtosis guide</a> spins up a disposable local EEZ network in one command (contracts, L2 genesis, node, proof signer, private L1, MEV builder stack), with scripts for inbound, outbound, and mixed cross-chain workloads, a useful stand-in until the dedicated suite above lands. Try it now! <br><br></p>
+<h2>Gnosis Chain’s EEZ Transition</h2>
+<p>We’re excited that GnosisDAO approved <a href="https://forum.gnosis.io/t/gip-153-should-gnosis-chain-transition-into-the-ethereum-economic-zone/12397" target="_blank" rel="noopener">GIP-153</a> by a landslide, putting Gnosis Chain on a path from a standalone L1 to an EEZ rollup settling on Ethereum. Being first onto EEZ gives Gnosis Chain synchronous composability with Ethereum, something no existing L2 offers: the one axis where Gnosis Chain competes on its own terms, plus a first-mover seat in the emerging EEZ deployment market.<br><br></p>
+<h2>Where to follow along</h2>
+<ul>
+<li><a href="../">Website</a></li>
+<li><a href="https://t.me/+DZ1gBS8jfi40Njdk" target="_blank" rel="noopener">Telegram</a></li></ul>
+<p><br></p>
+<p><br></p>

@@ -27,7 +27,7 @@ shutil.rmtree(OUT, ignore_errors=True)
 shutil.copytree(SRC, OUT, ignore=shutil.ignore_patterns(".vercel", "vercel.json", ".DS_Store"))
 (OUT / ".nojekyll").write_text("")
 
-PREFIX = re.compile(r"""(["'(=])/(use-cases|_shell|get-in-touch|assets|brand|media)(?=[/"'?#)\s])""")
+PREFIX = re.compile(r"""(["'(=])/(use-cases|_shell|get-in-touch|assets|brand|media|blog)(?=[/"'?#)\s])""")
 HOME = re.compile(r"""((?:href=["']|url=|replace\(["']))/(["'#])""")  # links, refresh and JS redirects to /
 PREVIEW = re.compile(r'(<(?:link rel="canonical" href|meta (?:property="og:(?:url|image)"|name="twitter:image") content)=")https://eez\.io(?=[/"])')
 NOINDEX = '<meta name="robots" content="noindex, nofollow">'
