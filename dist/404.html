@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EEZ · Page not found</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="/assets/eez-mark.svg">
+<style>
+/* 404: same tokens, header and footer as the rest of eez.io. Every link is root-absolute,
+   because GitHub Pages serves this file at whatever path was missing. */
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--eez-page);color:var(--eez-ink);font:400 var(--eez-text-base)/1.6 "Geist",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.glow{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(700px 520px at 18% 30%,rgba(59,229,126,.07),transparent 70%),radial-gradient(760px 560px at 86% 58%,rgba(84,66,205,.08),transparent 70%)}
+.skip{position:absolute;left:16px;top:-80px;z-index:300;padding:10px 14px;border-radius:8px;background:#fff;color:#0a0a0a;font:500 var(--eez-text-sm)/1 "Geist Mono",monospace;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+.skip:focus{top:12px}
+.wrap{width:min(1136px,100% - 32px);margin:0 auto}
+.page{padding:140px 0 160px;display:grid;gap:16px;justify-items:center;text-align:center}
+.eb{margin:0;font:400 var(--eez-text-sm)/1.3 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--eez-label)}
+h1{margin:0;font:300 clamp(var(--eez-text-2xl),6vw,var(--eez-text-hero))/1.05 "Geist",sans-serif;letter-spacing:-.01em;color:var(--eez-ink);text-wrap:balance}
+h1 .lite{color:var(--eez-heading)}
+.lede{margin:0;max-width:520px;font-size:var(--eez-text-lead);line-height:1.55;color:var(--eez-body);text-wrap:pretty}
+.links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 28px;margin-top:20px}
+.links a{display:inline-flex;align-items:center;min-height:24px;padding-bottom:2px;border-bottom:1px solid var(--eez-line);
+  font:500 var(--eez-text-sm)/1 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--eez-ink);text-decoration:none}
+.links a:hover{color:var(--eez-green);border-color:var(--eez-green)}
+.links a:focus-visible{outline:2px solid var(--eez-green);outline-offset:4px}
+@media (max-width:480px){.page{padding:96px 0 120px}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/_shell/tokens.css?v=3">
+<link rel="stylesheet" href="/_shell/shell.css?v=8">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="glow" aria-hidden="true"></div>
+<div class="eh-devcon"><a class="eh-dc-intro" href="/#news"><span class="eh-dc-k">[ Devcon ]</span><span class="eh-dc-t">Watch the EEZ talks from Devcon:</span></a><a href="https://www.youtube.com/watch?v=uvY3yww_1oY" target="_blank" rel="noopener" class="eh-dc-l">[ One Ethereum ]&nbsp;→</a><a href="https://www.youtube.com/watch?v=Mdneqyvvk7g" target="_blank" rel="noopener" class="eh-dc-l">[ Real-time ZK proofs ]&nbsp;→</a></div>
+
+<header class="eh" id="eh">
+  <div class="eh-in">
+    <a class="eh-logo" href="/" aria-label="EEZ home"><img src="/_shell/logo.svg" alt="Ethereum Economic Zone" width="80" height="36"></a>
+    <button class="eh-toggle" type="button" aria-expanded="false" aria-controls="eh-nav" aria-label="Menu"><span></span></button>
+    <nav class="eh-nav" id="eh-nav" aria-label="Main">
+      <div class="eh-menu" data-key="use-cases">
+        <button class="eh-trigger" type="button" aria-expanded="false">Use cases <i aria-hidden="true">▾</i></button>
+        <div class="eh-drop">
+          <a href="/use-cases/institutions"><b>Institutions</b><small>Banks, funds and fintechs</small></a>
+          <a href="/use-cases/chains"><b>Chains</b><small>Public, private and new chains</small></a>
+          <a href="/use-cases/apps"><b>Apps</b><small>Apps that call across chains</small></a>
+          <a href="/use-cases/infra"><b>Infra</b><small>Nodes, provers and wallets</small></a>
+          <a class="eh-all" href="/use-cases/all"><b>All use cases</b><small>Every use case, sorted by job</small></a>
+        </div>
+      </div>
+      <div class="eh-menu" data-key="developers">
+        <button class="eh-trigger" type="button" aria-expanded="false">Developers <i aria-hidden="true">▾</i></button>
+        <div class="eh-drop">
+          <a href="https://docs.eez.io" target="_blank" rel="noopener"><b>Docs ↗</b><small>Protocol spec, guides and reference</small></a>
+          <a href="https://build.eez.io" target="_blank" rel="noopener"><b>Quickstarts ↗</b><small>Step-by-step walkthroughs</small></a>
+          <a href="https://eez.dev/dashboard/" target="_blank" rel="noopener"><b>Dashboard ↗</b><small>See calls settle on the devnet</small></a>
+          <a href="https://github.com/eez-association" target="_blank" rel="noopener"><b>GitHub ↗</b><small>eez-association on GitHub</small></a>
+        </div>
+      </div>
+      <a class="eh-link" href="https://blog.eez.io/blog" target="_blank" rel="noopener">Blog&nbsp;↗</a>
+      <a class="eh-cta" href="/get-in-touch"><span>Get in touch</span><i aria-hidden="true">→</i></a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap page">
+  <p class="eb">[ 404 ]</p>
+  <h1>Page not <span class="lite">found.</span></h1>
+  <p class="lede">This page doesn’t exist or has moved. Blog posts now live on blog.eez.io.</p>
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/use-cases/all">All use cases</a>
+    <a href="https://blog.eez.io/blog">Blog&nbsp;↗</a>
+  </div>
+</main>
+<footer class="ef">
+  <div class="ef-in">
+    <div class="ef-brand">
+      <a class="eh-logo" href="/" aria-label="EEZ home"><img src="/_shell/logo.svg" alt="Ethereum Economic Zone" width="80" height="36"></a>
+      <p>EEZ activates Ethereum as an economic operating system for composable chains.</p>
+    </div>
+    <div class="ef-cols">
+      <div><p>[ Use cases ]</p>
+        <a href="/use-cases/institutions">Institutions</a>
+        <a href="/use-cases/chains">Chains</a>
+        <a href="/use-cases/apps">Apps</a>
+        <a href="/use-cases/infra">Infra</a>
+        <a href="/use-cases/all">All use cases</a>
+      </div>
+      <div><p>[ Developers ]</p>
+        <a href="https://docs.eez.io" target="_blank" rel="noopener">Docs&nbsp;↗</a>
+        <a href="https://build.eez.io" target="_blank" rel="noopener">Quickstarts&nbsp;↗</a>
+        <a href="https://eez.dev/dashboard/" target="_blank" rel="noopener">Dashboard&nbsp;↗</a>
+        <a href="https://github.com/eez-association" target="_blank" rel="noopener">GitHub&nbsp;↗</a>
+        <a href="https://github.com/eez-association/eez-demos/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contribute a walkthrough&nbsp;↗</a>
+      </div>
+      <div><p>[ News ]</p>
+        <a href="https://blog.eez.io/blog" target="_blank" rel="noopener">Blog&nbsp;↗</a>
+        <a href="/media">News</a>
+        <a href="/media">Press and talks</a>
+        <a href="/brand">Brand and logo</a>
+      </div>
+      <div><p>[ Follow ]</p>
+        <a href="https://x.com/etheconomiczone" target="_blank" rel="noopener">X&nbsp;↗</a>
+        <a href="https://github.com/eez-association" target="_blank" rel="noopener">GitHub&nbsp;↗</a>
+      </div>
+    </div>
+  </div>
+  <div class="ef-legal">© 2026 Ethereum Economic Zone.</div>
+</footer>
+
+<script src="/_shell/shell.js?v=3" defer></script>
+</body>
+</html>

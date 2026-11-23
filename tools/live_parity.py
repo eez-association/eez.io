@@ -274,11 +274,11 @@ LOGO_W = {"aave": 81, "spark": 75, "cowswap": 91, "kyber": 96, "centrifuge": 72,
           "fileverse": 96, "gnosis": 63, "zisk": 52, "ethereum-foundation": 70, "nethermind": 96, "erigon": 85, "besu": 62,
           "flashbots": 86, "titan": 58, "eureka": 75, "blockscout": 88, "remix": 73, "safe": 66, "cometh": 63}
 POSTS = [("post-oct-live.jpg", "6eL5F7RsHGKLg7lWz1fxn1YvgZU.png", "Update · Nov 9, 2026", "Monthly update · October and Devcon Mumbai",
-          "https://eez.io/blog/monthly-update---october-devcon-mumbai"),
+          "https://blog.eez.io/blog/monthly-update---october-devcon-mumbai"),
          ("post-sep-live.jpg", "sXYqT2lUyIdJci0sPiOxxuFRYA.png", "Update · Oct 1, 2026", "Monthly update · September 2026",
-          "https://eez.io/blog/monthly-update---september"),
+          "https://blog.eez.io/blog/monthly-update---september"),
          ("post-intro-live.jpg", "ElQPWQGOvp2LnMhhjsE3N9OYk6A.png", "About · Mar 29, 2026", "Introducing the Ethereum Economic Zone (EEZ)",
-          "https://eez.io/blog/introducing-the-eez")]
+          "https://blog.eez.io/blog/introducing-the-eez")]
 POSTS_HTML = '<div class="posts">' + "".join(
     f'<a class="post" href="{u}" target="_blank" rel="noopener"><img src="assets/media/{f}" alt="" loading="lazy">'
     f'<small>{m}</small><b>{t}</b></a>' for f, _, m, t, u in POSTS) + "</div>"

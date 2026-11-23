@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EEZ · Page not found</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="/assets/eez-mark.svg">
+<style>
+/* 404: same tokens, header and footer as the rest of eez.io. Every link is root-absolute,
+   because GitHub Pages serves this file at whatever path was missing. */
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--eez-page);color:var(--eez-ink);font:400 16px/1.6 "Geist",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.glow{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(700px 520px at 18% 30%,rgba(59,229,126,.07),transparent 70%),radial-gradient(760px 560px at 86% 58%,rgba(84,66,205,.08),transparent 70%)}
+.skip{position:absolute;left:16px;top:-80px;z-index:300;padding:10px 14px;border-radius:8px;background:#fff;color:#0a0a0a;font:500 12px/1 "Geist Mono",monospace;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+.skip:focus{top:12px}
+.wrap{width:min(1136px,100% - 32px);margin:0 auto}
+.page{padding:140px 0 160px;display:grid;gap:16px;justify-items:center;text-align:center}
+.eb{margin:0;font:400 12.5px/1.3 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--eez-label)}
+h1{margin:0;font:300 clamp(40px,6vw,64px)/1.05 "Geist",sans-serif;letter-spacing:-.01em;color:var(--eez-ink);text-wrap:balance}
+h1 .lite{color:var(--eez-heading)}
+.lede{margin:0;max-width:520px;font-size:18px;line-height:1.55;color:var(--eez-body);text-wrap:pretty}
+.links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 28px;margin-top:20px}
+.links a{display:inline-flex;align-items:center;min-height:24px;padding-bottom:2px;border-bottom:1px solid var(--eez-line);
+  font:500 12px/1 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--eez-ink);text-decoration:none}
+.links a:hover{color:var(--eez-green);border-color:var(--eez-green)}
+.links a:focus-visible{outline:2px solid var(--eez-green);outline-offset:4px}
+@media (max-width:480px){.page{padding:96px 0 120px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="glow" aria-hidden="true"></div>
+<!--DEVCON-->
+<!--HEADER-->
+<main id="main" class="wrap page">
+  <p class="eb">[ 404 ]</p>
+  <h1>Page not <span class="lite">found.</span></h1>
+  <p class="lede">This page doesn’t exist or has moved. Blog posts now live on blog.eez.io.</p>
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/use-cases/all">All use cases</a>
+    <a href="https://blog.eez.io/blog">Blog&nbsp;↗</a>
+  </div>
+</main>
+<!--FOOTER-->
+</body>
+</html>

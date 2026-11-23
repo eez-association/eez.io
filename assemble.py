@@ -21,7 +21,7 @@ GIT_MAIN = (SH / "get-in-touch.main.html").read_text()
 DEVCON = (SH / "devcon.html").read_text()
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">')
-SHELL_HEAD = '<link rel="stylesheet" href="/_shell/tokens.css?v=3">\n<link rel="stylesheet" href="/_shell/shell.css?v=7">'
+SHELL_HEAD = '<link rel="stylesheet" href="/_shell/tokens.css?v=3">\n<link rel="stylesheet" href="/_shell/shell.css?v=8">'
 SHELL_JS = '<script src="/_shell/shell.js?v=3" defer></script>'
 
 # integrate page -> (new file under dist, new URL)
@@ -103,6 +103,8 @@ def get_in_touch(html):
 
 def build_home():
     html = (MOCK / "index.html").read_text()
+    # the mockup is noindex; the live site must be indexable (tools/pages.py adds noindex on previews only)
+    html = sub1(r'<meta name="robots" content="noindex, nofollow">\n?', "", html)
     html = sub1(r'<header class="top">.*?</header>', HEADER, html)
     html = sub1(r'<footer class="foot-site">.*?</footer>', FOOTER, html)
     html = sub1(r'<div class="ctas">.*?</div>',
@@ -183,6 +185,8 @@ def main():
     runpy.run_path(str(ROOT / "tools/social_meta.py"), run_name="__main__")
     # curly apostrophes and quotes in visible copy (eez.io uses ’ and “ ”)
     runpy.run_path(str(ROOT / "tools/smart_quotes.py"), run_name="__main__")
+    # old URLs: /use-cases, /old-home, and the Framer blog (now on blog.eez.io)
+    runpy.run_path(str(ROOT / "tools/redirects.py"), run_name="__main__")
 
 
 if __name__ == "__main__":
