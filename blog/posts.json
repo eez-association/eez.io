@@ -1,0 +1,112 @@
+[
+  {
+    "slug": "monthly-update---october-devcon-mumbai",
+    "title": "Monthly Update - October & Devcon Mumbai",
+    "date": "Nov 9, 2026",
+    "category": "Update",
+    "summary": "A monthly roundup of progress, priorities, and what’s coming next across the ecosystem.",
+    "authors": [
+      {
+        "name": "Armagan Ercan",
+        "role": "Coordinator",
+        "photo": "/assets/blog/Ad1asPQIXQVmA2c0YaWUkKcryc.jpg"
+      }
+    ],
+    "cover": "/assets/blog/6eL5F7RsHGKLg7lWz1fxn1YvgZU.webp"
+  },
+  {
+    "slug": "monthly-update---september",
+    "title": "Monthly Update - September",
+    "date": "Oct 1, 2026",
+    "category": "Update",
+    "summary": "A monthly roundup of progress, priorities, and what’s coming next across the ecosystem.",
+    "authors": [
+      {
+        "name": "Armagan Ercan",
+        "role": "Coordinator",
+        "photo": "/assets/blog/Ad1asPQIXQVmA2c0YaWUkKcryc.jpg"
+      }
+    ],
+    "cover": "/assets/blog/sXYqT2lUyIdJci0sPiOxxuFRYA.webp"
+  },
+  {
+    "slug": "monthly-update-august-2026",
+    "title": "Monthly Update - August 2026",
+    "date": "Aug 20, 2026",
+    "category": "Update",
+    "summary": "A monthly roundup of progress, priorities, and what’s coming next across the ecosystem.",
+    "authors": [
+      {
+        "name": "Armagan Ercan",
+        "role": "Coordinator",
+        "photo": "/assets/blog/7MuNwKRpsEIIebXpedEOuDZ3ZX8.jpg"
+      }
+    ],
+    "cover": "/assets/blog/v4QxyBu2xSk6s2RBLf3XNgejWM0.jpg"
+  },
+  {
+    "slug": "introducing-the-eez",
+    "title": "Introducing the Ethereum Economic Zone (EEZ)",
+    "date": "Mar 29, 2026",
+    "category": "About",
+    "summary": "Solving the fragmentation of Ethereum's L2 ecosystem.",
+    "authors": [
+      {
+        "name": "Friederike Ernst",
+        "role": "Founding Members",
+        "photo": "/assets/blog/ctJePOKcddz9FlrnahKgcb6jTx8.jpg"
+      },
+      {
+        "name": "Jordi Baylina",
+        "role": "Founding Members",
+        "photo": "/assets/blog/lO5H3j8EhROMXtSsmjYhg8q6EBg.jpg"
+      }
+    ],
+    "cover": "/assets/blog/ElQPWQGOvp2LnMhhjsE3N9OYk6A.jpg"
+  },
+  {
+    "slug": "monthly-update-digest-july-2026",
+    "title": "Monthly Update - July 2026",
+    "date": "Jul 15, 2026",
+    "category": "Update",
+    "summary": "A monthly roundup of progress, priorities, and what’s coming next across the ecosystem.",
+    "authors": [
+      {
+        "name": "Armagan Ercan",
+        "role": "Coordinator",
+        "photo": "/assets/blog/AUD6ZWa5Rdq0WynQOTl76Z6cw2M.jpg"
+      }
+    ],
+    "cover": "/assets/blog/JpA2SAB5yTzONLsY9pIfxOT8TQ.jpg"
+  },
+  {
+    "slug": "the-case-for-eez",
+    "title": "A Controversial Case for a New Kind of Ethereum Rollup",
+    "date": "Nov 15, 2025",
+    "category": "Perspective",
+    "summary": "A talk from DevCon 2024",
+    "authors": [
+      {
+        "name": "Martin Koppelmann",
+        "role": "",
+        "photo": "/assets/blog/ThZ1Lzroe30Su5bpilHgmh4t7k.jpg"
+      }
+    ],
+    "cover": "/assets/blog/MBoDPQ8eVCfcpiQXtBrneJBY.jpg"
+  },
+  {
+    "slug": "zkvm-for-next-generation-apps",
+    "title": "A ZKVM Foundation for Next-Generation Apps",
+    "date": "Feb 19, 2026",
+    "category": "Perspective",
+    "summary": "Summary of a talk at Eth Denver",
+    "authors": [
+      {
+        "name": "Jordi Baylina",
+        "role": "Founder Zisk",
+        "photo": "/assets/blog/Gi8Mrv8JhbOlN0OP3ifBHEfJWFE.jpg"
+      }
+    ],
+    "cover": "/assets/blog/n5pKTqFQoXtDlEKvSNarRB5zGc.jpg"
+  }
+]

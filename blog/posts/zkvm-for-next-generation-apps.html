@@ -1,0 +1,30 @@
+<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/1PRnm4qomKA" title="YouTube video" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+<p>I’m Jordi Baylina from <strong>Zisk</strong>. To give you a quick overview, Zisk is a 64-bit ZKVM based on RISC-V. It is open-source, features 128-bit proven security, and is quantum-resistant. We’ve been building this for the last two years.</p>
+<p>Today, I want to discuss my vision for how future blockchains will look. While I don’t have a crystal ball, I believe the core shift lies in the <strong>separation of data and execution.</strong></p>
+<h2>Data vs. Execution</h2>
+<p>In this vision, blockchains ultimately become layers for <strong>Data Availability (DA)</strong>—essentially just blobs of data. When you execute this data deterministically, you arrive at a specific state.</p>
+<p>A good example is a standard blockchain like Ethereum. If you query every transaction from the genesis block and execute them, you get a unique state. The power of Zero-Knowledge (ZK) technology is that you can perform this query, reach that state, and provide a proof that the state is correct. When a new block arrives, you use the previous state, the new data in the blobs, and generate the newest state. This is a streamlined way of maintaining a blockchain.</p>
+<h2>Static vs. Dynamic Consensus</h2>
+<p>This concept extends to what we call <strong>Dynamic</strong> and <strong>Static Consensus</strong>:</p>
+<ul>
+<li><strong>Dynamic Consensus:</strong> The consensus reached on every individual block (the data appearing in the chain).</li>
+<li><strong>Static Consensus:</strong> The protocol itself—the rules for how data is processed.</li></ul>
+<p>Normally, changing how transactions are processed requires a hard fork. However, if you define a new static consensus, you can launch a new "blockchain" simply by putting data on the main chain. You don’t need to fork the underlying layer.</p>
+<h2>Synchronous Composability</h2>
+<p>This model enables <strong>synchronous composability</strong> between rollups (L2s) or even between a rollup and L1. Synchronous composability means that if you are executing a smart contract on one rollup, you can call a contract on a completely different chain, receive a return value, and complete the entire sequence atomically in a single transaction.</p>
+<p>How does this work without forking Ethereum? We use <strong>Proxy Contracts</strong>.</p>
+<p>If a DAO contract on an L2 needs to be accessed from L1, we create a "counterfactual" proxy contract on L1. Its address is a deterministic function of the L2 address and Chain ID.</p>
+<p>When this proxy receives a call:</p>
+<ol>
+<li>It looks up an <strong>Execution Table</strong>.</li>
+<li>It verifies the state transition via a ZK proof.</li>
+<li>It emulates the call, updates the state, and returns the result to the user.</li></ol>
+<p>To a user, it feels as if all these chains are executing as one. For a block builder, this means they can bundle state transitions for multiple rollups into a single transaction with a single ZK proof.</p>
+<h2>App Chains and Security</h2>
+<p>This model is flexible. Rollups don’t have to be EVM-compatible; they could be WASM-based or use custom transition functions. As long as they can accept and emit calls, they can plug into this network.</p>
+<p>Crucially, if a specific app-chain changes its governance or transition function, it doesn’t break the rest of the network. Even a malicious network would only affect itself, with the exception of value transfers (Ether), which require L1 smart contracts to maintain accountability to ensure a rollup doesn't "spend" more than it has received.</p>
+<h2>Current Status and Benchmarks</h2>
+<p>This entire system is orthogonal to "pre-confirmations" (which can be built on top) and, importantly, <strong>does not require an L1 fork.</strong> We can start building this today.</p>
+<p>We can build this protocol fast and it has the potential to give a step forward to the Ethereum Ecosystem where sovereign chains can really build an Ethereum Economic Zone. </p>
+<h2>Further reading:</h2>
+<p>You can read more about all of this in my research paper <a href="https://ethresear.ch/t/synchronous-composability-between-rollups-via-realtime-proving/23998" target="_blank" rel="noopener">here</a>.</p>

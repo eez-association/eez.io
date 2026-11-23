@@ -1,0 +1,42 @@
+<p>Welcome to Ethereum Economic Zone's monthly update — a running note on what's shipped, what's been said publicly, and where the project actually stands, for anyone following along. We'll aim to send one of these roughly every month.</p>
+<p>Quick context for anyone new: Ethereum Economic Zone is a smart contract protocol for synchronous composability between Ethereum rollups. A contract on one rollup can call a contract on another and get the return value in the same transaction, just as if both lived on the same chain.</p>
+<h2>What moved forward</h2>
+<p>The biggest signal this month came from outside the core team: Vitalik Buterin talked about EEZ publicly at Dappcon, in conversation with Friederike Ernst, and he went deep rather than offering a generic quote. He framed EEZ as integrating L2s into Ethereum at the protocol level, not connecting them at the branding level, with standards that make those L2s interoperable by default. He also mapped the chain types he thinks genuinely extend Ethereum — privacy, high-TPS chains like prediction markets, integrated oracles, and enterprise — and argued oracle security may matter more than the push to stage two.<br><br>The team was also on the ground presenting and taking questions at Dappcon and Berlin Blockchain Week in Berlin last month. One session from Dappcon — a roughly three-hour technical workshop with Friederike Ernst, Martin Köppelmann, and Jordi Baylina walking through the proxies, the composer, multi-prover settlement, and where the code stands today, plus a long and genuinely sharp audience Q&amp;A — is now public:<br><br></p>
+<ul>
+<li><a href="https://youtu.be/TCC1zK24aG0" target="_blank" rel="noopener">Recording</a></li>
+<li><a href="https://docs.google.com/presentation/d/1RREYXg8Sv6cGwAAZ75enjQRt1M_LszgOF4ZJXS-fNLM/edit?usp=sharing" target="_blank" rel="noopener">Slides</a></li>
+<li><a href="https://link.excalidraw.com/l/AgKSLBswdVg/3OGXmqlkUTB" target="_blank" rel="noopener">Diagrams</a></li>
+<li><a href="https://docs.fileverse.io/d/02000129002f#k=pDJD0kttp5Qo-4ARjsI4dJlvnobrBkrOmXW2UOKfw1Q" target="_blank" rel="noopener">Written summary</a></li></ul>
+<p>The individual Dappcon conference talks are up too:<br><br></p>
+<ul>
+<li><a href="https://youtu.be/f5POkcq015s" target="_blank" rel="noopener">Jordi Baylina — Real-Time Proving and Synchronous Composability Between Rollups</a></li>
+<li><a href="https://youtu.be/VrPeWCnhGHg" target="_blank" rel="noopener">Martin Köppelmann — Fast sequencer or global censorship-resistant consensus? Getting the best of both with EEZ</a></li>
+<li><a href="https://youtu.be/BW7IXUH67XM" target="_blank" rel="noopener">Philippe Schommers — Gnosis Chain's Technical Path Into the EEZ</a></li>
+<li><a href="https://youtu.be/gfG-R8AOu0E" target="_blank" rel="noopener">Vitalik Buterin and Friederike Ernst — Ethereum Economic Zone</a></li></ul>
+<p>Separately, at Web3 Summit 2026 Friederike Ernst gave a keynote titled "The Neutral Ground: Money, Power &amp; the Multipolar Internet." It's less about EEZ's mechanics and more about the case EEZ is built on: why credible neutrality is the thing that actually matters, and what it takes to earn it.&nbsp;<br><br></p>
+<ul>
+<li>Full keynote: <a href="https://www.youtube.com/watch?v=rmQ69HOOS4Q" target="_blank" rel="noopener">Friederike Ernst | The Neutral Ground: Money, Power &amp; Multipolar Internet</a></li>
+<li>Short clips: on X at <a href="https://x.com/etheconomiczone/status/2075594824644755473" target="_blank" rel="noopener">@etheconomiczone</a></li></ul>
+<h2>Protocol Progress</h2>
+<p>The core team has spent the past month on the technical spec that underlies cross-chain messaging: standardizing on well-established, widely-used encoding rather than custom formats, and working through how EEZ rollups anchor their state back to Ethereum L1 (publishing both state roots and block hashes to the L1 contract, so an EEZ rollup's state can be linked to a specific L1 block and queried reliably).<br><br>The team also settled how cross-chain reverts propagate and added a version byte to the message format so future optimizations can land without a breaking change. In keeping with a simple first version, more complex optimizations were deferred and a few operations confirmed out of scope.</p>
+<p>A concrete milestone this month: the component that composes cross-chain calls now handles both directions — a call from L1 into a rollup, and from a rollup back to L1 — end to end in the codebase. That is the piece that makes a round-trip cross-rollup call, with a return value, possible in a single transaction.</p>
+<p>The Dappcon workshop above walked through three pieces of that design in public for the first time:<br><br></p>
+<ul>
+<li><strong>Cross-chain proxies</strong> — on L1, a call to another rollup resolves as a normal Ethereum CALL/RETURN through a proxy contract. That's a deliberate distinction the team makes: proxies, not bridges.</li>
+<li><strong>The composer</strong> — a permissionless role that simulates both sides of a cross-chain call ahead of time and seeds the result so the call can settle atomically, in one transaction, once it lands on L1.</li>
+<li><strong>Multi-prover settlement</strong> — each rollup sets its own proof threshold rather than the protocol enforcing one fixed prover count; the direction of travel is toward requiring several independent proof systems to agree before a rollup is considered fully trust-minimized, rather than relying on any single one.</li></ul>
+<p>On where the code actually stands: contracts are semi-finalized, and a devnet plus a Chiado testnet deployment (Rollup 0) are <a href="https://github.com/eez-association/eez-rollup0" target="_blank" rel="noopener">live</a> now with partial functionality. Proving on that live deployment currently runs on a placeholder single-prover setup while the multi-prover pipeline is still being built out. Rollup 0 is on track to harden into Rollup 1 around the same late-August. This is genuinely early, pre-audit engineering.</p>
+<h2>What’s next</h2>
+<p><strong>Testnet progression:</strong> Rollup 0 hardening into Rollup 1 — a fully based EEZ rollup — on the same late-August track as the mainnet contract deployment above.<br><br></p>
+<ul>
+<li><strong>Gnosis Chain onboarding:</strong> moving toward end-of-year, starting in a limited form (single synchronous cross-chain calls, not full nested composability), via Gnosis's own governance process.</li>
+<li><strong>Proving:</strong> replacing placeholder single-prover testnet setup with the real multi-prover pipeline as real-time proving matures.</li>
+<li><strong>Continued spec refinement and security review</strong> ahead of testnet.</li>
+<li><strong>More public technical content</strong> in the same vein as the DappCon workshop above, as the contract review progresses.</li></ul>
+<h2>Octant Epoch 12</h2>
+<p>EEZ took part in Octant Epoch 12, a public-goods funding round on Octant that uses proportional quadratic funding and is denominated in ETH. The round closed on June 30, and we received <a href="https://x.com/OctantApp/status/2074552832846598344" target="_blank" rel="noopener">5.35 ETH</a> through it. A genuine thank you here to Octant, for building a funding model that lets a community fund the infrastructure.</p>
+<h2>Where to follow Along</h2>
+<ul>
+<li><a href="../">Website</a></li>
+<li><a href="https://t.me/+DZ1gBS8jfi40Njdk" target="_blank" rel="noopener">Telegram</a></li>
+<li>EEZ Docs: <em>coming soon</em></li></ul>

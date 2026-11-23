@@ -2,10 +2,200 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>EEZ · Moved</title>
-<link rel="canonical" href="https://blog.eez.io/blog/zkvm-for-next-generation-apps">
-<meta http-equiv="refresh" content="0; url=https://blog.eez.io/blog/zkvm-for-next-generation-apps">
-<script>location.replace("https://blog.eez.io/blog/zkvm-for-next-generation-apps" + location.search + location.hash)</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A ZKVM Foundation for Next-Generation Apps</title>
+<meta name="description" content="Summary of a talk at Eth Denver">
+<link rel="canonical" href="https://eez.io/blog/zkvm-for-next-generation-apps">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EEZ">
+<meta property="og:title" content="A ZKVM Foundation for Next-Generation Apps">
+<meta property="og:description" content="Summary of a talk at Eth Denver">
+<meta property="og:url" content="https://eez.io/blog/zkvm-for-next-generation-apps">
+<meta property="og:image" content="https://eez.io/assets/og/blog-zkvm-for-next-generation-apps.png?v=0996fd1472">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A ZKVM Foundation for Next-Generation Apps ">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A ZKVM Foundation for Next-Generation Apps">
+<meta name="twitter:description" content="Summary of a talk at Eth Denver">
+<meta name="twitter:image" content="https://eez.io/assets/og/blog-zkvm-for-next-generation-apps.png?v=0996fd1472">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="/assets/eez-mark.svg">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--eez-page);color:var(--eez-ink);font:400 var(--eez-text-base)/1.6 "Geist",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.glow{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(700px 520px at 18% 30%,rgba(59,229,126,.07),transparent 70%),radial-gradient(760px 560px at 86% 58%,rgba(84,66,205,.08),transparent 70%)}
+.skip{position:absolute;left:16px;top:-80px;z-index:300;padding:10px 14px;border-radius:8px;background:var(--eez-ink);color:var(--eez-page);font:500 var(--eez-text-sm)/1 "Geist Mono",monospace;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+.skip:focus{top:12px}
+.wrap{width:min(1136px,100% - 32px);margin:0 auto}
+.eb{margin:0;font:400 var(--eez-text-sm)/1.3 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--eez-label)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0;font:400 var(--eez-text-sm)/1.3 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--eez-label)}
+.meta .cat{color:var(--eez-green)}
+/* index */
+.page{padding:96px 0 120px;display:grid;gap:56px}
+.head{display:grid;gap:16px;justify-items:center;text-align:center}
+h1{margin:0;font:300 var(--eez-text-3xl)/1.05 "Geist",sans-serif;letter-spacing:-.01em;color:var(--eez-ink);text-wrap:balance}
+h1 .lite{color:var(--eez-heading)}
+.lede{margin:0;max-width:600px;font-size:var(--eez-text-lead);line-height:1.55;color:var(--eez-body);text-wrap:pretty}
+.posts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.post{background:var(--eez-surface);border:1px solid var(--eez-line-soft);border-radius:var(--eez-radius-card);padding:18px 20px 22px;display:grid;gap:12px;align-content:start;color:inherit;text-decoration:none;transition:border-color .2s;min-width:0}
+.post:hover{border-color:var(--eez-line)}
+.post:focus-visible{outline:2px solid var(--eez-green);outline-offset:3px}
+.post img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;display:block;background:var(--eez-page)}
+.post b{font:500 var(--eez-text-lg)/1.3 "Geist",sans-serif;color:var(--eez-ink);text-wrap:balance}
+.post p{margin:0;font-size:var(--eez-text-md);line-height:1.5;color:var(--eez-muted)}
+/* post */
+.article{padding:72px 0 96px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:start}
+.cover{position:sticky;top:96px;margin:0}
+.cover img{width:100%;height:auto;display:block;border-radius:var(--eez-radius-card);border:1px solid var(--eez-line-soft)}
+.back{display:inline-block;margin-bottom:28px;font:400 var(--eez-text-sm)/1 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--eez-label);text-decoration:none}
+.back:hover{color:var(--eez-green)}
+.article h1{margin:18px 0 0;font:400 var(--eez-text-2xl)/1.15 "Geist",sans-serif;letter-spacing:-.01em}
+.sum{margin:16px 0 0;font-size:var(--eez-text-lead);line-height:1.55;color:var(--eez-body)}
+.by{display:flex;flex-wrap:wrap;gap:16px 28px;margin:28px 0 0;padding:0 0 32px;border-bottom:1px solid var(--eez-line-soft)}
+.by div{display:flex;align-items:center;gap:12px}
+.by img{width:44px;height:44px;border-radius:50%;object-fit:cover;display:block}
+.by b{display:block;font:500 var(--eez-text-md)/1.3 "Geist",sans-serif;color:var(--eez-ink)}
+.by small{display:block;font:400 var(--eez-text-xs)/1.3 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--eez-label)}
+.body{margin-top:32px;font-size:var(--eez-text-base);line-height:1.7;color:var(--eez-body);overflow-wrap:anywhere}
+.body>*:first-child{margin-top:0}
+.body p{margin:0 0 18px}
+.body h2{margin:40px 0 14px;font:500 var(--eez-text-lg)/1.3 "Geist",sans-serif;color:var(--eez-ink)}
+.body ul,.body ol{margin:0 0 18px;padding-left:22px}
+.body li{margin:0 0 8px}
+.body li::marker{color:var(--eez-label)}
+.body strong{font-weight:600;color:var(--eez-ink-soft)}
+.body a{color:var(--eez-mint);text-decoration:underline;text-decoration-color:rgba(168,243,206,.35);text-underline-offset:3px}
+.body a:hover{color:var(--eez-green);text-decoration-color:currentColor}
+.body code{font:400 .9em "Geist Mono",monospace;padding:1px 5px;border-radius:4px;background:var(--eez-raised)}
+.video{position:relative;aspect-ratio:16/9;margin:0 0 24px;border-radius:var(--eez-radius-tile);overflow:hidden;background:var(--eez-surface)}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.more{padding:0 0 120px;display:grid;gap:24px;border-top:1px solid var(--eez-line-soft);padding-top:56px}
+@media (max-width:900px){.posts{grid-template-columns:repeat(2,minmax(0,1fr))}.article{grid-template-columns:1fr;gap:32px}.cover{position:static;max-width:420px}}
+@media (max-width:600px){.page{padding-top:64px}.posts{grid-template-columns:1fr}h1{font-size:var(--eez-text-2xl)}.article{padding-top:40px}.article h1{font-size:var(--eez-text-xl)}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/_shell/tokens.css?v=3">
+<link rel="stylesheet" href="/_shell/shell.css?v=9">
 </head>
-<body><p>This page has moved to <a href="https://blog.eez.io/blog/zkvm-for-next-generation-apps">https://blog.eez.io/blog/zkvm-for-next-generation-apps</a>.</p></body>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="glow" aria-hidden="true"></div>
+<div class="eh-devcon"><a class="eh-dc-intro" href="/#news"><span class="eh-dc-k">[ Devcon ]</span><span class="eh-dc-t">Watch the EEZ talks from Devcon:</span></a><a href="https://www.youtube.com/watch?v=uvY3yww_1oY" target="_blank" rel="noopener" class="eh-dc-l">[ One Ethereum ]&nbsp;→</a><a href="https://www.youtube.com/watch?v=Mdneqyvvk7g" target="_blank" rel="noopener" class="eh-dc-l">[ Real-time ZK proofs ]&nbsp;→</a></div>
+<header class="eh" id="eh">
+  <div class="eh-in">
+    <a class="eh-logo" href="/" aria-label="EEZ home"><img src="/_shell/logo.svg" alt="Ethereum Economic Zone" width="80" height="36"></a>
+    <button class="eh-toggle" type="button" aria-expanded="false" aria-controls="eh-nav" aria-label="Menu"><span></span></button>
+    <nav class="eh-nav" id="eh-nav" aria-label="Main">
+      <div class="eh-menu" data-key="use-cases">
+        <button class="eh-trigger" type="button" aria-expanded="false">Use cases <i aria-hidden="true">▾</i></button>
+        <div class="eh-drop">
+          <a href="/use-cases/institutions"><b>Institutions</b><small>Banks, funds and fintechs</small></a>
+          <a href="/use-cases/chains"><b>Chains</b><small>Public, private and new chains</small></a>
+          <a href="/use-cases/apps"><b>Apps</b><small>Apps that call across chains</small></a>
+          <a href="/use-cases/infra"><b>Infra</b><small>Nodes, provers and wallets</small></a>
+          <a class="eh-all" href="/use-cases/all"><b>All use cases</b><small>Every use case, sorted by job</small></a>
+        </div>
+      </div>
+      <div class="eh-menu" data-key="developers">
+        <button class="eh-trigger" type="button" aria-expanded="false">Developers <i aria-hidden="true">▾</i></button>
+        <div class="eh-drop">
+          <a href="https://docs.eez.io" target="_blank" rel="noopener"><b>Docs ↗</b><small>Protocol spec, guides and reference</small></a>
+          <a href="https://build.eez.io" target="_blank" rel="noopener"><b>Quickstarts ↗</b><small>Step-by-step walkthroughs</small></a>
+          <a href="https://eez.dev/dashboard/" target="_blank" rel="noopener"><b>Dashboard ↗</b><small>See calls settle on the devnet</small></a>
+          <a href="https://github.com/eez-association" target="_blank" rel="noopener"><b>GitHub ↗</b><small>eez-association on GitHub</small></a>
+        </div>
+      </div>
+      <a class="eh-link" href="/blog/">Blog</a>
+      <a class="eh-cta" href="/get-in-touch"><span>Get in touch</span><i aria-hidden="true">→</i></a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<article class="wrap article">
+  <figure class="cover"><img src="/assets/blog/n5pKTqFQoXtDlEKvSNarRB5zGc.jpg" alt=""></figure>
+  <div>
+    <a class="back" href="/blog/">← All posts</a>
+    <p class="meta"><time datetime="2026-02-19">Feb 19, 2026</time><span class="cat">Perspective</span></p>
+    <h1>A ZKVM Foundation for Next-Generation Apps</h1>
+    <p class="sum">Summary of a talk at Eth Denver</p>
+    <div class="by"><div><img src="/assets/blog/Gi8Mrv8JhbOlN0OP3ifBHEfJWFE.jpg" alt=""><span><b>Jordi Baylina</b><small>Founder Zisk</small></span></div></div>
+    <div class="body">
+<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/1PRnm4qomKA" title="YouTube video" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+<p>I’m Jordi Baylina from <strong>Zisk</strong>. To give you a quick overview, Zisk is a 64-bit ZKVM based on RISC-V. It is open-source, features 128-bit proven security, and is quantum-resistant. We’ve been building this for the last two years.</p>
+<p>Today, I want to discuss my vision for how future blockchains will look. While I don’t have a crystal ball, I believe the core shift lies in the <strong>separation of data and execution.</strong></p>
+<h2>Data vs. Execution</h2>
+<p>In this vision, blockchains ultimately become layers for <strong>Data Availability (DA)</strong>—essentially just blobs of data. When you execute this data deterministically, you arrive at a specific state.</p>
+<p>A good example is a standard blockchain like Ethereum. If you query every transaction from the genesis block and execute them, you get a unique state. The power of Zero-Knowledge (ZK) technology is that you can perform this query, reach that state, and provide a proof that the state is correct. When a new block arrives, you use the previous state, the new data in the blobs, and generate the newest state. This is a streamlined way of maintaining a blockchain.</p>
+<h2>Static vs. Dynamic Consensus</h2>
+<p>This concept extends to what we call <strong>Dynamic</strong> and <strong>Static Consensus</strong>:</p>
+<ul>
+<li><strong>Dynamic Consensus:</strong> The consensus reached on every individual block (the data appearing in the chain).</li>
+<li><strong>Static Consensus:</strong> The protocol itself—the rules for how data is processed.</li></ul>
+<p>Normally, changing how transactions are processed requires a hard fork. However, if you define a new static consensus, you can launch a new “blockchain” simply by putting data on the main chain. You don’t need to fork the underlying layer.</p>
+<h2>Synchronous Composability</h2>
+<p>This model enables <strong>synchronous composability</strong> between rollups (L2s) or even between a rollup and L1. Synchronous composability means that if you are executing a smart contract on one rollup, you can call a contract on a completely different chain, receive a return value, and complete the entire sequence atomically in a single transaction.</p>
+<p>How does this work without forking Ethereum? We use <strong>Proxy Contracts</strong>.</p>
+<p>If a DAO contract on an L2 needs to be accessed from L1, we create a “counterfactual” proxy contract on L1. Its address is a deterministic function of the L2 address and Chain ID.</p>
+<p>When this proxy receives a call:</p>
+<ol>
+<li>It looks up an <strong>Execution Table</strong>.</li>
+<li>It verifies the state transition via a ZK proof.</li>
+<li>It emulates the call, updates the state, and returns the result to the user.</li></ol>
+<p>To a user, it feels as if all these chains are executing as one. For a block builder, this means they can bundle state transitions for multiple rollups into a single transaction with a single ZK proof.</p>
+<h2>App Chains and Security</h2>
+<p>This model is flexible. Rollups don’t have to be EVM-compatible; they could be WASM-based or use custom transition functions. As long as they can accept and emit calls, they can plug into this network.</p>
+<p>Crucially, if a specific app-chain changes its governance or transition function, it doesn’t break the rest of the network. Even a malicious network would only affect itself, with the exception of value transfers (Ether), which require L1 smart contracts to maintain accountability to ensure a rollup doesn’t “spend” more than it has received.</p>
+<h2>Current Status and Benchmarks</h2>
+<p>This entire system is orthogonal to “pre-confirmations” (which can be built on top) and, importantly, <strong>does not require an L1 fork.</strong> We can start building this today.</p>
+<p>We can build this protocol fast and it has the potential to give a step forward to the Ethereum Ecosystem where sovereign chains can really build an Ethereum Economic Zone. </p>
+<h2>Further reading:</h2>
+<p>You can read more about all of this in my research paper <a href="https://ethresear.ch/t/synchronous-composability-between-rollups-via-realtime-proving/23998" target="_blank" rel="noopener">here</a>.</p>
+    </div>
+  </div>
+</article>
+<section class="wrap more" aria-labelledby="more">
+  <p class="eb" id="more">[ More posts ]</p>
+  <div class="posts"><a class="post" href="/blog/monthly-update---october-devcon-mumbai"><img src="/assets/blog/6eL5F7RsHGKLg7lWz1fxn1YvgZU.webp" alt="" loading="lazy"><p class="meta"><time datetime="2026-11-09">Nov 9, 2026</time><span class="cat">Update</span></p><b>Monthly Update - October &amp; Devcon Mumbai</b><p>A monthly roundup of progress, priorities, and what’s coming next across the ecosystem.</p></a><a class="post" href="/blog/monthly-update---september"><img src="/assets/blog/sXYqT2lUyIdJci0sPiOxxuFRYA.webp" alt="" loading="lazy"><p class="meta"><time datetime="2026-10-01">Oct 1, 2026</time><span class="cat">Update</span></p><b>Monthly Update - September</b><p>A monthly roundup of progress, priorities, and what’s coming next across the ecosystem.</p></a><a class="post" href="/blog/monthly-update-august-2026"><img src="/assets/blog/v4QxyBu2xSk6s2RBLf3XNgejWM0.jpg" alt="" loading="lazy"><p class="meta"><time datetime="2026-08-20">Aug 20, 2026</time><span class="cat">Update</span></p><b>Monthly Update - August 2026</b><p>A monthly roundup of progress, priorities, and what’s coming next across the ecosystem.</p></a></div>
+</section>
+</main>
+<footer class="ef">
+  <div class="ef-in">
+    <div class="ef-brand">
+      <a class="eh-logo" href="/" aria-label="EEZ home"><img src="/_shell/logo.svg" alt="Ethereum Economic Zone" width="80" height="36"></a>
+      <p>EEZ activates Ethereum as an economic operating system for composable chains.</p>
+    </div>
+    <div class="ef-cols">
+      <div><p>[ Use cases ]</p>
+        <a href="/use-cases/institutions">Institutions</a>
+        <a href="/use-cases/chains">Chains</a>
+        <a href="/use-cases/apps">Apps</a>
+        <a href="/use-cases/infra">Infra</a>
+        <a href="/use-cases/all">All use cases</a>
+      </div>
+      <div><p>[ Developers ]</p>
+        <a href="https://docs.eez.io" target="_blank" rel="noopener">Docs&nbsp;↗</a>
+        <a href="https://build.eez.io" target="_blank" rel="noopener">Quickstarts&nbsp;↗</a>
+        <a href="https://eez.dev/dashboard/" target="_blank" rel="noopener">Dashboard&nbsp;↗</a>
+        <a href="https://github.com/eez-association" target="_blank" rel="noopener">GitHub&nbsp;↗</a>
+        <a href="https://github.com/eez-association/eez-demos/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contribute a walkthrough&nbsp;↗</a>
+      </div>
+      <div><p>[ News ]</p>
+        <a href="/blog/">Blog</a>
+        <a href="/media">News</a>
+        <a href="/media">Press and talks</a>
+        <a href="/brand">Brand and logo</a>
+      </div>
+      <div><p>[ Follow ]</p>
+        <a href="https://x.com/etheconomiczone" target="_blank" rel="noopener">X&nbsp;↗</a>
+        <a href="https://github.com/eez-association" target="_blank" rel="noopener">GitHub&nbsp;↗</a>
+      </div>
+    </div>
+  </div>
+  <div class="ef-legal">© 2026 Ethereum Economic Zone.</div>
+</footer>
+<script src="/_shell/shell.js?v=3" defer></script>
+</body>
 </html>
