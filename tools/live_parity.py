@@ -270,7 +270,7 @@ a.more{display:inline-flex;align-items:center;min-height:24px}
 # density (sqrt of area, half a density correction), measured from the PNGs on 20 Nov 2026, then
 # scaled so the widest fits a 96 px tile interior.
 LOGO_W = {"aave": 81, "spark": 75, "cowswap": 91, "kyber": 96, "centrifuge": 72, "xstocks": 70, "monerium": 79,
-          "bermuda-bay": 86, "ssv": 92, "linea": 69, "gnosis-chain": 87, "hydration": 86, "consensys": 82, "octant": 68,
+          "bermuda-bay": 86, "ssv": 92, "linea": 69, "gnosis-chain": 87, "hydration": 86, "arkiv": 74, "consensys": 82, "octant": 68,
           "fileverse": 96, "gnosis": 63, "zisk": 52, "ethereum-foundation": 70, "nethermind": 96, "erigon": 85, "besu": 62,
           "flashbots": 86, "titan": 58, "eureka": 75, "blockscout": 88, "remix": 73, "safe": 66, "cometh": 63}
 POSTS = [("post-oct-live.jpg", "6eL5F7RsHGKLg7lWz1fxn1YvgZU.png", "Update · Nov 9, 2026", "Monthly update · October and Devcon Mumbai",
