@@ -58,14 +58,14 @@
       <!-- 04 alliance -->
       <section class="git-card git-dashed" id="git-alliance" aria-labelledby="g4" hidden>
         <h2 class="git-h" id="g4"><span>04</span> Alliance questions</h2>
-        <label class="git-f"><span>Why would you like to be part of the EEZ? <em>Required</em></span><textarea class="input" name="why" rows="3" placeholder="A few sentences is plenty"></textarea></label>
-        <label class="git-f"><span>What could you bring to the EEZ community? <em>Required</em></span><span class="git-hint">It could be your expertise in certain areas, your network, mentorship time, etc.</span><textarea class="input" name="bring" rows="3" placeholder="Expertise, network, mentorship time…"></textarea></label>
+        <label class="git-f"><span>Why would you like to be part of the EEZ? <em>Required</em></span><textarea class="input" name="why" maxlength="1500" rows="3" placeholder="A few sentences is plenty"></textarea></label>
+        <label class="git-f"><span>What could you bring to the EEZ community? <em>Required</em></span><span class="git-hint">It could be your expertise in certain areas, your network, mentorship time, etc.</span><textarea class="input" name="bring" maxlength="1500" rows="3" placeholder="Expertise, network, mentorship time…"></textarea></label>
       </section>
 
       <!-- 05 anything else -->
       <section class="git-card" aria-labelledby="g5">
         <h2 class="git-h" id="g5"><span id="g5n">05</span> Anything else?</h2>
-        <label class="git-f"><span>Message <em>Optional</em></span><textarea class="input" name="message" rows="3" placeholder="What should we know before we reply?"></textarea></label>
+        <label class="git-f"><span>Message <em>Optional</em></span><textarea class="input" name="message" maxlength="1500" rows="3" placeholder="What should we know before we reply?"></textarea></label>
       </section>
 
       <div class="git-send">
@@ -74,7 +74,7 @@
       </div>
       <p class="git-done" id="git-done" role="status" hidden></p>
 
-      <!-- scoper.js expects these; the Tally hand-off is replaced by the button above -->
+      <!-- scoper.js writes its answers to this hidden link; the button above reads them -->
       <a id="send" href="#" hidden><span id="send-label"></span></a>
     </div>
 
@@ -195,14 +195,42 @@
   if (want) { const el = document.querySelector(`input[name="intent"][value="${CSS.escape(want)}"]`); if (el) el.checked = true; }
   intents.forEach((i) => i.addEventListener('change', sync));
   sync();
+  // "Send to the team" hands every answer to the Tally intake form as hidden fields; the visitor confirms there.
+  const TALLY_ID = 'RWW79Q';
+  const widget = document.createElement('script');
+  widget.src = 'https://tally.so/widgets/embed.js'; widget.async = true;
+  document.head.appendChild(widget);
+  const val = (name) => {
+    const el = document.querySelector(`.git-main .input[name="${name}"]`);
+    return el && el.offsetParent !== null ? el.value.trim() : '';
+  };
   document.getElementById('git-send').addEventListener('click', () => {
     const fields = [...document.querySelectorAll('.git-main .input')].filter((f) => f.offsetParent !== null);
     fields.forEach((f) => f.classList.add('touched'));
     const bad = fields.find((f) => !f.checkValidity());
     const done = document.getElementById('git-done');
     if (bad) { bad.focus(); done.hidden = true; return; }
-    done.hidden = false;
-    done.textContent = 'Demo only: nothing was sent. In production this goes to one inbox and is routed by what brings you here.';
+    const intent = document.querySelector('input[name="intent"]:checked').value;
+    // scoper.js keeps role, tier, answers, source and door on the hidden #send link
+    const scoped = new URLSearchParams((document.getElementById('send').getAttribute('href') || '').split('?')[1] || '');
+    const email = val('email'), telegram = val('telegram');
+    const data = {
+      intent, page: 'get-in-touch', name: val('name'), email, telegram,
+      project: val('company'), title: val('role_title'), website: val('website'),
+      reply: telegram ? `${email} / ${telegram}` : email,
+      why: val('why'), bring: val('bring'), message: val('message'),
+      source: scoped.get('source') || 'direct', door: scoped.get('door') || '',
+    };
+    if (intent === 'integrate') ['role', 'tier', 'answers'].forEach((k) => { data[k] = scoped.get(k) || ''; });
+    const say = (text) => { done.hidden = false; done.textContent = text; };
+    if (window.Tally) {
+      done.hidden = true;
+      window.Tally.openPopup(TALLY_ID, { layout: 'modal', width: 560, hiddenFields: data,
+        onSubmit: () => say('Sent. We reply by email, or on Telegram if you gave a handle.') });
+    } else {
+      window.open(`https://tally.so/r/${TALLY_ID}?${new URLSearchParams(data)}`, '_blank', 'noopener');
+      say('The form opened in a new tab. Press Send there to finish.');
+    }
   });
 })();
 </script>
